@@ -94,7 +94,7 @@
     "ecs"
   ],
   "release": {
-    "branch": "master",
+    "branches": ["master", "beta", "alpha"],
     "plugins": [
       [
         "@semantic-release/commit-analyzer",
