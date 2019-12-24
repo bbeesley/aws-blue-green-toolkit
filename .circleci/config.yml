@@ -13,13 +13,8 @@ jobs:
 
       - run: npm ci
 
-      - run: git fetch --tags
-      - run: npx commitlint --from $(git describe --abbrev=0 --tags)
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      # - run: git fetch --tags
+      # - run: npx commitlint --from $(git describe --abbrev=0 --tags)
 
       - run: npm test
 
@@ -61,4 +56,7 @@ workflows:
             tags:
               ignore: /.*/
             branches:
-              only: master
+              only:
+                - master
+                - beta
+                - alpha
