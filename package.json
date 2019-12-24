@@ -63,7 +63,7 @@
     "npm-check-updates": "^4.0.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
-    "semantic-release": "^15.14.0",
+    "semantic-release": "^16.0.0-beta.46",
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.4"
   },
@@ -94,7 +94,11 @@
     "ecs"
   ],
   "release": {
-    "branches": ["master", "beta", "alpha"],
+    "branches": [
+      "master",
+      "beta",
+      "alpha"
+    ],
     "plugins": [
       [
         "@semantic-release/commit-analyzer",
