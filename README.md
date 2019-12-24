@@ -137,3 +137,47 @@ operation, the tags defined in config are applied to the newly created reader.
 -   `record` **SNSEventRecord** An SNS event record of the type published by rds event streams
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+
+### TopicData
+
+[src/main/SnsTools.ts:10-16](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/SnsTools.ts#L10-L16 "Source code on GitHub")
+
+Parameters to describe an SNS topic subscription
+
+### SnsConfig
+
+[src/main/SnsTools.ts:29-32](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/SnsTools.ts#L29-L32 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the SNS toolkit
+
+### SnsTools
+
+[src/main/SnsTools.ts:58-131](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/SnsTools.ts#L58-L131 "Source code on GitHub")
+
+Toolkit for SNS operations
+
+#### enableSubscription
+
+[src/main/SnsTools.ts:118-120](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/SnsTools.ts#L118-L120 "Source code on GitHub")
+
+Enables an SNS subscription
+
+##### Parameters
+
+-   `reference` **StackReference** Reference to a subscription queue stack
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+
+#### disableSubscription
+
+[src/main/SnsTools.ts:128-130](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/SnsTools.ts#L128-L130 "Source code on GitHub")
+
+Disables an SNS subscription
+
+##### Parameters
+
+-   `reference` **StackReference** Reference to a subscription queue stack
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
