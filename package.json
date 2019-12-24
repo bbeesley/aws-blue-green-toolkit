@@ -1,0 +1,146 @@
+{
+  "name": "aws-blue-green-toolkit",
+  "version": "0.0.0",
+  "description": "Utility functions to help with performing blue/green and canary deployments in AWS infrastructure",
+  "author": "Bill Beesley <bill@beesley.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bbeesley/aws-blue-green-toolkit/issues"
+  },
+  "homepage": "https://github.com/bbeesley/aws-blue-green-toolkit#readme",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10.16"
+  },
+  "scripts": {
+    "clean": "rm -rf dist *.test.output | true",
+    "compile": "BABEL_ENV=production babel src/main --out-dir dist --copy-files --source-maps --extensions \".ts\" --ignore \"src/test/**\" && tsc --emitDeclarationOnly",
+    "dependabump": "ncu -u && rm -rf package-lock.json node_modules | true && npm i",
+    "postcompile": "./node_modules/.bin/documentation readme src/main/**.ts --github  --require-extension=ts --parse-extension=ts --babel=./.babelrc --section=api",
+    "lint": "tsc --noEmit && eslint --ext '.ts' src/",
+    "pretest": "run-p clean lint",
+    "posttest": "npm run compile",
+    "test": "jest --passWithNoTests",
+    "prerelease": "npm run compile",
+    "release": "semantic-release --debug"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-stage-0": "^7.0.0",
+    "@babel/preset-typescript": "^7.7.7",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/commit-analyzer": "^6.3.3",
+    "@semantic-release/git": "^7.0.18",
+    "@semantic-release/github": "^5.5.5",
+    "@semantic-release/npm": "^5.3.4",
+    "@semantic-release/release-notes-generator": "^7.3.5",
+    "@types/aws-lambda": "^8.10.39",
+    "@types/jest": "^24.0.24",
+    "@types/node": "^13.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
+    "conventional-changelog-angular": "^5.0.6",
+    "cz-conventional-changelog": "^3.0.2",
+    "documentation": "^12.1.4",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jest": "^23.1.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "npm-check-updates": "^4.0.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "semantic-release": "^15.14.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
+  },
+  "peerDependencies": {
+    "aws-sdk": "^2.593.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.596.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbeesley/aws-blue-green-toolkit.git"
+  },
+  "keywords": [
+    "aws",
+    "codedeploy",
+    "lambda",
+    "cd",
+    "ci",
+    "deployments",
+    "blue/green",
+    "canary",
+    "serverless",
+    "rds",
+    "aurora",
+    "sqs",
+    "sns",
+    "ecs"
+  ],
+  "release": {
+    "branch": "master",
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "releaseRules": [
+            {
+              "type": "docs",
+              "release": "patch"
+            },
+            {
+              "type": "refactor",
+              "release": "patch"
+            }
+          ]
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      "@semantic-release/github",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json",
+            "CHANGELOG.md",
+            "README.md"
+          ]
+        }
+      ]
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
