@@ -5,7 +5,7 @@ export enum ClusterState {
   AVAILABLE = 'available',
 }
 
-export enum DatabaseReference {
+export enum StackReference {
   a = 'a',
   b = 'b',
 }
