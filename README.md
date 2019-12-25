@@ -10,34 +10,26 @@ Utility functions to help with performing blue/green and canary deployments in A
 
 -   [AuroraConfig](#auroraconfig)
 -   [AuroraTools](#auroratools)
-    -   [getClusterName](#getclustername)
-        -   [Parameters](#parameters)
-    -   [getClusterPartnerName](#getclusterpartnername)
-        -   [Parameters](#parameters-1)
-    -   [getClusterPartnerRef](#getclusterpartnerref)
-        -   [Parameters](#parameters-2)
     -   [getClusterState](#getclusterstate)
-        -   [Parameters](#parameters-3)
-    -   [scale](#scale)
-        -   [Parameters](#parameters-4)
+        -   [Parameters](#parameters)
     -   [scaleIn](#scalein)
-        -   [Parameters](#parameters-5)
+        -   [Parameters](#parameters-1)
     -   [scaleOut](#scaleout)
-        -   [Parameters](#parameters-6)
+        -   [Parameters](#parameters-2)
     -   [getReaderCount](#getreadercount)
-        -   [Parameters](#parameters-7)
+        -   [Parameters](#parameters-3)
     -   [startDatabase](#startdatabase)
-        -   [Parameters](#parameters-8)
+        -   [Parameters](#parameters-4)
     -   [stopDatabase](#stopdatabase)
-        -   [Parameters](#parameters-9)
+        -   [Parameters](#parameters-5)
     -   [deleteDatabase](#deletedatabase)
-        -   [Parameters](#parameters-10)
+        -   [Parameters](#parameters-6)
     -   [applyTags](#applytags)
-        -   [Parameters](#parameters-11)
+        -   [Parameters](#parameters-7)
 
 ### AuroraConfig
 
-[src/main/AuroraTools.ts:11-16](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L11-L16 "Source code on GitHub")
+[src/main/AuroraTools.ts:11-16](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L11-L16 "Source code on GitHub")
 
 **Extends AwsConfig**
 
@@ -45,49 +37,13 @@ Configuration options for the Aurora toolkit
 
 ### AuroraTools
 
-[src/main/AuroraTools.ts:23-289](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L23-L289 "Source code on GitHub")
+[src/main/AuroraTools.ts:23-260](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L23-L260 "Source code on GitHub")
 
 Toolkit for Aurora operations
 
-#### getClusterName
-
-[src/main/AuroraTools.ts:46-50](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L46-L50 "Source code on GitHub")
-
-Returns the cluster name associated with a database reference
-
-##### Parameters
-
--   `ref` **StackReference** Reference to a db cluster
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the db cluster
-
-#### getClusterPartnerName
-
-[src/main/AuroraTools.ts:59-63](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L59-L63 "Source code on GitHub")
-
-Returns the cluster name of a cluster's partner cluster
-
-##### Parameters
-
--   `ref` **StackReference** Reference to a db cluster
-
-Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the partner cluster
-
-#### getClusterPartnerRef
-
-[src/main/AuroraTools.ts:72-74](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L72-L74 "Source code on GitHub")
-
-Returns a partner reference, given a reference
-
-##### Parameters
-
--   `ref` **StackReference** Reference to a db cluster
-
-Returns **StackReference** The reference to the partner
-
 #### getClusterState
 
-[src/main/AuroraTools.ts:82-100](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L82-L100 "Source code on GitHub")
+[src/main/AuroraTools.ts:61-79](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L61-L79 "Source code on GitHub")
 
 Gets the current state of one of the Aurora clusters
 
@@ -97,22 +53,9 @@ Gets the current state of one of the Aurora clusters
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;ClusterState>** 
 
-#### scale
-
-[src/main/AuroraTools.ts:110-141](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L110-L141 "Source code on GitHub")
-
-Scale a database cluster to a given minimum capacity
-
-##### Parameters
-
--   `reference` **StackReference** Reference to a db cluster
--   `minCapacity` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** The desired minimum capacity to set
-
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;ApplicationAutoScaling.RegisterScalableTargetResponse>** 
-
 #### scaleIn
 
-[src/main/AuroraTools.ts:149-151](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L149-L151 "Source code on GitHub")
+[src/main/AuroraTools.ts:120-122](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L120-L122 "Source code on GitHub")
 
 Reverts a cluster's minimum reader count to the configured minimum
 
@@ -124,7 +67,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### scaleOut
 
-[src/main/AuroraTools.ts:159-164](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L159-L164 "Source code on GitHub")
+[src/main/AuroraTools.ts:130-135](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L130-L135 "Source code on GitHub")
 
 Scales out a cluster to match it's partner's size
 
@@ -136,7 +79,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### getReaderCount
 
-[src/main/AuroraTools.ts:172-186](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L172-L186 "Source code on GitHub")
+[src/main/AuroraTools.ts:143-157](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L143-L157 "Source code on GitHub")
 
 Get a count of the number of active readers for a cluster
 
@@ -148,7 +91,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### startDatabase
 
-[src/main/AuroraTools.ts:194-197](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L194-L197 "Source code on GitHub")
+[src/main/AuroraTools.ts:165-168](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L165-L168 "Source code on GitHub")
 
 Starts a stopped db cluster
 
@@ -160,7 +103,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### stopDatabase
 
-[src/main/AuroraTools.ts:205-208](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L205-L208 "Source code on GitHub")
+[src/main/AuroraTools.ts:176-179](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L176-L179 "Source code on GitHub")
 
 Stops a running db cluster
 
@@ -172,7 +115,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### deleteDatabase
 
-[src/main/AuroraTools.ts:216-248](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L216-L248 "Source code on GitHub")
+[src/main/AuroraTools.ts:187-219](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L187-L219 "Source code on GitHub")
 
 Deletes a running db cluster
 
@@ -184,7 +127,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### applyTags
 
-[src/main/AuroraTools.ts:257-288](https://github.com/bbeesley/aws-blue-green-toolkit/blob/dadf93ef67ea3c845f1d3cd785171719e20e6893/src/main/AuroraTools.ts#L257-L288 "Source code on GitHub")
+[src/main/AuroraTools.ts:228-259](https://github.com/bbeesley/aws-blue-green-toolkit/blob/776ee15942d151d876598abd012de39c384ccac7/src/main/AuroraTools.ts#L228-L259 "Source code on GitHub")
 
 Parses a message from an rds event subscription, if the event was triggered by a scale out
 operation, the tags defined in config are applied to the newly created reader.

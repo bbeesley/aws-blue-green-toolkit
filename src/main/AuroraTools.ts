@@ -36,39 +36,18 @@ export class AuroraTools {
     this.aas = new ApplicationAutoScaling({ region: this.config.awsRegion });
   }
 
-  /**
-   * Returns the cluster name associated with a database reference
-   * @protected
-   * @param {StackReference} ref - Reference to a db cluster
-   * @returns {string} - The name of the db cluster
-   * @memberof AuroraTools
-   */
   protected getClusterName(ref: StackReference): string {
     return ref === StackReference.a
       ? this.config.clusterNameA
       : this.config.clusterNameB;
   }
 
-  /**
-   * Returns the cluster name of a cluster's partner cluster
-   * @protected
-   * @param {StackReference} ref - Reference to a db cluster
-   * @returns {string} - The name of the partner cluster
-   * @memberof AuroraTools
-   */
   protected getClusterPartnerName(ref: StackReference): string {
     return ref === StackReference.b
       ? this.config.clusterNameA
       : this.config.clusterNameB;
   }
 
-  /**
-   * Returns a partner reference, given a reference
-   * @protected
-   * @param {StackReference} ref - Reference to a db cluster
-   * @returns {StackReference} - The reference to the partner
-   * @memberof AuroraTools
-   */
   protected getClusterPartnerRef(ref: StackReference): StackReference {
     return ref === StackReference.a ? StackReference.b : StackReference.a;
   }
@@ -99,14 +78,6 @@ export class AuroraTools {
     throw new Error(`unable to get cluster info for ${DBClusterIdentifier}`);
   }
 
-  /**
-   * Scale a database cluster to a given minimum capacity
-   * @protected
-   * @param {StackReference} reference - Reference to a db cluster
-   * @param {number} minCapacity - The desired minimum capacity to set
-   * @returns {Promise<ApplicationAutoScaling.RegisterScalableTargetResponse>}
-   * @memberof AuroraTools
-   */
   protected async scale(
     reference: StackReference,
     minCapacity: number
