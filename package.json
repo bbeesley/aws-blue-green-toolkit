@@ -24,7 +24,7 @@
     "lint": "tsc --noEmit && eslint --ext '.ts' src/",
     "pretest": "run-p clean lint",
     "posttest": "npm run compile",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "prerelease": "npm run compile",
     "release": "semantic-release --debug"
   },
@@ -47,13 +47,14 @@
     "@types/node": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
     "@typescript-eslint/parser": "^2.13.0",
+    "aws-sdk": "^2.596.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "conventional-changelog-angular": "^5.0.6",
     "cz-conventional-changelog": "^3.0.2",
     "documentation": "^12.1.4",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-prettier": "^6.8.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jest": "^23.1.1",
     "eslint-plugin-node": "^10.0.0",
@@ -68,11 +69,9 @@
     "typescript": "^3.7.4"
   },
   "peerDependencies": {
-    "aws-sdk": "^2.593.0"
-  },
-  "dependencies": {
     "aws-sdk": "^2.596.0"
   },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bbeesley/aws-blue-green-toolkit.git"

@@ -1,7 +1,7 @@
 import { RDS, ApplicationAutoScaling } from 'aws-sdk';
 import { SNSEventRecord } from 'aws-lambda';
 import { AwsConfig } from './common-interfaces';
-import { DatabaseReference, ClusterState } from './constants';
+import { StackReference, ClusterState } from './constants';
 
 /**
  * Configuration options for the Aurora toolkit
@@ -39,12 +39,12 @@ export class AuroraTools {
   /**
    * Returns the cluster name associated with a database reference
    * @protected
-   * @param {DatabaseReference} ref - Reference to a db cluster
+   * @param {StackReference} ref - Reference to a db cluster
    * @returns {string} - The name of the db cluster
    * @memberof AuroraTools
    */
-  protected getClusterName(ref: DatabaseReference): string {
-    return ref === DatabaseReference.a
+  protected getClusterName(ref: StackReference): string {
+    return ref === StackReference.a
       ? this.config.clusterNameA
       : this.config.clusterNameB;
   }
@@ -52,12 +52,12 @@ export class AuroraTools {
   /**
    * Returns the cluster name of a cluster's partner cluster
    * @protected
-   * @param {DatabaseReference} ref - Reference to a db cluster
+   * @param {StackReference} ref - Reference to a db cluster
    * @returns {string} - The name of the partner cluster
    * @memberof AuroraTools
    */
-  protected getClusterPartnerName(ref: DatabaseReference): string {
-    return ref === DatabaseReference.b
+  protected getClusterPartnerName(ref: StackReference): string {
+    return ref === StackReference.b
       ? this.config.clusterNameA
       : this.config.clusterNameB;
   }
@@ -65,24 +65,22 @@ export class AuroraTools {
   /**
    * Returns a partner reference, given a reference
    * @protected
-   * @param {DatabaseReference} ref - Reference to a db cluster
-   * @returns {DatabaseReference} - The reference to the partner
+   * @param {StackReference} ref - Reference to a db cluster
+   * @returns {StackReference} - The reference to the partner
    * @memberof AuroraTools
    */
-  protected getClusterPartnerRef(ref: DatabaseReference): DatabaseReference {
-    return ref === DatabaseReference.a
-      ? DatabaseReference.b
-      : DatabaseReference.a;
+  protected getClusterPartnerRef(ref: StackReference): StackReference {
+    return ref === StackReference.a ? StackReference.b : StackReference.a;
   }
 
   /**
    * Gets the current state of one of the Aurora clusters
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<ClusterState>}
    * @memberof AuroraTools
    */
   public async getClusterState(
-    reference: DatabaseReference
+    reference: StackReference
   ): Promise<ClusterState> {
     const DBClusterIdentifier = this.getClusterName(reference);
     const { DBClusters } = await this.rds
@@ -104,13 +102,13 @@ export class AuroraTools {
   /**
    * Scale a database cluster to a given minimum capacity
    * @protected
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @param {number} minCapacity - The desired minimum capacity to set
    * @returns {Promise<ApplicationAutoScaling.RegisterScalableTargetResponse>}
    * @memberof AuroraTools
    */
   protected async scale(
-    reference: DatabaseReference,
+    reference: StackReference,
     minCapacity: number
   ): Promise<ApplicationAutoScaling.RegisterScalableTargetResponse> {
     const db = this.getClusterName(reference);
@@ -144,21 +142,21 @@ export class AuroraTools {
 
   /**
    * Reverts a cluster's minimum reader count to the configured minimum
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
    */
-  public async scaleIn(reference: DatabaseReference): Promise<void> {
+  public async scaleIn(reference: StackReference): Promise<void> {
     await this.scale(reference, this.config.minimumClusterSize);
   }
 
   /**
    * Scales out a cluster to match it's partner's size
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
    */
-  public async scaleOut(reference: DatabaseReference): Promise<void> {
+  public async scaleOut(reference: StackReference): Promise<void> {
     const desiredSize = await this.getReaderCount(
       this.getClusterPartnerRef(reference)
     );
@@ -167,11 +165,11 @@ export class AuroraTools {
 
   /**
    * Get a count of the number of active readers for a cluster
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<number>} - The number of active readers
    * @memberof AuroraTools
    */
-  public async getReaderCount(reference: DatabaseReference): Promise<number> {
+  public async getReaderCount(reference: StackReference): Promise<number> {
     const DBClusterIdentifier = this.getClusterName(reference);
     const clusterDescription = await this.rds
       .describeDBClusters({ DBClusterIdentifier })
@@ -189,33 +187,33 @@ export class AuroraTools {
 
   /**
    * Starts a stopped db cluster
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
    */
-  public async startDatabase(reference: DatabaseReference): Promise<void> {
+  public async startDatabase(reference: StackReference): Promise<void> {
     const DBClusterIdentifier = this.getClusterName(reference);
     await this.rds.startDBCluster({ DBClusterIdentifier }).promise();
   }
 
   /**
    * Stops a running db cluster
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
    */
-  public async stopDatabase(reference: DatabaseReference): Promise<void> {
+  public async stopDatabase(reference: StackReference): Promise<void> {
     const DBClusterIdentifier = this.getClusterName(reference);
     await this.rds.stopDBCluster({ DBClusterIdentifier }).promise();
   }
 
   /**
    * Deletes a running db cluster
-   * @param {DatabaseReference} reference - Reference to a db cluster
+   * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
    */
-  public async deleteDatabase(reference: DatabaseReference): Promise<void> {
+  public async deleteDatabase(reference: StackReference): Promise<void> {
     const DBClusterIdentifier = this.getClusterName(reference);
     const { DBClusters } = await this.rds
       .describeDBClusters({ DBClusterIdentifier })
