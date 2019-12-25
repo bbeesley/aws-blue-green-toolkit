@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.3.0...v1.4.0) (2019-12-25)
+
+
+### Features
+
+* **lambda-tools:** add tools for enabling and disabling lambda triggers ([184ee36](https://github.com/bbeesley/aws-blue-green-toolkit/commit/184ee367b70bb75bf1a7892f6db135a61a713f26))
+
 # [1.3.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.2.0...v1.3.0) (2019-12-25)
 
 
