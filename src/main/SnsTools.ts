@@ -1,4 +1,5 @@
 import { SNS } from 'aws-sdk';
+
 import { AwsConfig } from './common-interfaces';
 import { StackReference } from './constants';
 
@@ -72,25 +73,10 @@ export class SnsTools {
     this.topicB = new Topic(config.topicB);
   }
 
-  /**
-   * Gets the topic data for a stack reference
-   * @private
-   * @param {StackReference} ref - Reference to a subscription queue stack
-   * @returns {Topic}
-   * @memberof SnsTools
-   */
   private getTopic(ref: StackReference): Topic {
     return ref === StackReference.a ? this.topicA : this.topicB;
   }
 
-  /**
-   * Replaces the SNS subscription filter policy to enable or disable it
-   * @private
-   * @param {Operation} operation - Enable or disable
-   * @param {StackReference} ref - Reference to a subscription queue stack
-   * @returns {Promise<void>}
-   * @memberof SnsTools
-   */
   private async updateFilters(
     operation: Operation,
     ref: StackReference

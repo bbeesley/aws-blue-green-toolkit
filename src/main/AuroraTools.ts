@@ -1,7 +1,8 @@
-import { RDS, ApplicationAutoScaling } from 'aws-sdk';
 import { SNSEventRecord } from 'aws-lambda';
+import { ApplicationAutoScaling, RDS } from 'aws-sdk';
+
 import { AwsConfig } from './common-interfaces';
-import { StackReference, ClusterState } from './constants';
+import { ClusterState, StackReference } from './constants';
 
 /**
  * Configuration options for the Aurora toolkit
@@ -27,7 +28,7 @@ export class AuroraTools {
   aas: ApplicationAutoScaling;
 
   /**
-   *Creates an instance of AuroraTools.
+   * Creates an instance of AuroraTools.
    * @param {AuroraConfig} config - Configuration options for the Aurora toolkit
    * @memberof AuroraTools
    */

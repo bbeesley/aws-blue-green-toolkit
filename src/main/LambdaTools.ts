@@ -1,5 +1,6 @@
+import { CloudWatchEvents, Lambda } from 'aws-sdk';
+
 import { AwsConfig } from './common-interfaces';
-import { Lambda, CloudWatchEvents } from 'aws-sdk';
 import { StackReference } from './constants';
 
 /**
@@ -18,11 +19,21 @@ enum Operation {
   DISABLE,
 }
 
+/**
+ * Toolkit for Lambda operations
+ * @export
+ * @class LambdaTools
+ */
 export class LambdaTools {
   config: LambdaConfig;
   lambda: Lambda;
   events: CloudWatchEvents;
 
+  /**
+   * Creates an instance of LambdaTools.
+   * @param {LambdaConfig} config - Configuration options for the Lambda toolkit
+   * @memberof LambdaTools
+   */
   constructor(config: LambdaConfig) {
     this.config = config;
     this.lambda = new Lambda({ region: this.config.awsRegion });

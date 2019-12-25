@@ -1,3 +1,8 @@
+/**
+ * Base config used in all tool kits
+ * @export
+ * @interface AwsConfig
+ */
 export interface AwsConfig {
   awsProfile: string;
   awsRegion: string;
