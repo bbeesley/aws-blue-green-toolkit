@@ -41,9 +41,9 @@ jobs:
           name: Publish package
           command: |
             last_commit="$(git log -1 --pretty=%B | cat | grep 'chore(release)')"
-            if [ -z "${last_commit}" ];
-            then npm run release
-            else echo "last commit was release, skipping semantic release step"
+            if [[ ${last_commit} == *[chore\(release\)]* ]]
+            then echo "last commit was release, skipping semantic release step"
+            else npm run release
             fi
 
 workflows:
