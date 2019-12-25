@@ -39,7 +39,12 @@ jobs:
           command: mkdir -p ~/.ssh && echo -e "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile /dev/null\n" > ~/.ssh/config
       - run:
           name: Publish package
-          command: npm run release
+          command: |
+            last_commit="$(git log -1 --pretty=%B | cat | grep 'chore(release)')"
+            if [ -z "${last_commit}" ];
+            then npm run release
+            else echo "last commit was release, skipping semantic release step"
+            fi
 
 workflows:
   version: 2
