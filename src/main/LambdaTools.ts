@@ -26,6 +26,7 @@ export class LambdaTools {
   constructor(config: LambdaConfig) {
     this.config = config;
     this.lambda = new Lambda({ region: this.config.awsRegion });
+    this.events = new CloudWatchEvents({ region: this.config.awsRegion });
   }
 
   private getLambdaName(ref: StackReference): string {
