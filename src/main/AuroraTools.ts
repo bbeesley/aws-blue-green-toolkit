@@ -5,10 +5,11 @@ import { StackReference, ClusterState } from './constants';
 
 /**
  * Configuration options for the Aurora toolkit
+ * @export
  * @interface AuroraConfig
  * @extends {AwsConfig}
  */
-interface AuroraConfig extends AwsConfig {
+export interface AuroraConfig extends AwsConfig {
   clusterNameA: string;
   clusterNameB: string;
   minimumClusterSize: number;
@@ -74,7 +75,6 @@ export class AuroraTools {
         if (Status === ClusterState.STOPPING) return ClusterState.STOPPING;
       }
     }
-    console.error(`unable to get cluster info for ${DBClusterIdentifier}`);
     throw new Error(`unable to get cluster info for ${DBClusterIdentifier}`);
   }
 
@@ -96,9 +96,6 @@ export class AuroraTools {
     ) {
       const scalingTarget = aasResponse.ScalableTargets[0];
       const { ServiceNamespace, ResourceId, ScalableDimension } = scalingTarget;
-      console.log(
-        `setting minimum capacity of ${ResourceId} cluster to ${minCapacity}`
-      );
       return await this.aas
         .registerScalableTarget({
           ResourceId,

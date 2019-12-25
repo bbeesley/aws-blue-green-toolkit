@@ -134,7 +134,31 @@ ApplicationAutoScaling._describeScalableTargets = _describeScalableTargets;
 ApplicationAutoScaling._registerScalableTarget = _registerScalableTarget;
 ApplicationAutoScaling._aasResponses = _aasResponses;
 
+
+
+const _snsResponses = {
+  setSubscriptionAttributes: {},
+};
+const _snsConstructor = jest.fn();
+const _setSubscriptionAttributes = jest.fn(
+  async () => _snsResponses.setSubscriptionAttributes
+);
+
+class SNS {
+  constructor(params) {
+    _snsConstructor(params);
+  }
+  setSubscriptionAttributes(params) {
+    return { promise: _setSubscriptionAttributes.bind(this, params) };
+  }
+}
+
+SNS._snsConstructor = _snsConstructor;
+SNS._setSubscriptionAttributes = _setSubscriptionAttributes;
+SNS._snsResponses = _snsResponses;
+
 module.exports = {
   ApplicationAutoScaling,
   RDS,
+  SNS,
 };
