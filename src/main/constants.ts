@@ -1,3 +1,8 @@
+/**
+ * Enum for describing the state of an RDS cluster
+ * @export
+ * @enum {number}
+ */
 export enum ClusterState {
   STARTING = 'starting',
   STOPPING = 'stopping',
@@ -5,6 +10,11 @@ export enum ClusterState {
   AVAILABLE = 'available',
 }
 
+/**
+ * Enum for referencing blue or green stacks
+ * @export
+ * @enum {number}
+ */
 export enum StackReference {
   a = 'a',
   b = 'b',

@@ -1,5 +1,6 @@
-import { AwsConfig } from './common-interfaces';
 import { SQS } from 'aws-sdk';
+
+import { AwsConfig } from './common-interfaces';
 import { StackReference } from './constants';
 
 /**
@@ -37,13 +38,6 @@ export class SqsTools {
     this.sqs = new SQS({ region: this.config.awsRegion });
   }
 
-  /**
-   * Gets queue data based on a stack reference
-   * @private
-   * @param {StackReference} ref - Reference to a subscription queue stack
-   * @returns {SqsQueue}
-   * @memberof SqsTools
-   */
   private getQueue(ref: StackReference): SqsQueue {
     return ref === StackReference.a ? this.config.queueA : this.config.queueB;
   }
