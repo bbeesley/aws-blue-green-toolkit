@@ -69,6 +69,7 @@ const _rdsResponses = {
     ],
   },
 };
+
 const _rdsConstructor = jest.fn();
 const _describeDBClusters = jest.fn(
   async () => _rdsResponses.describeDBClusters
@@ -172,9 +173,91 @@ class SQS {
 SQS._sqsConstructor = _sqsConstructor;
 SQS._purgeQueue = _purgeQueue;
 SQS._sqsResponses = _sqsResponses;
+const _lambdaResponses = {
+  updateEventSourceMapping: {},
+  listEventSourceMappings: {
+    NextMarker: null,
+    EventSourceMappings: [
+      {
+        UUID: 'uuid',
+        BatchSize: 10,
+        MaximumBatchingWindowInSeconds: null,
+        ParallelizationFactor: null,
+        EventSourceArn: 'arn:aws:sqs:eu-central-1:555:fn-b-queue',
+        FunctionArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b',
+        LastModified: new Date(),
+        LastProcessingResult: null,
+        State: 'Disabled',
+        StateTransitionReason: 'USER_INITIATED',
+        MaximumRecordAgeInSeconds: null,
+        BisectBatchOnFunctionError: null,
+        MaximumRetryAttempts: null,
+      },
+    ],
+  },
+};
+
+const _lambdaConstructor = jest.fn();
+const _listEventSourceMappings = jest.fn(
+  async () => _lambdaResponses.listEventSourceMappings
+);
+const _updateEventSourceMapping = jest.fn(
+  async () => _lambdaResponses.updateEventSourceMapping
+);
+
+class Lambda {
+  constructor(params) {
+    _lambdaConstructor(params);
+  }
+  listEventSourceMappings(params) {
+    return { promise: _listEventSourceMappings.bind(this, params) };
+  }
+  updateEventSourceMapping(params) {
+    return { promise: _updateEventSourceMapping.bind(this, params) };
+  }
+}
+
+Lambda._lambdaConstructor = _lambdaConstructor;
+Lambda._listEventSourceMappings = _listEventSourceMappings;
+Lambda._updateEventSourceMapping = _updateEventSourceMapping;
+Lambda._lambdaResponses = _lambdaResponses;
+
+const _eventsConstructor = jest.fn();
+const _eventsResponses = {
+  listRuleNamesByTarget: {
+    RuleNames: ['fn-dev-RefreshEventsRuleSchedule-1SI6FNZ1LC3NI'],
+  },
+};
+const _enableRule = jest.fn(async () => _eventsResponses.enableRule);
+const _disableRule = jest.fn(async () => _eventsResponses.disableRule);
+const _listRuleNamesByTarget = jest.fn(
+  async () => _eventsResponses.listRuleNamesByTarget
+);
+
+class CloudWatchEvents {
+  constructor(params) {
+    _eventsConstructor(params);
+  }
+  enableRule(params) {
+    return { promise: _enableRule.bind(this, params) };
+  }
+  disableRule(params) {
+    return { promise: _disableRule.bind(this, params) };
+  }
+  listRuleNamesByTarget(params) {
+    return { promise: _listRuleNamesByTarget.bind(this, params) };
+  }
+}
+
+CloudWatchEvents._eventsResponses = _eventsResponses;
+CloudWatchEvents._enableRule = _enableRule;
+CloudWatchEvents._disableRule = _disableRule;
+CloudWatchEvents._listRuleNamesByTarget = _listRuleNamesByTarget;
 
 module.exports = {
   ApplicationAutoScaling,
+  CloudWatchEvents,
+  Lambda,
   RDS,
   SNS,
   SQS,
