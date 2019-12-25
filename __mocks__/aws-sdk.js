@@ -134,8 +134,6 @@ ApplicationAutoScaling._describeScalableTargets = _describeScalableTargets;
 ApplicationAutoScaling._registerScalableTarget = _registerScalableTarget;
 ApplicationAutoScaling._aasResponses = _aasResponses;
 
-
-
 const _snsResponses = {
   setSubscriptionAttributes: {},
 };
@@ -156,9 +154,28 @@ class SNS {
 SNS._snsConstructor = _snsConstructor;
 SNS._setSubscriptionAttributes = _setSubscriptionAttributes;
 SNS._snsResponses = _snsResponses;
+const _sqsResponses = {
+  purgeQueue: {},
+};
+const _sqsConstructor = jest.fn();
+const _purgeQueue = jest.fn(async () => _sqsResponses.purgeQueue);
+
+class SQS {
+  constructor(params) {
+    _sqsConstructor(params);
+  }
+  purgeQueue(params) {
+    return { promise: _purgeQueue.bind(this, params) };
+  }
+}
+
+SQS._sqsConstructor = _sqsConstructor;
+SQS._purgeQueue = _purgeQueue;
+SQS._sqsResponses = _sqsResponses;
 
 module.exports = {
   ApplicationAutoScaling,
   RDS,
   SNS,
+  SQS,
 };
