@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.1.0...v1.2.0) (2019-12-25)
+
+
+### Features
+
+* **sns-tools:** add tools to enable and disable sns subscriptions ([99febbf](https://github.com/bbeesley/aws-blue-green-toolkit/commit/99febbf529845c364a24a3d21c1bae215555d0bb))
+* **sns-tools:** make sns tools public ([1fcd622](https://github.com/bbeesley/aws-blue-green-toolkit/commit/1fcd622e1cd4125ade086529fe71882d1ef33b92))
+
 # [1.1.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.0.0...v1.1.0) (2019-12-25)
 
 
