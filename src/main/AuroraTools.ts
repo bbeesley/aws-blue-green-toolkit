@@ -75,7 +75,6 @@ export class AuroraTools {
         if (Status === ClusterState.STOPPING) return ClusterState.STOPPING;
       }
     }
-    console.error(`unable to get cluster info for ${DBClusterIdentifier}`);
     throw new Error(`unable to get cluster info for ${DBClusterIdentifier}`);
   }
 
@@ -97,9 +96,6 @@ export class AuroraTools {
     ) {
       const scalingTarget = aasResponse.ScalableTargets[0];
       const { ServiceNamespace, ResourceId, ScalableDimension } = scalingTarget;
-      console.log(
-        `setting minimum capacity of ${ResourceId} cluster to ${minCapacity}`
-      );
       return await this.aas
         .registerScalableTarget({
           ResourceId,

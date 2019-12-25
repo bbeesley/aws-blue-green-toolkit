@@ -45,6 +45,7 @@ class Topic {
   constructor(d: TopicData) {
     this.name = d.name;
     this.region = d.region;
+    this.subscriptionArn = d.subscriptionArn;
     this.enabledFilter = d.enabledFilter || enabledFilter;
     this.disabledFilter = d.disabledFilter || disabledFilter;
   }

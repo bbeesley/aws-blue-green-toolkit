@@ -36,7 +36,7 @@ Utility functions to help with performing blue/green and canary deployments in A
 
 ### AuroraConfig
 
-[src/main/AuroraTools.ts:12-17](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L12-L17 "Source code on GitHub")
+[src/main/AuroraTools.ts:12-17](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L12-L17 "Source code on GitHub")
 
 **Extends AwsConfig**
 
@@ -44,13 +44,13 @@ Configuration options for the Aurora toolkit
 
 ### AuroraTools
 
-[src/main/AuroraTools.ts:24-261](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L24-L261 "Source code on GitHub")
+[src/main/AuroraTools.ts:24-257](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L24-L257 "Source code on GitHub")
 
 Toolkit for Aurora operations
 
 #### getClusterState
 
-[src/main/AuroraTools.ts:62-80](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L62-L80 "Source code on GitHub")
+[src/main/AuroraTools.ts:62-79](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L62-L79 "Source code on GitHub")
 
 Gets the current state of one of the Aurora clusters
 
@@ -62,7 +62,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### scaleIn
 
-[src/main/AuroraTools.ts:121-123](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L121-L123 "Source code on GitHub")
+[src/main/AuroraTools.ts:117-119](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L117-L119 "Source code on GitHub")
 
 Reverts a cluster's minimum reader count to the configured minimum
 
@@ -74,7 +74,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### scaleOut
 
-[src/main/AuroraTools.ts:131-136](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L131-L136 "Source code on GitHub")
+[src/main/AuroraTools.ts:127-132](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L127-L132 "Source code on GitHub")
 
 Scales out a cluster to match it's partner's size
 
@@ -86,7 +86,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### getReaderCount
 
-[src/main/AuroraTools.ts:144-158](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L144-L158 "Source code on GitHub")
+[src/main/AuroraTools.ts:140-154](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L140-L154 "Source code on GitHub")
 
 Get a count of the number of active readers for a cluster
 
@@ -98,7 +98,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### startDatabase
 
-[src/main/AuroraTools.ts:166-169](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L166-L169 "Source code on GitHub")
+[src/main/AuroraTools.ts:162-165](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L162-L165 "Source code on GitHub")
 
 Starts a stopped db cluster
 
@@ -110,7 +110,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### stopDatabase
 
-[src/main/AuroraTools.ts:177-180](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L177-L180 "Source code on GitHub")
+[src/main/AuroraTools.ts:173-176](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L173-L176 "Source code on GitHub")
 
 Stops a running db cluster
 
@@ -122,7 +122,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### deleteDatabase
 
-[src/main/AuroraTools.ts:188-220](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L188-L220 "Source code on GitHub")
+[src/main/AuroraTools.ts:184-216](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L184-L216 "Source code on GitHub")
 
 Deletes a running db cluster
 
@@ -134,7 +134,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### applyTags
 
-[src/main/AuroraTools.ts:229-260](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/AuroraTools.ts#L229-L260 "Source code on GitHub")
+[src/main/AuroraTools.ts:225-256](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/AuroraTools.ts#L225-L256 "Source code on GitHub")
 
 Parses a message from an rds event subscription, if the event was triggered by a scale out
 operation, the tags defined in config are applied to the newly created reader.
@@ -147,13 +147,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### TopicData
 
-[src/main/SnsTools.ts:10-16](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/SnsTools.ts#L10-L16 "Source code on GitHub")
+[src/main/SnsTools.ts:10-16](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/SnsTools.ts#L10-L16 "Source code on GitHub")
 
 Parameters to describe an SNS topic subscription
 
 ### SnsConfig
 
-[src/main/SnsTools.ts:29-32](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/SnsTools.ts#L29-L32 "Source code on GitHub")
+[src/main/SnsTools.ts:29-32](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/SnsTools.ts#L29-L32 "Source code on GitHub")
 
 **Extends AwsConfig**
 
@@ -161,13 +161,13 @@ Configuration options for the SNS toolkit
 
 ### SnsTools
 
-[src/main/SnsTools.ts:58-131](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/SnsTools.ts#L58-L131 "Source code on GitHub")
+[src/main/SnsTools.ts:59-132](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/SnsTools.ts#L59-L132 "Source code on GitHub")
 
 Toolkit for SNS operations
 
 #### enableSubscription
 
-[src/main/SnsTools.ts:118-120](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/SnsTools.ts#L118-L120 "Source code on GitHub")
+[src/main/SnsTools.ts:119-121](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/SnsTools.ts#L119-L121 "Source code on GitHub")
 
 Enables an SNS subscription
 
@@ -179,7 +179,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### disableSubscription
 
-[src/main/SnsTools.ts:128-130](https://github.com/bbeesley/aws-blue-green-toolkit/blob/99febbf529845c364a24a3d21c1bae215555d0bb/src/main/SnsTools.ts#L128-L130 "Source code on GitHub")
+[src/main/SnsTools.ts:129-131](https://github.com/bbeesley/aws-blue-green-toolkit/blob/1fcd622e1cd4125ade086529fe71882d1ef33b92/src/main/SnsTools.ts#L129-L131 "Source code on GitHub")
 
 Disables an SNS subscription
 
