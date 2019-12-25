@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.2.0...v1.3.0) (2019-12-25)
+
+
+### Features
+
+* **sqs-tools:** add tools for purging SQS queues and DLQs ([854b825](https://github.com/bbeesley/aws-blue-green-toolkit/commit/854b825d2c909fbb6dadb8a58cc97c41270a3453))
+
 # [1.2.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.1.0...v1.2.0) (2019-12-25)
 
 
