@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Publish package
           command: |
-            last_commit="$(git log -1 --pretty=%B | cat | grep 'chore(release)')"
+            last_commit="$(git log -1 --pretty=%B | cat | grep 'chore(release)')" || true
             if [[ ${last_commit} == *[chore\(release\)]* ]]
             then echo "last commit was release, skipping semantic release step"
             else npm run release
