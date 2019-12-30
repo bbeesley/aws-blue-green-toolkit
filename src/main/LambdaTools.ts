@@ -61,13 +61,11 @@ export class LambdaTools {
     const { RuleNames = [] } = await this.events
       .listRuleNamesByTarget({ TargetArn })
       .promise();
-    await Promise.all(
-      RuleNames.map(async Name => {
-        await fn({
-          Name,
-        }).promise();
-      })
-    );
+    for (const Name of RuleNames) {
+      await fn({
+        Name,
+      }).promise();
+    }
   }
 
   /**
@@ -102,15 +100,10 @@ export class LambdaTools {
       .promise();
     if (EventSourceMappings && EventSourceMappings.length > 0) {
       const Enabled = op === Operation.ENABLE;
-      await Promise.all(
-        EventSourceMappings.map(async ({ UUID }) => {
-          if (UUID) {
-            await this.lambda
-              .updateEventSourceMapping({ UUID, Enabled })
-              .promise();
-          }
-        })
-      );
+      for (const mapping of EventSourceMappings) {
+        const { UUID } = mapping;
+        await this.lambda.updateEventSourceMapping({ UUID, Enabled }).promise();
+      }
     }
   }
 
