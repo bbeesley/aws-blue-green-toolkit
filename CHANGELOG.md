@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.5.0...v1.5.1) (2019-12-30)
+
+
+### Bug Fixes
+
+* **lambda-tools:** avoid losing aws events `this` context ([9df6a1d](https://github.com/bbeesley/aws-blue-green-toolkit/commit/9df6a1d56838fb1e60705dff677ac77d53e235b6))
+
 # [1.5.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.4.1...v1.5.0) (2019-12-30)
 
 
