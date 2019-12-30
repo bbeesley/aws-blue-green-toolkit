@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.4.1...v1.5.0) (2019-12-30)
+
+
+### Features
+
+* **lambda-tools:** make aws calls in sequence ([ea7537a](https://github.com/bbeesley/aws-blue-green-toolkit/commit/ea7537a7b22be6642d47c749fed7be298552c67b))
+
 ## [1.4.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.4.0...v1.4.1) (2019-12-25)
 
 # [1.4.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.3.0...v1.4.0) (2019-12-25)
