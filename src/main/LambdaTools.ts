@@ -53,18 +53,24 @@ export class LambdaTools {
   }
 
   private async modifyRule(op: Operation, ref: StackReference): Promise<void> {
-    const fn =
-      op === Operation.ENABLE
-        ? this.events.enableRule
-        : this.events.disableRule;
     const TargetArn = this.getLambdaArn(ref);
     const { RuleNames = [] } = await this.events
       .listRuleNamesByTarget({ TargetArn })
       .promise();
     for (const Name of RuleNames) {
-      await fn({
-        Name,
-      }).promise();
+      if (op === Operation.ENABLE) {
+        await this.events
+          .enableRule({
+            Name,
+          })
+          .promise();
+      } else {
+        await this.events
+          .disableRule({
+            Name,
+          })
+          .promise();
+      }
     }
   }
 
