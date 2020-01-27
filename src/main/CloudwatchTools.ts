@@ -49,12 +49,11 @@ export class CloudWatchTools {
         AlarmNamePrefix: ref.alarmPrefix,
       })
       .promise();
-    const alarmNames = MetricAlarms.map(r => r.AlarmName);
-
+    let alarms = MetricAlarms;
     if (ref.alarmSuffix) {
-      alarmNames.filter((r: string) => r.endsWith(ref.alarmSuffix));
+      alarms = MetricAlarms.filter(r => r.AlarmName.endsWith(ref.alarmSuffix));
     }
-    return alarmNames;
+    return alarms.map(r => r.AlarmName);
   }
 
   /**

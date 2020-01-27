@@ -254,9 +254,61 @@ CloudWatchEvents._enableRule = _enableRule;
 CloudWatchEvents._disableRule = _disableRule;
 CloudWatchEvents._listRuleNamesByTarget = _listRuleNamesByTarget;
 
+
+const _cwConstructor = jest.fn();
+const _cwResponses = {
+  describeAlarms: {
+    MetricAlarms: [
+      {
+        AlarmName: 'mock service - dev - lambda1 - B',
+      },
+      {
+        AlarmName: 'mock service - dev - lambda2 - B',
+      },
+      {
+        AlarmName: 'mock service - dev - lambda3 - B',
+      },
+      {
+        AlarmName: 'mock service - dev - lambda1 - A',
+      },
+      {
+        AlarmName: 'mock service - dev - lambda2 - A',
+      },
+      {
+        AlarmName: 'mock service - dev - lambda3 - A',
+      },
+    ],
+  },
+};
+const _enableAlarmActions = jest.fn();
+const _disableAlarmActions = jest.fn();
+const _describeAlarms = jest.fn(
+  async () => _cwResponses.describeAlarms
+);
+
+class CloudWatch {
+  constructor(params) {
+    _cwConstructor(params);
+  }
+  describeAlarms(params) {
+    return { promise: _describeAlarms.bind(this, params) };
+  }
+  disableAlarmActions(params) {
+    return { promise: _disableAlarmActions.bind(this, params) };
+  }
+  enableAlarmActions(params) {
+    return { promise: _enableAlarmActions.bind(this, params) };
+  }
+}
+CloudWatch._cwResponses = _cwResponses;
+CloudWatch._enableAlarmActions = _enableAlarmActions;
+CloudWatch._disableAlarmActions = _disableAlarmActions;
+CloudWatch._describeAlarms = _describeAlarms;
+
 module.exports = {
   ApplicationAutoScaling,
   CloudWatchEvents,
+  CloudWatch,
   Lambda,
   RDS,
   SNS,
