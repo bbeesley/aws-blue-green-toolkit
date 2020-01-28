@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.5.1...v1.6.0) (2020-01-28)
+
+
+### Features
+
+* **cloudwatch:** add cloudwatch alarm tools ([6ce3848](https://github.com/bbeesley/aws-blue-green-toolkit/commit/6ce3848af06ae3dbca2cf7fc9492c2f4d64724d2))
+
 ## [1.5.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.5.0...v1.5.1) (2019-12-30)
 
 
