@@ -1,4 +1,5 @@
 import { CloudWatchEvents, Lambda } from 'aws-sdk';
+import { AliasConfiguration } from 'aws-sdk/clients/lambda';
 
 import { AwsConfig } from './common-interfaces';
 import { StackReference } from './constants';
@@ -131,5 +132,34 @@ export class LambdaTools {
    */
   public async disableEventMapping(reference: StackReference): Promise<void> {
     await this.modifyEventMapping(Operation.DISABLE, reference);
+  }
+
+  /**
+   * Gets the currently running version of a lambda fn
+   *
+   * @param {StackReference} reference - Reference to a lambda stack
+   * @returns {Promise<string>} - The lambda version
+   * @memberof LambdaTools
+   */
+  public async getVersion(reference: StackReference): Promise<string> {
+    const FunctionName = this.getLambdaName(reference);
+    const info = await this.lambda.getFunction({ FunctionName }).promise();
+    return info.Configuration.Version;
+  }
+
+  /**
+   * Returns details about a Lambda function alias.
+   *
+   * @param {StackReference} reference - Reference to a lambda stack
+   * @param {string} Name - The name of the alias to return data about
+   * @returns {Promise<AliasConfiguration>}
+   * @memberof LambdaTools
+   */
+  public async getAlias(
+    reference: StackReference,
+    Name: string
+  ): Promise<AliasConfiguration> {
+    const FunctionName = this.getLambdaName(reference);
+    return await this.lambda.getAlias({ FunctionName, Name }).promise();
   }
 }
