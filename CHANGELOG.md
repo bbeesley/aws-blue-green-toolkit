@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.6.0...v1.7.0) (2020-02-03)
+
+
+### Features
+
+* **lambda-tools:** adds methods for lambda versions and aliases ([710dc4b](https://github.com/bbeesley/aws-blue-green-toolkit/commit/710dc4b10f9e7fb4eee19bc9fb6247c189b07687))
+
 # [1.6.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.5.1...v1.6.0) (2020-01-28)
 
 
