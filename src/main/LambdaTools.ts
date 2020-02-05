@@ -13,6 +13,7 @@ import { StackReference } from './constants';
 export interface LambdaConfig extends AwsConfig {
   lambdaNameA: string;
   lambdaNameB: string;
+  alias?: string;
 }
 
 enum Operation {
@@ -49,8 +50,16 @@ export class LambdaTools {
 
   private getLambdaArn(ref: StackReference): string {
     return ref === StackReference.a
-      ? `arn:aws:lambda:${this.config.awsRegion}:${this.config.awsProfile}:function:${this.config.lambdaNameA}`
-      : `arn:aws:lambda:${this.config.awsRegion}:${this.config.awsProfile}:function:${this.config.lambdaNameB}`;
+      ? `arn:aws:lambda:${this.config.awsRegion}:${
+          this.config.awsProfile
+        }:function:${this.config.lambdaNameA}${
+          this.config.alias ? ':' + this.config.alias : ''
+        }`
+      : `arn:aws:lambda:${this.config.awsRegion}:${
+          this.config.awsProfile
+        }:function:${this.config.lambdaNameB}${
+          this.config.alias ? ':' + this.config.alias : ''
+        }`;
   }
 
   private async modifyRule(op: Operation, ref: StackReference): Promise<void> {
@@ -100,10 +109,14 @@ export class LambdaTools {
     ref: StackReference
   ): Promise<void> {
     const FunctionName = this.getLambdaName(ref);
+    const params = this.config.alias
+      ? {
+          FunctionName,
+          Qualifier: this.config.alias,
+        }
+      : { FunctionName };
     const { EventSourceMappings } = await this.lambda
-      .listEventSourceMappings({
-        FunctionName,
-      })
+      .listEventSourceMappings(params)
       .promise();
     if (EventSourceMappings && EventSourceMappings.length > 0) {
       const Enabled = op === Operation.ENABLE;
