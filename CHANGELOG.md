@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.7.0...v1.8.0) (2020-02-05)
+
+
+### Features
+
+* **lambda-tools:** add support for lambda aliases ([1269808](https://github.com/bbeesley/aws-blue-green-toolkit/commit/1269808d1e76f9c9796b20052536dc8c86476dfe))
+
 # [1.7.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.6.0...v1.7.0) (2020-02-03)
 
 
