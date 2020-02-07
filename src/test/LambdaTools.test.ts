@@ -16,7 +16,7 @@ describe('LambdaTools', () => {
     it('calls updateEventSourceMapping with expected params', async () => {
       await lambdaTools.enableEventMapping(StackReference.b);
       expect(AWS.Lambda._listEventSourceMappings).toHaveBeenCalledWith({
-        FunctionName: 'fn-b-dev',
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       });
       expect(AWS.Lambda._updateEventSourceMapping).toHaveBeenCalledWith({
         UUID: 'uuid',
@@ -36,8 +36,7 @@ describe('LambdaTools', () => {
       });
       await lambda.enableEventMapping(StackReference.b);
       expect(AWS.Lambda._listEventSourceMappings).toHaveBeenCalledWith({
-        FunctionName: 'fn-b-dev',
-        Qualifier: 'live',
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       });
       expect(AWS.Lambda._updateEventSourceMapping).toHaveBeenCalledWith({
         UUID: 'uuid',
@@ -49,7 +48,7 @@ describe('LambdaTools', () => {
     it('calls updateEventSourceMapping with expected params', async () => {
       await lambdaTools.disableEventMapping(StackReference.b);
       expect(AWS.Lambda._listEventSourceMappings).toHaveBeenCalledWith({
-        FunctionName: 'fn-b-dev',
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       });
       expect(AWS.Lambda._updateEventSourceMapping).toHaveBeenCalledWith({
         UUID: 'uuid',
@@ -69,8 +68,7 @@ describe('LambdaTools', () => {
       });
       await lambda.disableEventMapping(StackReference.b);
       expect(AWS.Lambda._listEventSourceMappings).toHaveBeenCalledWith({
-        FunctionName: 'fn-b-dev',
-        Qualifier: 'live',
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       });
       expect(AWS.Lambda._updateEventSourceMapping).toHaveBeenCalledWith({
         UUID: 'uuid',

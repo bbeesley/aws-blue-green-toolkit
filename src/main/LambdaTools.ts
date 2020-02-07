@@ -108,15 +108,9 @@ export class LambdaTools {
     op: Operation,
     ref: StackReference
   ): Promise<void> {
-    const FunctionName = this.getLambdaName(ref);
-    const params = this.config.alias
-      ? {
-          FunctionName,
-          Qualifier: this.config.alias,
-        }
-      : { FunctionName };
+    const FunctionName = this.getLambdaArn(ref);
     const { EventSourceMappings } = await this.lambda
-      .listEventSourceMappings(params)
+      .listEventSourceMappings({ FunctionName })
       .promise();
     if (EventSourceMappings && EventSourceMappings.length > 0) {
       const Enabled = op === Operation.ENABLE;
