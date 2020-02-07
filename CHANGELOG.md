@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.8.0...v1.8.1) (2020-02-07)
+
+
+### Bug Fixes
+
+* **lambda-tools:** modify rules by arn not function name ([26dfcab](https://github.com/bbeesley/aws-blue-green-toolkit/commit/26dfcab37843f44d2b0eb6483c0d24023052f4bb))
+
 # [1.8.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.7.0...v1.8.0) (2020-02-05)
 
 
