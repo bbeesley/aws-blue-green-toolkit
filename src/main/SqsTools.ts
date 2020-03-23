@@ -51,7 +51,7 @@ export class SqsTools {
   public async purgeQueues(reference: StackReference): Promise<void> {
     const queue = this.getQueue(reference);
     await Promise.all(
-      Object.values(queue).map(async queueName => {
+      Object.values(queue).map(async (queueName) => {
         if (queueName) {
           await this.sqs
             .purgeQueue({
