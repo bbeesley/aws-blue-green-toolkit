@@ -239,7 +239,7 @@ export class AuroraTools {
         .promise();
       const scalingResourceTag = details.TagList
         ? details.TagList.find(
-            t =>
+            (t) =>
               t.Key === 'application-autoscaling:resourceId' &&
               t.Value &&
               t.Value.includes(this.config.namespace)

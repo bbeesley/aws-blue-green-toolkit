@@ -51,9 +51,11 @@ export class CloudWatchTools {
       .promise();
     let alarms = MetricAlarms;
     if (ref.alarmSuffix) {
-      alarms = MetricAlarms.filter(r => r.AlarmName.endsWith(ref.alarmSuffix));
+      alarms = MetricAlarms.filter((r) =>
+        r.AlarmName.endsWith(ref.alarmSuffix)
+      );
     }
-    return alarms.map(r => r.AlarmName);
+    return alarms.map((r) => r.AlarmName);
   }
 
   /**
