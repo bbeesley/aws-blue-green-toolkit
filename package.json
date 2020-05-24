@@ -52,7 +52,7 @@
     "babel-jest": "^25.1.0",
     "conventional-changelog-angular": "^5.0.6",
     "cz-conventional-changelog": "^3.0.2",
-    "documentation": "^12.1.4",
+    "documentation": "^13.0.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.8.0",
     "eslint-plugin-import": "^2.19.1",
