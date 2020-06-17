@@ -6,7 +6,7 @@ update_configs:
     automerged_updates:
       - match:
           dependency_type: "development"
-          update_type: "semver:minor"
+          update_type: "semver:patch"
       - match:
           dependency_type: "production"
           update_type: "semver:patch"
