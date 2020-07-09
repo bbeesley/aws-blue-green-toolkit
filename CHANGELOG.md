@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.8.1...v1.8.2) (2020-07-09)
+
+
+### Bug Fixes
+
+* **deps:** bump to patch security vulnerability in deps ([10783ca](https://github.com/bbeesley/aws-blue-green-toolkit/commit/10783cac7d4f750016a0e2c1ebb1b0a6a3870ded))
+
 ## [1.8.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.8.0...v1.8.1) (2020-02-07)
 
 
