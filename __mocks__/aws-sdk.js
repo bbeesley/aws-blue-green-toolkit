@@ -88,6 +88,25 @@ RDS._rdsConstructor = _rdsConstructor;
 RDS._describeDBClusters = _describeDBClusters;
 RDS._rdsResponses = _rdsResponses;
 
+const _dynamoResponses = {
+  deleteTable: {},
+};
+const _dynamoConstructor = jest.fn();
+const _deleteTable = jest.fn(async () => _dynamoResponses.deleteTable);
+
+class DynamoDB {
+  constructor(params) {
+    _dynamoConstructor(params);
+  }
+  deleteTable(params) {
+    return { promise: _deleteTable.bind(this, params) };
+  }
+}
+
+DynamoDB._dynamoConstructor = _dynamoConstructor;
+DynamoDB._deleteTable = _deleteTable;
+DynamoDB._dynamoResponses = _dynamoResponses;
+
 const _aasResponses = {
   describeScalableTargets: {
     ScalableTargets: [
@@ -254,7 +273,6 @@ CloudWatchEvents._enableRule = _enableRule;
 CloudWatchEvents._disableRule = _disableRule;
 CloudWatchEvents._listRuleNamesByTarget = _listRuleNamesByTarget;
 
-
 const _cwConstructor = jest.fn();
 const _cwResponses = {
   describeAlarms: {
@@ -282,9 +300,7 @@ const _cwResponses = {
 };
 const _enableAlarmActions = jest.fn();
 const _disableAlarmActions = jest.fn();
-const _describeAlarms = jest.fn(
-  async () => _cwResponses.describeAlarms
-);
+const _describeAlarms = jest.fn(async () => _cwResponses.describeAlarms);
 
 class CloudWatch {
   constructor(params) {
@@ -309,6 +325,7 @@ module.exports = {
   ApplicationAutoScaling,
   CloudWatchEvents,
   CloudWatch,
+  DynamoDB,
   Lambda,
   RDS,
   SNS,
