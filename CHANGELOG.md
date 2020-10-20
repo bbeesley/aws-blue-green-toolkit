@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.8.2...v1.9.0) (2020-10-20)
+
+
+### Features
+
+* add dynamo tools ([afeab90](https://github.com/bbeesley/aws-blue-green-toolkit/commit/afeab90b53afe1254b70edc1e1e04697e7f7ac7b))
+
 ## [1.8.2](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.8.1...v1.8.2) (2020-07-09)
 
 
