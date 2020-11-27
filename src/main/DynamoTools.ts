@@ -12,6 +12,7 @@ import { StackReference } from './constants';
 export interface DynamoConfig extends AwsConfig {
   tableNameA: string;
   tableNameB: string;
+  waitForTableDelete?: boolean;
 }
 
 /**
@@ -48,5 +49,9 @@ export class DynamoTools {
   public async deleteTable(reference: StackReference): Promise<void> {
     const TableName = this.getTableName(reference);
     await this.dynamo.deleteTable({ TableName }).promise();
+
+    if (this.config.waitForTableDelete) {
+      await this.dynamo.waitFor('tableNotExists', { TableName }).promise();
+    }
   }
 }
