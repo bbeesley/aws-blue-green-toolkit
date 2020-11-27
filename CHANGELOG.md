@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.9.0...v1.10.0) (2020-11-27)
+
+
+### Features
+
+* **dynamo-tools:** optionally wait for dynamo table deletions to complete ([27a96b7](https://github.com/bbeesley/aws-blue-green-toolkit/commit/27a96b704d53fd2b1a9950bb762df9a46f01b4f8))
+
 # [1.9.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.8.2...v1.9.0) (2020-10-20)
 
 
