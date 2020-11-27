@@ -90,9 +90,11 @@ RDS._rdsResponses = _rdsResponses;
 
 const _dynamoResponses = {
   deleteTable: {},
+  waitFor: {},
 };
 const _dynamoConstructor = jest.fn();
 const _deleteTable = jest.fn(async () => _dynamoResponses.deleteTable);
+const _waitFor = jest.fn(async () => _dynamoResponses.waitFor);
 
 class DynamoDB {
   constructor(params) {
@@ -101,10 +103,14 @@ class DynamoDB {
   deleteTable(params) {
     return { promise: _deleteTable.bind(this, params) };
   }
+  waitFor(state, params) {
+    return { promise: _waitFor.bind(this, state, params) };
+  }
 }
 
 DynamoDB._dynamoConstructor = _dynamoConstructor;
 DynamoDB._deleteTable = _deleteTable;
+DynamoDB._waitFor = _waitFor;
 DynamoDB._dynamoResponses = _dynamoResponses;
 
 const _aasResponses = {
