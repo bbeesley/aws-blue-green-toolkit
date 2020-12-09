@@ -1,3 +1,11 @@
+# [1.11.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.10.0...v1.11.0) (2020-12-09)
+
+
+### Features
+
+* add kinesis toolset to support consumer stream management ([d00ab1c](https://github.com/bbeesley/aws-blue-green-toolkit/commit/d00ab1c0d0d0adb5ed9b0d6b06e76be868ea761b))
+* **lambda-tools:** add event source mapping helpers ([2a698b1](https://github.com/bbeesley/aws-blue-green-toolkit/commit/2a698b1a4cf265a4aedd66a868f92fd8b792fb55))
+
 # [1.10.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.9.0...v1.10.0) (2020-11-27)
 
 
