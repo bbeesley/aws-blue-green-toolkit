@@ -220,6 +220,46 @@ const _lambdaResponses = {
       },
     ],
   },
+  createEventSourceMapping: {
+    UUID: 'e2fc5e11-79cc-47b1-bd80-fcd7a852b214',
+    StartingPosition: 'TRIM_HORIZON',
+    BatchSize: 100,
+    MaximumBatchingWindowInSeconds: 0,
+    ParallelizationFactor: 1,
+    EventSourceArn:
+      'arn:aws:kinesis:eu-central-1:123456789:stream/my-stream-dev',
+    FunctionArn: 'arn:aws:lambda:eu-central-1:123456789:function:my-fn-dev',
+    LastModified: '2020-12-09T11:26:31.934000+00:00',
+    LastProcessingResult: 'No records processed',
+    State: 'Creating',
+    StateTransitionReason: 'User action',
+    DestinationConfig: {
+      OnFailure: {},
+    },
+    MaximumRecordAgeInSeconds: -1,
+    BisectBatchOnFunctionError: false,
+    MaximumRetryAttempts: -1,
+  },
+  deleteEventSourceMapping: {
+    UUID: '091a66ea-1d4c-411c-97f0-039905401602',
+    StartingPosition: 'TRIM_HORIZON',
+    BatchSize: 100,
+    MaximumBatchingWindowInSeconds: 0,
+    ParallelizationFactor: 1,
+    EventSourceArn:
+      'arn:aws:kinesis:eu-central-1:123456789:stream/my-stream-dev',
+    FunctionArn: 'arn:aws:lambda:eu-central-1:123456789:function:my-fn-dev',
+    LastModified: '2020-12-08T17:32:00+00:00',
+    LastProcessingResult: 'OK',
+    State: 'Deleting',
+    StateTransitionReason: 'User action',
+    DestinationConfig: {
+      OnFailure: {},
+    },
+    MaximumRecordAgeInSeconds: -1,
+    BisectBatchOnFunctionError: false,
+    MaximumRetryAttempts: -1,
+  },
 };
 
 const _lambdaConstructor = jest.fn();
@@ -228,6 +268,12 @@ const _listEventSourceMappings = jest.fn(
 );
 const _updateEventSourceMapping = jest.fn(
   async () => _lambdaResponses.updateEventSourceMapping
+);
+const _createEventSourceMapping = jest.fn(
+  async () => _lambdaResponses.createEventSourceMapping
+);
+const _deleteEventSourceMapping = jest.fn(
+  async () => _lambdaResponses.deleteEventSourceMapping
 );
 
 class Lambda {
@@ -240,11 +286,19 @@ class Lambda {
   updateEventSourceMapping(params) {
     return { promise: _updateEventSourceMapping.bind(this, params) };
   }
+  createEventSourceMapping(params) {
+    return { promise: _createEventSourceMapping.bind(this, params) };
+  }
+  deleteEventSourceMapping(params) {
+    return { promise: _deleteEventSourceMapping.bind(this, params) };
+  }
 }
 
 Lambda._lambdaConstructor = _lambdaConstructor;
 Lambda._listEventSourceMappings = _listEventSourceMappings;
 Lambda._updateEventSourceMapping = _updateEventSourceMapping;
+Lambda._createEventSourceMapping = _createEventSourceMapping;
+Lambda._deleteEventSourceMapping = _deleteEventSourceMapping;
 Lambda._lambdaResponses = _lambdaResponses;
 
 const _eventsConstructor = jest.fn();
@@ -327,11 +381,49 @@ CloudWatch._enableAlarmActions = _enableAlarmActions;
 CloudWatch._disableAlarmActions = _disableAlarmActions;
 CloudWatch._describeAlarms = _describeAlarms;
 
+const _kinesisResponses = {
+  registerStreamConsumer: {
+    Consumer: {
+      ConsumerName: 'con1',
+      ConsumerARN:
+        'arn:aws:kinesis:eu-central-1:123456789:stream/my-stream-dev/consumer/con1:1607511009',
+      ConsumerStatus: 'CREATING',
+      ConsumerCreationTimestamp: '2020-12-09T10:50:09+00:00',
+    },
+  },
+  deregisterStreamConsumer: {},
+};
+const _kinesisConstructor = jest.fn();
+const _registerStreamConsumer = jest.fn(
+  async () => _kinesisResponses.registerStreamConsumer
+);
+const _deregisterStreamConsumer = jest.fn(
+  async () => _kinesisResponses.deregisterStreamConsumer
+);
+
+class Kinesis {
+  constructor(params) {
+    _kinesisConstructor(params);
+  }
+  registerStreamConsumer(params) {
+    return { promise: _registerStreamConsumer.bind(this, params) };
+  }
+  deregisterStreamConsumer(params) {
+    return { promise: _deregisterStreamConsumer.bind(this, params) };
+  }
+}
+
+Kinesis._kinesisConstructor = _kinesisConstructor;
+Kinesis._registerStreamConsumer = _registerStreamConsumer;
+Kinesis._deregisterStreamConsumer = _deregisterStreamConsumer;
+Kinesis._kinesisResponses = _kinesisResponses;
+
 module.exports = {
   ApplicationAutoScaling,
   CloudWatchEvents,
   CloudWatch,
   DynamoDB,
+  Kinesis,
   Lambda,
   RDS,
   SNS,

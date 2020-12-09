@@ -1,5 +1,10 @@
 import { CloudWatchEvents, Lambda } from 'aws-sdk';
-import { AliasConfiguration } from 'aws-sdk/clients/lambda';
+import {
+  AliasConfiguration,
+  EventSourceMappingConfiguration,
+  EventSourceMappingsList,
+  ListEventSourceMappingsRequest,
+} from 'aws-sdk/clients/lambda';
 
 import { AwsConfig } from './common-interfaces';
 import { StackReference } from './constants';
@@ -104,17 +109,66 @@ export class LambdaTools {
     await this.modifyRule(Operation.DISABLE, reference);
   }
 
+  /**
+   * Creates a lambda's event source mapping (eg, a Kinesis stream)
+   * @param {StackReference} reference - Reference to a lambda stack
+   * @param {string} eventSourceArn - The ARN of the event source
+   * @param {Omit<Lambda.CreateEventSourceMappingRequest, 'FunctionName' | 'EventSourceArn'>} sourceSpecificParams - Any params specific to the event source
+   * @returns {Promise<EventSourceMappingConfiguration>}
+   * @memberof LambdaTools
+   */
+  public async createEventSourceMapping(
+    reference: StackReference,
+    eventSourceArn: string,
+    sourceSpecificParams: Omit<
+      Lambda.CreateEventSourceMappingRequest,
+      'FunctionName' | 'EventSourceArn'
+    > = {}
+  ): Promise<EventSourceMappingConfiguration> {
+    return await this.lambda
+      .createEventSourceMapping({
+        FunctionName: this.getLambdaArn(reference),
+        EventSourceArn: eventSourceArn,
+        ...sourceSpecificParams,
+      })
+      .promise();
+  }
+
+  /**
+   * Lists all event source mappings for the referenced function
+   * @param {StackReference} reference - Reference to a lambda stack
+   * @returns {Promise<EventSourceMappingsList>}
+   * @memberof LambdaTools
+   */
+  public async listEventSourceMappings(
+    reference: StackReference
+  ): Promise<EventSourceMappingsList> {
+    const mappings = [];
+
+    const params: ListEventSourceMappingsRequest = {
+      FunctionName: this.getLambdaArn(reference),
+    };
+    do {
+      const result = await this.lambda
+        .listEventSourceMappings(params)
+        .promise();
+      if (result.EventSourceMappings)
+        mappings.push(...result.EventSourceMappings);
+
+      if (result.NextMarker) params.Marker = result.NextMarker;
+    } while (params.Marker);
+
+    return mappings;
+  }
+
   private async modifyEventMapping(
     op: Operation,
     ref: StackReference
   ): Promise<void> {
-    const FunctionName = this.getLambdaArn(ref);
-    const { EventSourceMappings } = await this.lambda
-      .listEventSourceMappings({ FunctionName })
-      .promise();
-    if (EventSourceMappings && EventSourceMappings.length > 0) {
+    const eventSourceMappings = await this.listEventSourceMappings(ref);
+    if (eventSourceMappings.length > 0) {
       const Enabled = op === Operation.ENABLE;
-      for (const mapping of EventSourceMappings) {
+      for (const mapping of eventSourceMappings) {
         const { UUID } = mapping;
         await this.lambda.updateEventSourceMapping({ UUID, Enabled }).promise();
       }
@@ -139,6 +193,18 @@ export class LambdaTools {
    */
   public async disableEventMapping(reference: StackReference): Promise<void> {
     await this.modifyEventMapping(Operation.DISABLE, reference);
+  }
+
+  /**
+   * Deletes a lambda's event mapping (eg, a Kinesis stream)
+   * You may use the `listEventSourceMappings` method if you
+   * need to retrieve UUIDs of the function event sources
+   * @param {StackReference} UUID - The identifier of the event source mapping
+   * @returns {Promise<void>}
+   * @memberof LambdaTools
+   */
+  public async deleteEventMapping(UUID: string): Promise<void> {
+    await this.lambda.deleteEventSourceMapping({ UUID }).promise();
   }
 
   /**

@@ -144,4 +144,80 @@ describe('LambdaTools', () => {
       });
     });
   });
+  describe('listEventSourceMappings', () => {
+    it('calls listEventSourceMappings with expected params', async () => {
+      const mappings = await lambdaTools.listEventSourceMappings(
+        StackReference.b
+      );
+      expect(AWS.Lambda._listEventSourceMappings).toHaveBeenCalledWith({
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
+      });
+      expect(mappings).not.toBeUndefined();
+    });
+    it('calls updateEventSourceMapping with expected params and variant', async () => {
+      const lambda = new LambdaTools({
+        awsRegion: 'eu-central-1',
+        awsProfile: '555',
+        environment: 'dev',
+        namespace: 'fn',
+        tags: {},
+        lambdaNameA: 'fn-a-dev',
+        lambdaNameB: 'fn-b-dev',
+        alias: 'live',
+      });
+      const mappings = await lambda.listEventSourceMappings(StackReference.b);
+      expect(AWS.Lambda._listEventSourceMappings).toHaveBeenCalledWith({
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
+      });
+      expect(mappings).not.toBeUndefined();
+    });
+  });
+  describe('createEventSourceMapping', () => {
+    it('calls createEventSourceMapping with expected params', async () => {
+      const mapping = await lambdaTools.createEventSourceMapping(
+        StackReference.b,
+        'some-arn',
+        {
+          StartingPosition: 'TRIM_HORIZON',
+        }
+      );
+      expect(AWS.Lambda._createEventSourceMapping).toHaveBeenCalledWith({
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
+        EventSourceArn: 'some-arn',
+        StartingPosition: 'TRIM_HORIZON',
+      });
+      expect(mapping).not.toBeUndefined();
+    });
+    it('calls updateEventSourceMapping with expected params and variant', async () => {
+      const lambda = new LambdaTools({
+        awsRegion: 'eu-central-1',
+        awsProfile: '555',
+        environment: 'dev',
+        namespace: 'fn',
+        tags: {},
+        lambdaNameA: 'fn-a-dev',
+        lambdaNameB: 'fn-b-dev',
+        alias: 'live',
+      });
+      const mapping = await lambda.createEventSourceMapping(
+        StackReference.b,
+        'some-arn'
+      );
+      expect(AWS.Lambda._createEventSourceMapping).toHaveBeenCalledWith({
+        FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
+        EventSourceArn: 'some-arn',
+      });
+      expect(mapping).not.toBeUndefined();
+    });
+  });
+  describe('deleteEventMapping', () => {
+    it('calls deleteEventMapping with expected params', async () => {
+      const UUID = '091a66ea-1d4c-411c-97f0-039905401602';
+
+      await lambdaTools.deleteEventMapping(UUID);
+      expect(AWS.Lambda._deleteEventSourceMapping).toHaveBeenCalledWith({
+        UUID,
+      });
+    });
+  });
 });
