@@ -27,7 +27,8 @@ describe('KinesisTools', () => {
       });
       expect(consumer).not.toBeUndefined();
     });
-
+  });
+  describe('registerConsumer', () => {
     it('calls deregisterConsumer with expected params', async () => {
       await kinesisTools.deregisterConsumer(StackReference.b);
 
