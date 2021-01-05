@@ -392,6 +392,16 @@ const _kinesisResponses = {
     },
   },
   deregisterStreamConsumer: {},
+  describeStreamConsumer: {
+    ConsumerDescription: {
+      ConsumerName: 'con1',
+      ConsumerARN:
+        'arn:aws:kinesis:eu-central-1:123456789:stream/my-stream-dev/consumer/con1:1607511009',
+      ConsumerStatus: 'ACTIVE',
+      ConsumerCreationTimestamp: '2020-12-09T10:50:09+00:00',
+      StreamARN: 'arn:aws:kinesis:eu-central-1:123456789:stream/my-stream-dev',
+    },
+  },
 };
 const _kinesisConstructor = jest.fn();
 const _registerStreamConsumer = jest.fn(
@@ -399,6 +409,9 @@ const _registerStreamConsumer = jest.fn(
 );
 const _deregisterStreamConsumer = jest.fn(
   async () => _kinesisResponses.deregisterStreamConsumer
+);
+const _describeStreamConsumer = jest.fn(
+  async () => _kinesisResponses.describeStreamConsumer
 );
 
 class Kinesis {
@@ -411,11 +424,15 @@ class Kinesis {
   deregisterStreamConsumer(params) {
     return { promise: _deregisterStreamConsumer.bind(this, params) };
   }
+  describeStreamConsumer(params) {
+    return { promise: _describeStreamConsumer.bind(this, params) };
+  }
 }
 
 Kinesis._kinesisConstructor = _kinesisConstructor;
 Kinesis._registerStreamConsumer = _registerStreamConsumer;
 Kinesis._deregisterStreamConsumer = _deregisterStreamConsumer;
+Kinesis._describeStreamConsumer = _describeStreamConsumer;
 Kinesis._kinesisResponses = _kinesisResponses;
 
 module.exports = {

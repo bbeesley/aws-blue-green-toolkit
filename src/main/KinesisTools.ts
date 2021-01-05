@@ -1,5 +1,8 @@
 import { Kinesis } from 'aws-sdk';
-import { RegisterStreamConsumerOutput } from 'aws-sdk/clients/kinesis';
+import {
+  RegisterStreamConsumerOutput,
+  DescribeStreamConsumerOutput,
+} from 'aws-sdk/clients/kinesis';
 
 import { AwsConfig } from './common-interfaces';
 import { StackReference } from './constants';
@@ -69,6 +72,23 @@ export class KinesisTools {
   public async deregisterConsumer(reference: StackReference): Promise<void> {
     await this.kinesis
       .deregisterStreamConsumer({
+        StreamARN: this.config.streamArn,
+        ConsumerName: this.getConsumerName(reference),
+      })
+      .promise();
+  }
+
+  /**
+   * Describes a consumer for a Kinesis data stream
+   * @param {StackReference} reference - Reference to an active stack
+   * @returns {Promise<DescribeStreamConsumerOutput>}
+   * @memberof KinesisTools
+   */
+  public async describeConsumer(
+    reference: StackReference
+  ): Promise<DescribeStreamConsumerOutput> {
+    return await this.kinesis
+      .describeStreamConsumer({
         StreamARN: this.config.streamArn,
         ConsumerName: this.getConsumerName(reference),
       })
