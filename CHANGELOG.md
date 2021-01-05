@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.11.0...v1.12.0) (2021-01-05)
+
+
+### Features
+
+* **kinesis-tools:** add describe consumer method to check consumer status ([6e724b9](https://github.com/bbeesley/aws-blue-green-toolkit/commit/6e724b946a7a6e90221a1d6da51f28015076e5ca))
+
 # [1.11.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.10.0...v1.11.0) (2020-12-09)
 
 
