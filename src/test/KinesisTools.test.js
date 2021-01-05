@@ -28,7 +28,7 @@ describe('KinesisTools', () => {
       expect(consumer).not.toBeUndefined();
     });
   });
-  describe('registerConsumer', () => {
+  describe('deregisterConsumer', () => {
     it('calls deregisterConsumer with expected params', async () => {
       await kinesisTools.deregisterConsumer(StackReference.b);
 
@@ -37,6 +37,21 @@ describe('KinesisTools', () => {
         ConsumerName: config.consumerNameB,
         StreamARN: config.streamArn,
       });
+    });
+  });
+  describe('describeConsumer', () => {
+    it('calls describeConsumer with expected params', async () => {
+      const consumerDescription = await kinesisTools.describeConsumer(
+        StackReference.b
+      );
+
+      expect(AWS.Kinesis._describeStreamConsumer).toHaveBeenCalledTimes(1);
+      expect(AWS.Kinesis._describeStreamConsumer).toHaveBeenCalledWith({
+        ConsumerName: config.consumerNameB,
+        StreamARN: config.streamArn,
+      });
+
+      expect(consumerDescription).not.toBeUndefined();
     });
   });
 });
