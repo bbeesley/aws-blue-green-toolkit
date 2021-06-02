@@ -216,4 +216,16 @@ describe('LambdaTools', () => {
       });
     });
   });
+  describe('deleteEventMapping', () => {
+    it('calls deleteEventMapping with expected params', async () => {
+      const UUID = '091a66ea-1d4c-411c-97f0-039905401602';
+
+      const latestMetrics = await lambdaTools.getLatestMetrics(
+        StackReference.b
+      );
+      expect(AWS.CloudWatch._getMetricData).toHaveBeenCalledTimes(1);
+
+      expect(latestMetrics).toMatchSnapshot();
+    });
+  });
 });
