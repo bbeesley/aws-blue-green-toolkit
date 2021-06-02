@@ -83,9 +83,8 @@ describe('LambdaTools', () => {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       });
       expect(AWS.CloudWatchEvents._enableRule).toHaveBeenCalledWith({
-        Name:
-          AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
-            .RuleNames[0],
+        Name: AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
+          .RuleNames[0],
       });
     });
     it('calls enableRule with expected params and variant', async () => {
@@ -104,9 +103,8 @@ describe('LambdaTools', () => {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       });
       expect(AWS.CloudWatchEvents._enableRule).toHaveBeenCalledWith({
-        Name:
-          AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
-            .RuleNames[0],
+        Name: AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
+          .RuleNames[0],
       });
     });
   });
@@ -117,9 +115,8 @@ describe('LambdaTools', () => {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       });
       expect(AWS.CloudWatchEvents._disableRule).toHaveBeenCalledWith({
-        Name:
-          AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
-            .RuleNames[0],
+        Name: AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
+          .RuleNames[0],
       });
     });
     it('calls disableRule with expected params and alias', async () => {
@@ -138,9 +135,8 @@ describe('LambdaTools', () => {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       });
       expect(AWS.CloudWatchEvents._disableRule).toHaveBeenCalledWith({
-        Name:
-          AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
-            .RuleNames[0],
+        Name: AWS.CloudWatchEvents._eventsResponses.listRuleNamesByTarget
+          .RuleNames[0],
       });
     });
   });
