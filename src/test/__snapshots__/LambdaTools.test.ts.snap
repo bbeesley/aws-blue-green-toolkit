@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LambdaTools deleteEventMapping calls deleteEventMapping with expected params 1`] = `
+exports[`LambdaTools getLatestMetrics returns the latest metrics for the given lambda fn 1`] = `
 Object {
   "ConcurrentExecutions": Object {
     "latestMetricTimestamp": 2021-06-02T15:23:00.000Z,

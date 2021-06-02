@@ -216,10 +216,8 @@ describe('LambdaTools', () => {
       });
     });
   });
-  describe('deleteEventMapping', () => {
-    it('calls deleteEventMapping with expected params', async () => {
-      const UUID = '091a66ea-1d4c-411c-97f0-039905401602';
-
+  describe('getLatestMetrics', () => {
+    it('returns the latest metrics for the given lambda fn', async () => {
       const latestMetrics = await lambdaTools.getLatestMetrics(
         StackReference.b
       );
