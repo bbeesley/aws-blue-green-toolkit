@@ -4,20 +4,8 @@ import {
   DescribeStreamConsumerOutput,
 } from 'aws-sdk/clients/kinesis';
 
-import { AwsConfig } from './common-interfaces';
+import { KinesisConfig } from './@types';
 import { StackReference } from './constants';
-
-/**
- * Configuration options for the Aurora toolkit
- * @export
- * @interface KinesisConfig
- * @extends {AwsConfig}
- */
-export interface KinesisConfig extends AwsConfig {
-  streamArn: string;
-  consumerNameA: string;
-  consumerNameB: string;
-}
 
 /**
  * Toolkit for Kinesis data stream operations

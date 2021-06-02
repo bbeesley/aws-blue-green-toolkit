@@ -6,20 +6,8 @@ import {
   ListEventSourceMappingsRequest,
 } from 'aws-sdk/clients/lambda';
 
-import { AwsConfig } from './common-interfaces';
+import { LambdaConfig, LatestLambdaMetricsMap } from './@types';
 import { StackReference } from './constants';
-
-/**
- * Configuration options for the Lambda toolkit
- * @export
- * @interface LambdaConfig
- * @extends {AwsConfig}
- */
-export interface LambdaConfig extends AwsConfig {
-  lambdaNameA: string;
-  lambdaNameB: string;
-  alias?: string;
-}
 
 enum Operation {
   ENABLE,

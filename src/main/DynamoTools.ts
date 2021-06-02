@@ -1,19 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 
-import { AwsConfig } from './common-interfaces';
+import { DynamoConfig } from './@types';
 import { StackReference } from './constants';
-
-/**
- * Configuration options for the Aurora toolkit
- * @export
- * @interface DynamoConfig
- * @extends {AwsConfig}
- */
-export interface DynamoConfig extends AwsConfig {
-  tableNameA: string;
-  tableNameB: string;
-  waitForTableDelete?: boolean;
-}
 
 /**
  * Toolkit for Dynamo operations

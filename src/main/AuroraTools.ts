@@ -1,21 +1,8 @@
 import { SNSEventRecord } from 'aws-lambda';
 import { ApplicationAutoScaling, RDS } from 'aws-sdk';
 
-import { AwsConfig } from './common-interfaces';
+import { AuroraConfig } from './@types';
 import { ClusterState, StackReference } from './constants';
-
-/**
- * Configuration options for the Aurora toolkit
- * @export
- * @interface AuroraConfig
- * @extends {AwsConfig}
- */
-export interface AuroraConfig extends AwsConfig {
-  clusterNameA: string;
-  clusterNameB: string;
-  minimumClusterSize: number;
-  skipDeleteSnapshots: boolean;
-}
 
 /**
  * Toolkit for Aurora operations

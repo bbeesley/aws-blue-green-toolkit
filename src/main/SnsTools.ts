@@ -1,36 +1,12 @@
 import { SNS } from 'aws-sdk';
 
-import { AwsConfig } from './common-interfaces';
+import { SnsConfig, TopicData } from './@types';
 import { StackReference } from './constants';
-
-/**
- * Parameters to describe an SNS topic subscription
- * @export
- * @interface TopicData
- */
-export interface TopicData {
-  name: string;
-  region: string;
-  subscriptionArn: string;
-  enabledFilter?: Record<string, any>;
-  disabledFilter?: Record<string, any>;
-}
 
 const enabledFilter = {};
 const disabledFilter = {
   bypassBlacklist: true,
 };
-
-/**
- * Configuration options for the SNS toolkit
- * @export
- * @interface SnsConfig
- * @extends {AwsConfig}
- */
-export interface SnsConfig extends AwsConfig {
-  topicA: TopicData;
-  topicB: TopicData;
-}
 
 enum Operation {
   ENABLE,

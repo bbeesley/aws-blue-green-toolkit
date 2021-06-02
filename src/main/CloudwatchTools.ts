@@ -1,22 +1,6 @@
 import { CloudWatch } from 'aws-sdk';
-import { AwsConfig } from './common-interfaces';
+import { AlarmIdentifiers, CloudWatchConfig } from './@types';
 import { StackReference } from './constants';
-
-/**
- * Configuration options for the CloudWatch toolkit
- * @export
- * @interface CloudWatchConfig
- * @extends {AwsConfig}
- */
-export interface CloudWatchConfig extends AwsConfig {
-  alarmStackA: AlarmIdentifiers;
-  alarmStackB: AlarmIdentifiers;
-}
-
-interface AlarmIdentifiers {
-  alarmPrefix: string;
-  alarmSuffix?: string;
-}
 
 /**
  * Toolkit for CloudWatch operations

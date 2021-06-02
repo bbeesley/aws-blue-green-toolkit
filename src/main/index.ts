@@ -1,5 +1,5 @@
 export * from './constants';
-export * from './common-interfaces';
+export * from './@types';
 export { AuroraTools } from './AuroraTools';
 export { DynamoTools } from './DynamoTools';
 export { SnsTools } from './SnsTools';
