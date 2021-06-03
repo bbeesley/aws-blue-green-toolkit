@@ -1,4 +1,4 @@
-import { CloudWatchEvents, Lambda } from 'aws-sdk';
+import { CloudWatch, CloudWatchEvents, Lambda } from 'aws-sdk';
 import {
   AliasConfiguration,
   EventSourceMappingConfiguration,
@@ -6,20 +6,8 @@ import {
   ListEventSourceMappingsRequest,
 } from 'aws-sdk/clients/lambda';
 
-import { AwsConfig } from './common-interfaces';
+import { LambdaConfig, LatestLambdaMetricsMap } from './@types';
 import { StackReference } from './constants';
-
-/**
- * Configuration options for the Lambda toolkit
- * @export
- * @interface LambdaConfig
- * @extends {AwsConfig}
- */
-export interface LambdaConfig extends AwsConfig {
-  lambdaNameA: string;
-  lambdaNameB: string;
-  alias?: string;
-}
 
 enum Operation {
   ENABLE,
@@ -35,6 +23,7 @@ export class LambdaTools {
   config: LambdaConfig;
   lambda: Lambda;
   events: CloudWatchEvents;
+  cloudwatch: CloudWatch;
 
   /**
    * Creates an instance of LambdaTools.
@@ -45,6 +34,7 @@ export class LambdaTools {
     this.config = config;
     this.lambda = new Lambda({ region: this.config.awsRegion });
     this.events = new CloudWatchEvents({ region: this.config.awsRegion });
+    this.cloudwatch = new CloudWatch({ region: this.config.awsRegion });
   }
 
   private getLambdaName(ref: StackReference): string {
@@ -234,5 +224,83 @@ export class LambdaTools {
   ): Promise<AliasConfiguration> {
     const FunctionName = this.getLambdaName(reference);
     return await this.lambda.getAlias({ FunctionName, Name }).promise();
+  }
+
+  /**
+   * Returns the latest metrics about a Lambda function alias.
+   *
+   * @param {StackReference} reference - Reference to a lambda stack
+   * @returns {Promise<LatestLambdaMetricsMap>}
+   * @memberof LambdaTools
+   */
+  public async getLatestMetrics(
+    reference: StackReference
+  ): Promise<LatestLambdaMetricsMap> {
+    const functionName = this.getLambdaName(reference);
+
+    const metricSet = [
+      {
+        metricName: 'IteratorAge',
+        stat: 'Maximum',
+      },
+      {
+        metricName: 'Errors',
+        stat: 'Sum',
+      },
+      {
+        metricName: 'ConcurrentExecutions',
+        stat: 'Maximum',
+      },
+      {
+        metricName: 'Invocations',
+        stat: 'Sum',
+      },
+      {
+        metricName: 'Duration',
+        stat: 'Average',
+      },
+      {
+        metricName: 'Throttles',
+        stat: 'Sum',
+      },
+    ];
+
+    const { MetricDataResults = [] } = await this.cloudwatch
+      .getMetricData({
+        StartTime: new Date(Date.now() - 300e3),
+        EndTime: new Date(),
+        MetricDataQueries: metricSet.map(({ metricName, stat }) => ({
+          Id: metricName.toLowerCase(),
+          MetricStat: {
+            Metric: {
+              Namespace: 'AWS/Lambda',
+              MetricName: metricName,
+              Dimensions: [
+                {
+                  Name: 'FunctionName',
+                  Value: functionName,
+                },
+              ],
+            },
+            Period: 60,
+            Stat: stat,
+          },
+        })),
+      })
+      .promise();
+
+    return MetricDataResults.reduce((acc: LatestLambdaMetricsMap, res) => {
+      if (res.Label && res.Timestamps && res.Values) {
+        return {
+          ...acc,
+          [res.Label]: {
+            latestMetricTimestamp: res.Timestamps[0],
+            latestMetricValue: res.Values[0],
+            stat: metricSet.find((m) => m.metricName === res.Label)?.stat,
+          },
+        };
+      }
+      return acc;
+    }, {});
   }
 }

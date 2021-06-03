@@ -1,23 +1,7 @@
 import { SQS } from 'aws-sdk';
 
-import { AwsConfig } from './common-interfaces';
+import { SqsConfig, SqsQueue } from './@types';
 import { StackReference } from './constants';
-
-/**
- * Configuration options for the SQS toolkit
- * @export
- * @interface SqsConfig
- * @extends {AwsConfig}
- */
-export interface SqsConfig extends AwsConfig {
-  queueA: SqsQueue;
-  queueB: SqsQueue;
-}
-
-interface SqsQueue {
-  queueName: string;
-  dlqName?: string;
-}
 
 /**
  * Toolkit for SQS operations

@@ -357,10 +357,99 @@ const _cwResponses = {
       },
     ],
   },
+  getMetricData: {
+    MetricDataResults: [
+      {
+        Id: 'iteratorage',
+        Label: 'IteratorAge',
+        Timestamps: [
+          new Date('2021-06-02T15:23:00.000Z'),
+          new Date('2021-06-02T15:22:00.000Z'),
+          new Date('2021-06-02T15:21:00.000Z'),
+          new Date('2021-06-02T15:20:00.000Z'),
+          new Date('2021-06-02T15:19:00.000Z'),
+        ],
+        Values: [5193039, 5121276, 5065201, 5010924, 4955845],
+        StatusCode: 'Complete',
+        Messages: [],
+      },
+      {
+        Id: 'errors',
+        Label: 'Errors',
+        Timestamps: [
+          new Date('2021-06-02T15:23:00.000Z'),
+          new Date('2021-06-02T15:22:00.000Z'),
+          new Date('2021-06-02T15:21:00.000Z'),
+          new Date('2021-06-02T15:20:00.000Z'),
+          new Date('2021-06-02T15:19:00.000Z'),
+        ],
+        Values: [4, 4, 4, 4, 4],
+        StatusCode: 'Complete',
+        Messages: [],
+      },
+      {
+        Id: 'concurrentexecutions',
+        Label: 'ConcurrentExecutions',
+        Timestamps: [
+          new Date('2021-06-02T15:23:00.000Z'),
+          new Date('2021-06-02T15:22:00.000Z'),
+          new Date('2021-06-02T15:21:00.000Z'),
+          new Date('2021-06-02T15:20:00.000Z'),
+          new Date('2021-06-02T15:19:00.000Z'),
+        ],
+        Values: [1, 1, 1, 1, 1],
+        StatusCode: 'Complete',
+        Messages: [],
+      },
+      {
+        Id: 'invocations',
+        Label: 'Invocations',
+        Timestamps: [
+          new Date('2021-06-02T15:23:00.000Z'),
+          new Date('2021-06-02T15:22:00.000Z'),
+          new Date('2021-06-02T15:21:00.000Z'),
+          new Date('2021-06-02T15:20:00.000Z'),
+          new Date('2021-06-02T15:19:00.000Z'),
+        ],
+        Values: [4, 4, 4, 4, 4],
+        StatusCode: 'Complete',
+        Messages: [],
+      },
+      {
+        Id: 'duration',
+        Label: 'Duration',
+        Timestamps: [
+          new Date('2021-06-02T15:23:00.000Z'),
+          new Date('2021-06-02T15:22:00.000Z'),
+          new Date('2021-06-02T15:21:00.000Z'),
+          new Date('2021-06-02T15:20:00.000Z'),
+          new Date('2021-06-02T15:19:00.000Z'),
+        ],
+        Values: [10.4375, 12.7475, 10.685, 10.4425, 11.1325],
+        StatusCode: 'Complete',
+        Messages: [],
+      },
+      {
+        Id: 'throttles',
+        Label: 'Throttles',
+        Timestamps: [
+          new Date('2021-06-02T15:23:00.000Z'),
+          new Date('2021-06-02T15:22:00.000Z'),
+          new Date('2021-06-02T15:21:00.000Z'),
+          new Date('2021-06-02T15:20:00.000Z'),
+          new Date('2021-06-02T15:19:00.000Z'),
+        ],
+        Values: [0, 0, 0, 0, 0],
+        StatusCode: 'Complete',
+        Messages: [],
+      },
+    ],
+  },
 };
 const _enableAlarmActions = jest.fn();
 const _disableAlarmActions = jest.fn();
 const _describeAlarms = jest.fn(async () => _cwResponses.describeAlarms);
+const _getMetricData = jest.fn(async () => _cwResponses.getMetricData);
 
 class CloudWatch {
   constructor(params) {
@@ -375,11 +464,15 @@ class CloudWatch {
   enableAlarmActions(params) {
     return { promise: _enableAlarmActions.bind(this, params) };
   }
+  getMetricData(params) {
+    return { promise: _getMetricData.bind(this, params) };
+  }
 }
 CloudWatch._cwResponses = _cwResponses;
 CloudWatch._enableAlarmActions = _enableAlarmActions;
 CloudWatch._disableAlarmActions = _disableAlarmActions;
 CloudWatch._describeAlarms = _describeAlarms;
+CloudWatch._getMetricData = _getMetricData;
 
 const _kinesisResponses = {
   registerStreamConsumer: {
