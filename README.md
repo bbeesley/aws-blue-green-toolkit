@@ -45,235 +45,217 @@ CodeDeploy will carry out steps 6, 7, 9, and 15. This module contains tools to h
 
 #### Table of Contents
 
--   [AuroraConfig](#auroraconfig)
--   [AuroraTools](#auroratools)
-    -   [getClusterState](#getclusterstate)
-        -   [Parameters](#parameters)
-    -   [scaleIn](#scalein)
-        -   [Parameters](#parameters-1)
-    -   [scaleOut](#scaleout)
-        -   [Parameters](#parameters-2)
-    -   [getReaderCount](#getreadercount)
-        -   [Parameters](#parameters-3)
-    -   [startDatabase](#startdatabase)
-        -   [Parameters](#parameters-4)
-    -   [stopDatabase](#stopdatabase)
-        -   [Parameters](#parameters-5)
-    -   [deleteDatabase](#deletedatabase)
-        -   [Parameters](#parameters-6)
-    -   [applyTags](#applytags)
-        -   [Parameters](#parameters-7)
--   [CloudWatchConfig](#cloudwatchconfig)
--   [CloudWatchTools](#cloudwatchtools)
-    -   [disableAlarmsActions](#disablealarmsactions)
-        -   [Parameters](#parameters-8)
-    -   [enableAlarmsActions](#enablealarmsactions)
-        -   [Parameters](#parameters-9)
--   [AwsConfig](#awsconfig)
--   [ClusterState](#clusterstate)
--   [StackReference](#stackreference)
--   [DynamoConfig](#dynamoconfig)
--   [DynamoTools](#dynamotools)
-    -   [deleteTable](#deletetable)
-        -   [Parameters](#parameters-10)
--   [KinesisConfig](#kinesisconfig)
--   [KinesisTools](#kinesistools)
-    -   [registerConsumer](#registerconsumer)
-        -   [Parameters](#parameters-11)
-    -   [deregisterConsumer](#deregisterconsumer)
-        -   [Parameters](#parameters-12)
-    -   [describeConsumer](#describeconsumer)
-        -   [Parameters](#parameters-13)
--   [LambdaConfig](#lambdaconfig)
--   [LambdaTools](#lambdatools)
-    -   [enableRule](#enablerule)
-        -   [Parameters](#parameters-14)
-    -   [disableRule](#disablerule)
-        -   [Parameters](#parameters-15)
-    -   [createEventSourceMapping](#createeventsourcemapping)
-        -   [Parameters](#parameters-16)
-    -   [listEventSourceMappings](#listeventsourcemappings)
-        -   [Parameters](#parameters-17)
-    -   [enableEventMapping](#enableeventmapping)
-        -   [Parameters](#parameters-18)
-    -   [disableEventMapping](#disableeventmapping)
-        -   [Parameters](#parameters-19)
-    -   [deleteEventMapping](#deleteeventmapping)
-        -   [Parameters](#parameters-20)
-    -   [getVersion](#getversion)
-        -   [Parameters](#parameters-21)
-    -   [getAlias](#getalias)
-        -   [Parameters](#parameters-22)
--   [TopicData](#topicdata)
--   [SnsConfig](#snsconfig)
--   [SnsTools](#snstools)
-    -   [enableSubscription](#enablesubscription)
-        -   [Parameters](#parameters-23)
-    -   [disableSubscription](#disablesubscription)
-        -   [Parameters](#parameters-24)
--   [SqsConfig](#sqsconfig)
--   [SqsTools](#sqstools)
-    -   [purgeQueues](#purgequeues)
-        -   [Parameters](#parameters-25)
-
-### AuroraConfig
-
-[src/main/AuroraTools.ts:13-18](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L13-L18 "Source code on GitHub")
-
-**Extends AwsConfig**
-
-Configuration options for the Aurora toolkit
+*   [AuroraTools](#auroratools)
+    *   [getClusterState](#getclusterstate)
+        *   [Parameters](#parameters)
+    *   [scaleIn](#scalein)
+        *   [Parameters](#parameters-1)
+    *   [scaleOut](#scaleout)
+        *   [Parameters](#parameters-2)
+    *   [getReaderCount](#getreadercount)
+        *   [Parameters](#parameters-3)
+    *   [startDatabase](#startdatabase)
+        *   [Parameters](#parameters-4)
+    *   [stopDatabase](#stopdatabase)
+        *   [Parameters](#parameters-5)
+    *   [deleteDatabase](#deletedatabase)
+        *   [Parameters](#parameters-6)
+    *   [applyTags](#applytags)
+        *   [Parameters](#parameters-7)
+*   [CloudWatchTools](#cloudwatchtools)
+    *   [disableAlarmsActions](#disablealarmsactions)
+        *   [Parameters](#parameters-8)
+    *   [enableAlarmsActions](#enablealarmsactions)
+        *   [Parameters](#parameters-9)
+*   [ClusterState](#clusterstate)
+*   [StackReference](#stackreference)
+*   [DynamoTools](#dynamotools)
+    *   [deleteTable](#deletetable)
+        *   [Parameters](#parameters-10)
+*   [KinesisTools](#kinesistools)
+    *   [registerConsumer](#registerconsumer)
+        *   [Parameters](#parameters-11)
+    *   [deregisterConsumer](#deregisterconsumer)
+        *   [Parameters](#parameters-12)
+    *   [describeConsumer](#describeconsumer)
+        *   [Parameters](#parameters-13)
+*   [LambdaTools](#lambdatools)
+    *   [enableRule](#enablerule)
+        *   [Parameters](#parameters-14)
+    *   [disableRule](#disablerule)
+        *   [Parameters](#parameters-15)
+    *   [createEventSourceMapping](#createeventsourcemapping)
+        *   [Parameters](#parameters-16)
+    *   [listEventSourceMappings](#listeventsourcemappings)
+        *   [Parameters](#parameters-17)
+    *   [enableEventMapping](#enableeventmapping)
+        *   [Parameters](#parameters-18)
+    *   [disableEventMapping](#disableeventmapping)
+        *   [Parameters](#parameters-19)
+    *   [deleteEventMapping](#deleteeventmapping)
+        *   [Parameters](#parameters-20)
+    *   [getVersion](#getversion)
+        *   [Parameters](#parameters-21)
+    *   [getAlias](#getalias)
+        *   [Parameters](#parameters-22)
+    *   [getLatestMetrics](#getlatestmetrics)
+        *   [Parameters](#parameters-23)
+*   [SnsTools](#snstools)
+    *   [enableSubscription](#enablesubscription)
+        *   [Parameters](#parameters-24)
+    *   [disableSubscription](#disablesubscription)
+        *   [Parameters](#parameters-25)
+*   [SqsTools](#sqstools)
+    *   [purgeQueues](#purgequeues)
+        *   [Parameters](#parameters-26)
+*   [AuroraConfig](#auroraconfig)
+*   [CloudWatchConfig](#cloudwatchconfig)
+*   [AwsConfig](#awsconfig)
+*   [DynamoConfig](#dynamoconfig)
+*   [KinesisConfig](#kinesisconfig)
+*   [LambdaConfig](#lambdaconfig)
+*   [LatestLambdaMetricsMap](#latestlambdametricsmap)
+*   [LatestLambdaMetric](#latestlambdametric)
+*   [SnsConfig](#snsconfig)
+*   [TopicData](#topicdata)
+*   [SqsConfig](#sqsconfig)
 
 ### AuroraTools
 
-[src/main/AuroraTools.ts:25-258](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L25-L258 "Source code on GitHub")
+[src/main/AuroraTools.ts:12-245](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L12-L245 "Source code on GitHub")
 
 Toolkit for Aurora operations
 
 #### getClusterState
 
-[src/main/AuroraTools.ts:63-80](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L63-L80 "Source code on GitHub")
+[src/main/AuroraTools.ts:50-67](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L50-L67 "Source code on GitHub")
 
 Gets the current state of one of the Aurora clusters
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a db cluster
+*   `reference` **[StackReference](#stackreference)** Reference to a db cluster
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[ClusterState](#clusterstate)>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[ClusterState](#clusterstate)>** 
 
 #### scaleIn
 
-[src/main/AuroraTools.ts:118-120](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L118-L120 "Source code on GitHub")
+[src/main/AuroraTools.ts:105-107](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L105-L107 "Source code on GitHub")
 
 Reverts a cluster's minimum reader count to the configured minimum
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a db cluster
+*   `reference` **[StackReference](#stackreference)** Reference to a db cluster
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### scaleOut
 
-[src/main/AuroraTools.ts:128-133](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L128-L133 "Source code on GitHub")
+[src/main/AuroraTools.ts:115-120](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L115-L120 "Source code on GitHub")
 
 Scales out a cluster to match it's partner's size
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a db cluster
+*   `reference` **[StackReference](#stackreference)** Reference to a db cluster
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### getReaderCount
 
-[src/main/AuroraTools.ts:141-155](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L141-L155 "Source code on GitHub")
+[src/main/AuroraTools.ts:128-142](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L128-L142 "Source code on GitHub")
 
 Get a count of the number of active readers for a cluster
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a db cluster
+*   `reference` **[StackReference](#stackreference)** Reference to a db cluster
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** The number of active readers
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)>** The number of active readers
 
 #### startDatabase
 
-[src/main/AuroraTools.ts:163-166](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L163-L166 "Source code on GitHub")
+[src/main/AuroraTools.ts:150-153](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L150-L153 "Source code on GitHub")
 
 Starts a stopped db cluster
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a db cluster
+*   `reference` **[StackReference](#stackreference)** Reference to a db cluster
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### stopDatabase
 
-[src/main/AuroraTools.ts:174-177](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L174-L177 "Source code on GitHub")
+[src/main/AuroraTools.ts:161-164](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L161-L164 "Source code on GitHub")
 
 Stops a running db cluster
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a db cluster
+*   `reference` **[StackReference](#stackreference)** Reference to a db cluster
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### deleteDatabase
 
-[src/main/AuroraTools.ts:185-217](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L185-L217 "Source code on GitHub")
+[src/main/AuroraTools.ts:172-204](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L172-L204 "Source code on GitHub")
 
 Deletes a running db cluster
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a db cluster
+*   `reference` **[StackReference](#stackreference)** Reference to a db cluster
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### applyTags
 
-[src/main/AuroraTools.ts:226-257](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/AuroraTools.ts#L226-L257 "Source code on GitHub")
+[src/main/AuroraTools.ts:213-244](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/AuroraTools.ts#L213-L244 "Source code on GitHub")
 
 Parses a message from an rds event subscription, if the event was triggered by a scale out
 operation, the tags defined in config are applied to the newly created reader.
 
 ##### Parameters
 
--   `record` **SNSEventRecord** An SNS event record of the type published by rds event streams
+*   `record` **SNSEventRecord** An SNS event record of the type published by rds event streams
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
-
-### CloudWatchConfig
-
-[src/main/CloudwatchTools.ts:11-14](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/CloudwatchTools.ts#L11-L14 "Source code on GitHub")
-
-**Extends AwsConfig**
-
-Configuration options for the CloudWatch toolkit
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 ### CloudWatchTools
 
-[src/main/CloudwatchTools.ts:26-80](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/CloudwatchTools.ts#L26-L80 "Source code on GitHub")
+[src/main/CloudwatchTools.ts:10-64](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/CloudwatchTools.ts#L10-L64 "Source code on GitHub")
 
 Toolkit for CloudWatch operations
 
 #### disableAlarmsActions
 
-[src/main/CloudwatchTools.ts:66-69](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/CloudwatchTools.ts#L66-L69 "Source code on GitHub")
+[src/main/CloudwatchTools.ts:50-53](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/CloudwatchTools.ts#L50-L53 "Source code on GitHub")
 
 Disable all alarm actions
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
+*   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### enableAlarmsActions
 
-[src/main/CloudwatchTools.ts:76-79](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/CloudwatchTools.ts#L76-L79 "Source code on GitHub")
+[src/main/CloudwatchTools.ts:60-63](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/CloudwatchTools.ts#L60-L63 "Source code on GitHub")
 
 Enable all alarm actions
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
+*   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
-
-### AwsConfig
-
-[src/main/common-interfaces.ts:6-12](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/common-interfaces.ts#L6-L12 "Source code on GitHub")
-
-Base config used in all tool kits
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 ### ClusterState
 
-[src/main/constants.ts:6-11](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/constants.ts#L6-L11 "Source code on GitHub")
+[src/main/constants.ts:6-11](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/constants.ts#L6-L11 "Source code on GitHub")
 
 Enum for describing the state of an RDS cluster
 
@@ -281,179 +263,155 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ### StackReference
 
-[src/main/constants.ts:18-21](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/constants.ts#L18-L21 "Source code on GitHub")
+[src/main/constants.ts:18-21](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/constants.ts#L18-L21 "Source code on GitHub")
 
 Enum for referencing blue or green stacks
 
 Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)
 
-### DynamoConfig
-
-[src/main/DynamoTools.ts:12-16](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/DynamoTools.ts#L12-L16 "Source code on GitHub")
-
-**Extends AwsConfig**
-
-Configuration options for the Aurora toolkit
-
 ### DynamoTools
 
-[src/main/DynamoTools.ts:23-57](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/DynamoTools.ts#L23-L57 "Source code on GitHub")
+[src/main/DynamoTools.ts:11-45](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/DynamoTools.ts#L11-L45 "Source code on GitHub")
 
 Toolkit for Dynamo operations
 
 #### deleteTable
 
-[src/main/DynamoTools.ts:49-56](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/DynamoTools.ts#L49-L56 "Source code on GitHub")
+[src/main/DynamoTools.ts:37-44](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/DynamoTools.ts#L37-L44 "Source code on GitHub")
 
 Deletes a dynamo table
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a active table
+*   `reference` **[StackReference](#stackreference)** Reference to a active table
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
-
-### KinesisConfig
-
-[src/main/KinesisTools.ts:16-20](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/KinesisTools.ts#L16-L20 "Source code on GitHub")
-
-**Extends AwsConfig**
-
-Configuration options for the Aurora toolkit
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 ### KinesisTools
 
-[src/main/KinesisTools.ts:27-97](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/KinesisTools.ts#L27-L97 "Source code on GitHub")
+[src/main/KinesisTools.ts:15-85](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/KinesisTools.ts#L15-L85 "Source code on GitHub")
 
 Toolkit for Kinesis data stream operations
 
 #### registerConsumer
 
-[src/main/KinesisTools.ts:55-64](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/KinesisTools.ts#L55-L64 "Source code on GitHub")
+[src/main/KinesisTools.ts:43-52](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/KinesisTools.ts#L43-L52 "Source code on GitHub")
 
 Registers a new consumer for a Kinesis data stream
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to an active stack
+*   `reference` **[StackReference](#stackreference)** Reference to an active stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;RegisterStreamConsumerOutput>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<RegisterStreamConsumerOutput>** 
 
 #### deregisterConsumer
 
-[src/main/KinesisTools.ts:72-79](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/KinesisTools.ts#L72-L79 "Source code on GitHub")
+[src/main/KinesisTools.ts:60-67](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/KinesisTools.ts#L60-L67 "Source code on GitHub")
 
 Deregisters an existing consumer for a Kinesis data stream
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to an active stack
+*   `reference` **[StackReference](#stackreference)** Reference to an active stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### describeConsumer
 
-[src/main/KinesisTools.ts:87-96](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/KinesisTools.ts#L87-L96 "Source code on GitHub")
+[src/main/KinesisTools.ts:75-84](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/KinesisTools.ts#L75-L84 "Source code on GitHub")
 
 Describes a consumer for a Kinesis data stream
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to an active stack
+*   `reference` **[StackReference](#stackreference)** Reference to an active stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;DescribeStreamConsumerOutput>** 
-
-### LambdaConfig
-
-[src/main/LambdaTools.ts:18-22](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L18-L22 "Source code on GitHub")
-
-**Extends AwsConfig**
-
-Configuration options for the Lambda toolkit
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<DescribeStreamConsumerOutput>** 
 
 ### LambdaTools
 
-[src/main/LambdaTools.ts:34-238](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L34-L238 "Source code on GitHub")
+[src/main/LambdaTools.ts:22-306](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L22-L306 "Source code on GitHub")
 
 Toolkit for Lambda operations
 
 #### enableRule
 
-[src/main/LambdaTools.ts:98-100](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L98-L100 "Source code on GitHub")
+[src/main/LambdaTools.ts:88-90](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L88-L90 "Source code on GitHub")
 
 Enables a lambda's cloudwatch events rule (ie, cron trigger)
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### disableRule
 
-[src/main/LambdaTools.ts:108-110](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L108-L110 "Source code on GitHub")
+[src/main/LambdaTools.ts:98-100](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L98-L100 "Source code on GitHub")
 
 Disables a lambda's cloudwatch events rule (ie, cron trigger)
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### createEventSourceMapping
 
-[src/main/LambdaTools.ts:120-135](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L120-L135 "Source code on GitHub")
+[src/main/LambdaTools.ts:110-125](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L110-L125 "Source code on GitHub")
 
 Creates a lambda's event source mapping (eg, a Kinesis stream)
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
--   `eventSourceArn` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The ARN of the event source
--   `sourceSpecificParams` **Omit&lt;Lambda.CreateEventSourceMappingRequest, (`"FunctionName"` \| `"EventSourceArn"`)>** Any params specific to the event source (optional, default `{}`)
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `eventSourceArn` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The ARN of the event source
+*   `sourceSpecificParams` **Omit\<Lambda.CreateEventSourceMappingRequest, (`"FunctionName"` | `"EventSourceArn"`)>** Any params specific to the event source (optional, default `{}`)
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;EventSourceMappingConfiguration>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<EventSourceMappingConfiguration>** 
 
 #### listEventSourceMappings
 
-[src/main/LambdaTools.ts:143-162](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L143-L162 "Source code on GitHub")
+[src/main/LambdaTools.ts:133-152](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L133-L152 "Source code on GitHub")
 
 Lists all event source mappings for the referenced function
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;EventSourceMappingsList>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<EventSourceMappingsList>** 
 
 #### enableEventMapping
 
-[src/main/LambdaTools.ts:184-186](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L184-L186 "Source code on GitHub")
+[src/main/LambdaTools.ts:174-176](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L174-L176 "Source code on GitHub")
 
 Enables a lambda's event mappings (eg, an SQS subscription)
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### disableEventMapping
 
-[src/main/LambdaTools.ts:194-196](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L194-L196 "Source code on GitHub")
+[src/main/LambdaTools.ts:184-186](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L184-L186 "Source code on GitHub")
 
 Disables a lambda's event mappings (eg, an SQS subscription)
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### deleteEventMapping
 
-[src/main/LambdaTools.ts:206-208](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L206-L208 "Source code on GitHub")
+[src/main/LambdaTools.ts:196-198](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L196-L198 "Source code on GitHub")
 
 Deletes a lambda's event mapping (eg, a Kinesis stream)
 You may use the `listEventSourceMappings` method if you
@@ -461,101 +419,171 @@ need to retrieve UUIDs of the function event sources
 
 ##### Parameters
 
--   `UUID` **[StackReference](#stackreference)** The identifier of the event source mapping
+*   `UUID` **[StackReference](#stackreference)** The identifier of the event source mapping
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### getVersion
 
-[src/main/LambdaTools.ts:217-221](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L217-L221 "Source code on GitHub")
+[src/main/LambdaTools.ts:207-211](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L207-L211 "Source code on GitHub")
 
 Gets the currently running version of a lambda fn
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** The lambda version
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>** The lambda version
 
 #### getAlias
 
-[src/main/LambdaTools.ts:231-237](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/LambdaTools.ts#L231-L237 "Source code on GitHub")
+[src/main/LambdaTools.ts:221-227](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L221-L227 "Source code on GitHub")
 
 Returns details about a Lambda function alias.
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
--   `Name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the alias to return data about
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
+*   `Name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the alias to return data about
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;AliasConfiguration>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<AliasConfiguration>** 
 
-### TopicData
+#### getLatestMetrics
 
-[src/main/SnsTools.ts:11-17](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SnsTools.ts#L11-L17 "Source code on GitHub")
+[src/main/LambdaTools.ts:236-305](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/LambdaTools.ts#L236-L305 "Source code on GitHub")
 
-Parameters to describe an SNS topic subscription
+Returns the latest metrics about a Lambda function alias.
 
-### SnsConfig
+##### Parameters
 
-[src/main/SnsTools.ts:30-33](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SnsTools.ts#L30-L33 "Source code on GitHub")
+*   `reference` **[StackReference](#stackreference)** Reference to a lambda stack
 
-**Extends AwsConfig**
-
-Configuration options for the SNS toolkit
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)<[LatestLambdaMetricsMap](#latestlambdametricsmap)>** 
 
 ### SnsTools
 
-[src/main/SnsTools.ts:60-118](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SnsTools.ts#L60-L118 "Source code on GitHub")
+[src/main/SnsTools.ts:36-94](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/SnsTools.ts#L36-L94 "Source code on GitHub")
 
 Toolkit for SNS operations
 
 #### enableSubscription
 
-[src/main/SnsTools.ts:105-107](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SnsTools.ts#L105-L107 "Source code on GitHub")
+[src/main/SnsTools.ts:81-83](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/SnsTools.ts#L81-L83 "Source code on GitHub")
 
 Enables an SNS subscription
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
+*   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 #### disableSubscription
 
-[src/main/SnsTools.ts:115-117](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SnsTools.ts#L115-L117 "Source code on GitHub")
+[src/main/SnsTools.ts:91-93](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/SnsTools.ts#L91-L93 "Source code on GitHub")
 
 Disables an SNS subscription
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
+*   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
-
-### SqsConfig
-
-[src/main/SqsTools.ts:12-15](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SqsTools.ts#L12-L15 "Source code on GitHub")
-
-**Extends AwsConfig**
-
-Configuration options for the SQS toolkit
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
 
 ### SqsTools
 
-[src/main/SqsTools.ts:27-65](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SqsTools.ts#L27-L65 "Source code on GitHub")
+[src/main/SqsTools.ts:11-49](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/SqsTools.ts#L11-L49 "Source code on GitHub")
 
 Toolkit for SQS operations
 
 #### purgeQueues
 
-[src/main/SqsTools.ts:51-64](https://github.com/bbeesley/aws-blue-green-toolkit/blob/91c47ba967d83a68a80c20e411663277bc83b5f9/src/main/SqsTools.ts#L51-L64 "Source code on GitHub")
+[src/main/SqsTools.ts:35-48](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/SqsTools.ts#L35-L48 "Source code on GitHub")
 
 Purges a queue pair (q and dlq) based on config and queue reference
 
 ##### Parameters
 
--   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
+*   `reference` **[StackReference](#stackreference)** Reference to a subscription queue stack
 
-Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)&lt;void>** 
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<void>** 
+
+### AuroraConfig
+
+[src/main/@types/aurora-tools.ts:9-14](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/aurora-tools.ts#L9-L14 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the Aurora toolkit
+
+### CloudWatchConfig
+
+[src/main/@types/cloudwatch-tools.ts:9-12](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/cloudwatch-tools.ts#L9-L12 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the CloudWatch toolkit
+
+### AwsConfig
+
+[src/main/@types/common.ts:6-12](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/common.ts#L6-L12 "Source code on GitHub")
+
+Base config used in all tool kits
+
+### DynamoConfig
+
+[src/main/@types/dynamo-tools.ts:9-13](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/dynamo-tools.ts#L9-L13 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the Aurora toolkit
+
+### KinesisConfig
+
+[src/main/@types/kinesis-tools.ts:9-13](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/kinesis-tools.ts#L9-L13 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the Aurora toolkit
+
+### LambdaConfig
+
+[src/main/@types/lambda-tools.ts:9-13](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/lambda-tools.ts#L9-L13 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the Lambda toolkit
+
+### LatestLambdaMetricsMap
+
+[src/main/@types/lambda-tools.ts:20-22](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/lambda-tools.ts#L20-L22 "Source code on GitHub")
+
+Map of Lambda metrics with the latest data
+
+### LatestLambdaMetric
+
+[src/main/@types/lambda-tools.ts:29-33](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/lambda-tools.ts#L29-L33 "Source code on GitHub")
+
+Latest metric data for each metric
+
+### SnsConfig
+
+[src/main/@types/sns-tools.ts:9-12](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/sns-tools.ts#L9-L12 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the SNS toolkit
+
+### TopicData
+
+[src/main/@types/sns-tools.ts:19-25](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/sns-tools.ts#L19-L25 "Source code on GitHub")
+
+Parameters to describe an SNS topic subscription
+
+### SqsConfig
+
+[src/main/@types/sqs-tools.ts:9-12](https://github.com/bbeesley/aws-blue-green-toolkit/blob/c2f4107ecb62e777e1e13403f6212d2f43cc0950/src/main/@types/sqs-tools.ts#L9-L12 "Source code on GitHub")
+
+**Extends AwsConfig**
+
+Configuration options for the SQS toolkit

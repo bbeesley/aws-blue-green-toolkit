@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.12.0...v2.0.0) (2021-06-03)
+
+
+### Features
+
+* **lambda-tools:** add a helper method to retrieve the latest lambda metrics ([2625bb8](https://github.com/bbeesley/aws-blue-green-toolkit/commit/2625bb8019f3c1ec6edb4404784091e862d486c7))
+* drop support for node 10 ([988d4e2](https://github.com/bbeesley/aws-blue-green-toolkit/commit/988d4e2e962d11651fe5e50e4cb8287ddcfe00ea))
+
+
+### BREAKING CHANGES
+
+* node10 is no longer supported. Minimum supported version is now node 12.
+
 # [1.12.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.11.0...v1.12.0) (2021-01-05)
 
 
