@@ -1,13 +1,13 @@
 name: test-and-publish
 on:
   push:
-  pull_request:
+  pull_request_target:
     types: [opened, synchronize, edited]
   status: {}
 jobs:
   test:
     runs-on: ubuntu-latest
-    if: ${{ !contains( github.event.head_commit.message, 'skip-ci' ) }}
+    if: ${{ !contains( github.event.head_commit.message, 'skip-ci' ) && ((github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || github.event_name == 'push') }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
           files: coverage/lcov.info
   lint-commits:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ (github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || (github.ref != 'refs/heads/master' && github.event_name == 'push') }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v2
@@ -84,14 +84,14 @@ jobs:
       #     npm publish | true
   automerge:
     runs-on: ubuntu-latest
-    needs: [test]
-    if: ${{ github.ref != 'refs/heads/master' && !contains( github.event.head_commit.message, 'skip-ci' ) && github.actor == 'dependabot[bot]' }}
+    needs: [test, lint-commits]
+    if: ${{ github.event_name == 'pull_request_target' }}
     timeout-minutes: 5
     steps:
       - name: automerge
         uses: "pascalgn/automerge-action@v0.13.1"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GH_PA_TOKEN }}"
           MERGE_LABELS: "dependencies"
           MERGE_METHOD: "rebase"
 
