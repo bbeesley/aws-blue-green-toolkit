@@ -5,32 +5,23 @@ on:
     types: [opened, synchronize, edited]
   status: {}
 jobs:
-  test:
+  build-test-merge-publish:
     runs-on: ubuntu-latest
-    if: ${{ !contains( github.event.head_commit.message, 'skip-ci' ) && ((github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || github.event_name == 'push') }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.15'
-      - uses: actions/cache@v2
+          node-version: '14.17'
+      - uses: bbeesley/build-test-merge-publish@main
         with:
-          path: | 
-            node_modules
-            dist
-          key: ${{ github.sha }}
-      - name: install
-        run: |
-          npm ci
-      - name: test
-        run: npm test
-      - name: upload codecov
-        uses: codecov/codecov-action@v1
-        with:
-          files: coverage/lcov.info
+          main-branch: master
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PA_TOKEN }}
   lint-commits:
     runs-on: ubuntu-latest
     if: ${{ (github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || (github.ref != 'refs/heads/master' && github.event_name == 'push') }}
@@ -44,54 +35,3 @@ jobs:
         run: npm ci
       - name: commitlint
         run: ./node_modules/.bin/commitlint --from HEAD~${{ github.event.pull_request.commits }} --to HEAD
-  publish:
-    runs-on: ubuntu-latest
-    needs: [test]
-    if: ${{ github.ref == 'refs/heads/master' && !contains( github.event.head_commit.message, 'skip-ci' ) && github.event_name == 'push' }}
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.15'
-      - uses: actions/cache@v2
-        with:
-          path: | 
-            node_modules
-            dist
-          key: ${{ github.sha }}
-      - name: npm auth
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
-          cp .npmrc ~/
-      - name: publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_PA_TOKEN }}
-        run: |
-          npm run release
-      # - name: publish-esm
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     npm run compile-esm
-      #     npm publish | true
-  automerge:
-    runs-on: ubuntu-latest
-    needs: [test, lint-commits]
-    if: ${{ github.event_name == 'pull_request_target' }}
-    timeout-minutes: 5
-    steps:
-      - name: automerge
-        uses: "pascalgn/automerge-action@v0.13.1"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GH_PA_TOKEN }}"
-          MERGE_LABELS: "dependencies"
-          MERGE_METHOD: "rebase"
-
