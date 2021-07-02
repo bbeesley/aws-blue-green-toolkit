@@ -9,6 +9,7 @@ import { StackReference } from './constants';
  */
 export class CloudWatchTools {
   config: CloudWatchConfig;
+
   cloudWatch: CloudWatch;
 
   /**
@@ -34,12 +35,13 @@ export class CloudWatchTools {
       })
       .promise();
     let alarms = MetricAlarms;
-    if (ref.alarmSuffix) {
-      alarms = MetricAlarms.filter((r) =>
-        r.AlarmName.endsWith(ref.alarmSuffix)
-      );
+    if (!MetricAlarms)
+      throw new Error(`unable to fetch cloudwatch metric alarms for ${ref}`);
+    const { alarmSuffix } = ref;
+    if (alarmSuffix) {
+      alarms = MetricAlarms.filter((r) => r.AlarmName?.endsWith(alarmSuffix));
     }
-    return alarms.map((r) => r.AlarmName);
+    return alarms?.map((r) => r.AlarmName).filter((a) => !!a) as string[];
   }
 
   /**

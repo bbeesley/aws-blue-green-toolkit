@@ -1,5 +1,5 @@
-// eslint-disable-next-line node/no-unpublished-require
 const { types } = require('conventional-commit-types');
+
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {

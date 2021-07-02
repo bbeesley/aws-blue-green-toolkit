@@ -4,7 +4,7 @@ import {
   EventSourceMappingConfiguration,
   EventSourceMappingsList,
   ListEventSourceMappingsRequest,
-} from 'aws-sdk/clients/lambda';
+} from 'aws-sdk/clients/lambda.js';
 
 import { LambdaConfig, LatestLambdaMetricsMap } from './@types';
 import { StackReference } from './constants';
@@ -21,8 +21,11 @@ enum Operation {
  */
 export class LambdaTools {
   config: LambdaConfig;
+
   lambda: Lambda;
+
   events: CloudWatchEvents;
+
   cloudwatch: CloudWatch;
 
   /**
@@ -48,12 +51,12 @@ export class LambdaTools {
       ? `arn:aws:lambda:${this.config.awsRegion}:${
           this.config.awsProfile
         }:function:${this.config.lambdaNameA}${
-          this.config.alias ? ':' + this.config.alias : ''
+          this.config.alias ? `:${this.config.alias}` : ''
         }`
       : `arn:aws:lambda:${this.config.awsRegion}:${
           this.config.awsProfile
         }:function:${this.config.lambdaNameB}${
-          this.config.alias ? ':' + this.config.alias : ''
+          this.config.alias ? `:${this.config.alias}` : ''
         }`;
   }
 
@@ -107,7 +110,7 @@ export class LambdaTools {
    * @returns {Promise<EventSourceMappingConfiguration>}
    * @memberof LambdaTools
    */
-  public async createEventSourceMapping(
+  public createEventSourceMapping(
     reference: StackReference,
     eventSourceArn: string,
     sourceSpecificParams: Omit<
@@ -115,7 +118,7 @@ export class LambdaTools {
       'FunctionName' | 'EventSourceArn'
     > = {}
   ): Promise<EventSourceMappingConfiguration> {
-    return await this.lambda
+    return this.lambda
       .createEventSourceMapping({
         FunctionName: this.getLambdaArn(reference),
         EventSourceArn: eventSourceArn,
@@ -160,6 +163,10 @@ export class LambdaTools {
       const Enabled = op === Operation.ENABLE;
       for (const mapping of eventSourceMappings) {
         const { UUID } = mapping;
+        if (!UUID)
+          throw new Error(
+            `unable to fetch event source mapping information for stack ${ref}`
+          );
         await this.lambda.updateEventSourceMapping({ UUID, Enabled }).promise();
       }
     }
@@ -207,6 +214,8 @@ export class LambdaTools {
   public async getVersion(reference: StackReference): Promise<string> {
     const FunctionName = this.getLambdaName(reference);
     const info = await this.lambda.getFunction({ FunctionName }).promise();
+    if (!info.Configuration?.Version)
+      throw new Error(`unable to fetch lambda information for ${FunctionName}`);
     return info.Configuration.Version;
   }
 
@@ -218,12 +227,12 @@ export class LambdaTools {
    * @returns {Promise<AliasConfiguration>}
    * @memberof LambdaTools
    */
-  public async getAlias(
+  public getAlias(
     reference: StackReference,
     Name: string
   ): Promise<AliasConfiguration> {
     const FunctionName = this.getLambdaName(reference);
-    return await this.lambda.getAlias({ FunctionName, Name }).promise();
+    return this.lambda.getAlias({ FunctionName, Name }).promise();
   }
 
   /**

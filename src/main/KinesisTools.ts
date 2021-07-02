@@ -2,7 +2,7 @@ import { Kinesis } from 'aws-sdk';
 import {
   RegisterStreamConsumerOutput,
   DescribeStreamConsumerOutput,
-} from 'aws-sdk/clients/kinesis';
+} from 'aws-sdk/clients/kinesis.js';
 
 import { KinesisConfig } from './@types';
 import { StackReference } from './constants';
@@ -14,6 +14,7 @@ import { StackReference } from './constants';
  */
 export class KinesisTools {
   config: KinesisConfig;
+
   kinesis: Kinesis;
 
   /**
@@ -40,10 +41,10 @@ export class KinesisTools {
    * @returns {Promise<RegisterStreamConsumerOutput>}
    * @memberof KinesisTools
    */
-  public async registerConsumer(
+  public registerConsumer(
     reference: StackReference
   ): Promise<RegisterStreamConsumerOutput> {
-    return await this.kinesis
+    return this.kinesis
       .registerStreamConsumer({
         StreamARN: this.config.streamArn,
         ConsumerName: this.getConsumerName(reference),
@@ -72,10 +73,10 @@ export class KinesisTools {
    * @returns {Promise<DescribeStreamConsumerOutput>}
    * @memberof KinesisTools
    */
-  public async describeConsumer(
+  public describeConsumer(
     reference: StackReference
   ): Promise<DescribeStreamConsumerOutput> {
-    return await this.kinesis
+    return this.kinesis
       .describeStreamConsumer({
         StreamARN: this.config.streamArn,
         ConsumerName: this.getConsumerName(reference),

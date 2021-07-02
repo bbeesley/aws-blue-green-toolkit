@@ -1,5 +1,5 @@
-import { LambdaTools, StackReference } from '../main';
 import * as AWS from 'aws-sdk';
+import { LambdaTools, StackReference } from '../main';
 
 const lambdaTools = new LambdaTools({
   awsRegion: 'eu-central-1',
