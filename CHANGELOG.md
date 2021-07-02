@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v2.0.1...v2.1.0) (2021-07-02)
+
+
+### Features
+
+* migrate to ES module exports ([15f68a4](https://github.com/bbeesley/aws-blue-green-toolkit/commit/15f68a42cbaee116a880269871f5acdf828fcac9))
+
 ## [2.0.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v2.0.0...v2.0.1) (2021-06-14)
 
 # [2.0.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v1.12.0...v2.0.0) (2021-06-03)
