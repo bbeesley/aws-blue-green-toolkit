@@ -79,6 +79,7 @@ class RDS {
   constructor(params) {
     _rdsConstructor(params);
   }
+
   describeDBClusters(params) {
     return { promise: _describeDBClusters.bind(this, params) };
   }
@@ -100,9 +101,11 @@ class DynamoDB {
   constructor(params) {
     _dynamoConstructor(params);
   }
+
   deleteTable(params) {
     return { promise: _deleteTable.bind(this, params) };
   }
+
   waitFor(state, params) {
     return { promise: _waitFor.bind(this, state, params) };
   }
@@ -147,9 +150,11 @@ class ApplicationAutoScaling {
   constructor(params) {
     _aasConstructor(params);
   }
+
   describeScalableTargets(params) {
     return { promise: _describeScalableTargets.bind(this, params) };
   }
+
   registerScalableTarget(params) {
     return { promise: _registerScalableTarget.bind(this, params) };
   }
@@ -172,6 +177,7 @@ class SNS {
   constructor(params) {
     _snsConstructor(params);
   }
+
   setSubscriptionAttributes(params) {
     return { promise: _setSubscriptionAttributes.bind(this, params) };
   }
@@ -190,6 +196,7 @@ class SQS {
   constructor(params) {
     _sqsConstructor(params);
   }
+
   purgeQueue(params) {
     return { promise: _purgeQueue.bind(this, params) };
   }
@@ -280,15 +287,19 @@ class Lambda {
   constructor(params) {
     _lambdaConstructor(params);
   }
+
   listEventSourceMappings(params) {
     return { promise: _listEventSourceMappings.bind(this, params) };
   }
+
   updateEventSourceMapping(params) {
     return { promise: _updateEventSourceMapping.bind(this, params) };
   }
+
   createEventSourceMapping(params) {
     return { promise: _createEventSourceMapping.bind(this, params) };
   }
+
   deleteEventSourceMapping(params) {
     return { promise: _deleteEventSourceMapping.bind(this, params) };
   }
@@ -317,12 +328,15 @@ class CloudWatchEvents {
   constructor(params) {
     _eventsConstructor(params);
   }
+
   enableRule(params) {
     return { promise: _enableRule.bind(this, params) };
   }
+
   disableRule(params) {
     return { promise: _disableRule.bind(this, params) };
   }
+
   listRuleNamesByTarget(params) {
     return { promise: _listRuleNamesByTarget.bind(this, params) };
   }
@@ -455,15 +469,19 @@ class CloudWatch {
   constructor(params) {
     _cwConstructor(params);
   }
+
   describeAlarms(params) {
     return { promise: _describeAlarms.bind(this, params) };
   }
+
   disableAlarmActions(params) {
     return { promise: _disableAlarmActions.bind(this, params) };
   }
+
   enableAlarmActions(params) {
     return { promise: _enableAlarmActions.bind(this, params) };
   }
+
   getMetricData(params) {
     return { promise: _getMetricData.bind(this, params) };
   }
@@ -511,12 +529,15 @@ class Kinesis {
   constructor(params) {
     _kinesisConstructor(params);
   }
+
   registerStreamConsumer(params) {
     return { promise: _registerStreamConsumer.bind(this, params) };
   }
+
   deregisterStreamConsumer(params) {
     return { promise: _deregisterStreamConsumer.bind(this, params) };
   }
+
   describeStreamConsumer(params) {
     return { promise: _describeStreamConsumer.bind(this, params) };
   }

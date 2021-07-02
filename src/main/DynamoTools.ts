@@ -10,6 +10,7 @@ import { StackReference } from './constants';
  */
 export class DynamoTools {
   config: DynamoConfig;
+
   dynamo: DynamoDB;
 
   /**

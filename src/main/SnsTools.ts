@@ -15,10 +15,15 @@ enum Operation {
 
 class Topic {
   name: string;
+
   region: string;
+
   subscriptionArn: string;
+
   enabledFilter: Record<string, any>;
+
   disabledFilter: Record<string, any>;
+
   constructor(d: TopicData) {
     this.name = d.name;
     this.region = d.region;
@@ -35,7 +40,9 @@ class Topic {
  */
 export class SnsTools {
   config: SnsConfig;
+
   topicA: Topic;
+
   topicB: Topic;
 
   /**

@@ -10,6 +10,7 @@ import { StackReference } from './constants';
  */
 export class SqsTools {
   config: SqsConfig;
+
   sqs: SQS;
 
   /**

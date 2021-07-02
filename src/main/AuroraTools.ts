@@ -11,7 +11,9 @@ import { ClusterState, StackReference } from './constants';
  */
 export class AuroraTools {
   config: AuroraConfig;
+
   rds: RDS;
+
   aas: ApplicationAutoScaling;
 
   /**
@@ -84,7 +86,7 @@ export class AuroraTools {
     ) {
       const scalingTarget = aasResponse.ScalableTargets[0];
       const { ServiceNamespace, ResourceId, ScalableDimension } = scalingTarget;
-      return await this.aas
+      const res = await this.aas
         .registerScalableTarget({
           ResourceId,
           ScalableDimension,
@@ -92,6 +94,7 @@ export class AuroraTools {
           MinCapacity: minCapacity,
         })
         .promise();
+      return res;
     }
     throw new Error(`unable to scale out db cluster ${db}`);
   }
