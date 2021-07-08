@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v2.1.0...v2.1.1) (2021-07-08)
+
+
+### Bug Fixes
+
+* **build:** build es modules that support node 12 ([27251cf](https://github.com/bbeesley/aws-blue-green-toolkit/commit/27251cf00642449ae236d7b50de52ed4006bd31b))
+
 # [2.1.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v2.0.1...v2.1.0) (2021-07-02)
 
 
