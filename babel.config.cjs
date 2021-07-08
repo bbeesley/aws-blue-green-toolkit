@@ -7,7 +7,7 @@ module.exports = function configureBabel(api) {
       '@babel/preset-env', // this plugin tells babel to transpile your code for a specific runtime environment, we'll use node
       {
         targets: {
-          node: '14.17.0', // this means transpile everything that node 14.17 (the version you get in lambda with node14) doesn't support
+          node: '12.13.0',
         },
         modules: isTest ? 'cjs' : false,
       },
