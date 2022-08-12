@@ -1,3 +1,20 @@
+# [3.0.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v2.1.1...v3.0.0) (2022-08-12)
+
+
+### Bug Fixes
+
+* update exports ([42d95dd](https://github.com/bbeesley/aws-blue-green-toolkit/commit/42d95dd7a33a43a8d8865b7e3d219b8714d3b151))
+
+
+### Features
+
+* migrate to aws sdk v3 and es modules ([dbd051a](https://github.com/bbeesley/aws-blue-green-toolkit/commit/dbd051ad67db544aadf1a642b0755cdceff988fa))
+
+
+### BREAKING CHANGES
+
+* Common JS is no longer supported
+
 ## [2.1.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v2.1.0...v2.1.1) (2021-07-08)
 
 
