@@ -1,7 +1,9 @@
-import { SNS } from 'aws-sdk';
-
-import { SnsConfig, TopicData } from './@types';
-import { StackReference } from './constants';
+import {
+  SetSubscriptionAttributesCommand,
+  SNSClient,
+} from '@aws-sdk/client-sns';
+import type { SnsConfig, TopicData } from './@types/index.js';
+import { StackReference } from './constants.js';
 
 const enabledFilter = {};
 const disabledFilter = {
@@ -69,14 +71,14 @@ export class SnsTools {
       operation === Operation.DISABLE
         ? JSON.stringify(topic.disabledFilter)
         : JSON.stringify(topic.enabledFilter);
-    const sns = new SNS({ region: topic.region });
-    await sns
-      .setSubscriptionAttributes({
+    const sns = new SNSClient({ region: topic.region });
+    await sns.send(
+      new SetSubscriptionAttributesCommand({
         AttributeName: 'FilterPolicy',
         SubscriptionArn: topic.subscriptionArn,
         AttributeValue,
       })
-      .promise();
+    );
   }
 
   /**

@@ -15,7 +15,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.17'
+          node-version: '16.15'
       - uses: bbeesley/build-test-merge-publish@main
         with:
           main-branch: master

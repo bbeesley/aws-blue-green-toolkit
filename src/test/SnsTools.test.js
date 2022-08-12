@@ -1,5 +1,12 @@
-import { SnsTools, StackReference } from '../main';
-import * as AWS from 'aws-sdk';
+import { SetSubscriptionAttributesCommand } from '@aws-sdk/client-sns';
+import test from 'ava';
+
+import { SnsTools, StackReference } from '../../dist/index.js';
+import { awsMocks, resetMocks } from './mockAws.js';
+
+test.serial.beforeEach(() => {
+  resetMocks();
+});
 
 const config = {
   awsRegion: 'eu-central-1',
@@ -23,27 +30,40 @@ const config = {
 
 const snsTools = new SnsTools(config);
 
-describe('SnsTools', () => {
-  describe('enableSubscription', () => {
-    it('calls setSubscriptionAttributes with expected params', async () => {
-      await snsTools.enableSubscription(StackReference.b);
-      expect(AWS.SNS._setSubscriptionAttributes).toHaveBeenCalledWith({
-        AttributeName: 'FilterPolicy',
-        SubscriptionArn: config.topicB.subscriptionArn,
-        AttributeValue: JSON.stringify({}),
-      });
-    });
-  });
-  describe('disableSubscription', () => {
-    it('calls setSubscriptionAttributes with expected params', async () => {
-      await snsTools.disableSubscription(StackReference.b);
-      expect(AWS.SNS._setSubscriptionAttributes).toHaveBeenCalledWith({
+test.serial(
+  'SnsTools disableSubscription > calls setSubscriptionAttributes with expected params',
+  async (t) => {
+    await snsTools.disableSubscription(StackReference.b);
+    t.deepEqual(
+      awsMocks.mockSns
+        .calls()
+        .find((e) => e.args[0] instanceof SetSubscriptionAttributesCommand)
+        .args[0]?.input,
+      {
         AttributeName: 'FilterPolicy',
         SubscriptionArn: config.topicB.subscriptionArn,
         AttributeValue: JSON.stringify({
           bypassBlacklist: true,
         }),
-      });
-    });
-  });
-});
+      }
+    );
+  }
+);
+
+test.serial(
+  'SnsTools enableSubscription > calls setSubscriptionAttributes with expected params',
+  async (t) => {
+    await snsTools.enableSubscription(StackReference.b);
+    t.deepEqual(
+      awsMocks.mockSns
+        .calls()
+        .find((e) => e.args[0] instanceof SetSubscriptionAttributesCommand)
+        .args[0]?.input,
+      {
+        AttributeName: 'FilterPolicy',
+        SubscriptionArn: config.topicB.subscriptionArn,
+        AttributeValue: JSON.stringify({}),
+      }
+    );
+  }
+);

@@ -1,13 +1,30 @@
-import { CloudWatch, CloudWatchEvents, Lambda } from 'aws-sdk';
+import {
+  CloudWatchClient,
+  GetMetricDataCommand,
+} from '@aws-sdk/client-cloudwatch';
+import {
+  CloudWatchEventsClient,
+  DisableRuleCommand,
+  EnableRuleCommand,
+  ListRuleNamesByTargetCommand,
+} from '@aws-sdk/client-cloudwatch-events';
 import {
   AliasConfiguration,
+  CreateEventSourceMappingCommand,
+  CreateEventSourceMappingRequest,
+  DeleteEventSourceMappingCommand,
   EventSourceMappingConfiguration,
-  EventSourceMappingsList,
+  GetAliasCommand,
+  GetFunctionCommand,
+  LambdaClient,
+  ListEventSourceMappingsCommand,
   ListEventSourceMappingsRequest,
-} from 'aws-sdk/clients/lambda.js';
+  UpdateEventSourceMappingCommand,
+} from '@aws-sdk/client-lambda';
 
-import { LambdaConfig, LatestLambdaMetricsMap } from './@types';
-import { StackReference } from './constants';
+import { StackReference } from './constants.js';
+
+import type { LambdaConfig, LatestLambdaMetricsMap } from './@types/index.js';
 
 enum Operation {
   ENABLE,
@@ -22,11 +39,11 @@ enum Operation {
 export class LambdaTools {
   config: LambdaConfig;
 
-  lambda: Lambda;
+  lambda: LambdaClient;
 
-  events: CloudWatchEvents;
+  events: CloudWatchEventsClient;
 
-  cloudwatch: CloudWatch;
+  cloudwatch: CloudWatchClient;
 
   /**
    * Creates an instance of LambdaTools.
@@ -35,9 +52,9 @@ export class LambdaTools {
    */
   constructor(config: LambdaConfig) {
     this.config = config;
-    this.lambda = new Lambda({ region: this.config.awsRegion });
-    this.events = new CloudWatchEvents({ region: this.config.awsRegion });
-    this.cloudwatch = new CloudWatch({ region: this.config.awsRegion });
+    this.lambda = new LambdaClient({ region: this.config.awsRegion });
+    this.events = new CloudWatchEventsClient({ region: this.config.awsRegion });
+    this.cloudwatch = new CloudWatchClient({ region: this.config.awsRegion });
   }
 
   private getLambdaName(ref: StackReference): string {
@@ -62,22 +79,22 @@ export class LambdaTools {
 
   private async modifyRule(op: Operation, ref: StackReference): Promise<void> {
     const TargetArn = this.getLambdaArn(ref);
-    const { RuleNames = [] } = await this.events
-      .listRuleNamesByTarget({ TargetArn })
-      .promise();
+    const { RuleNames = [] } = await this.events.send(
+      new ListRuleNamesByTargetCommand({ TargetArn })
+    );
     for (const Name of RuleNames) {
       if (op === Operation.ENABLE) {
-        await this.events
-          .enableRule({
+        await this.events.send(
+          new EnableRuleCommand({
             Name,
           })
-          .promise();
+        );
       } else {
-        await this.events
-          .disableRule({
+        await this.events.send(
+          new DisableRuleCommand({
             Name,
           })
-          .promise();
+        );
       }
     }
   }
@@ -114,17 +131,17 @@ export class LambdaTools {
     reference: StackReference,
     eventSourceArn: string,
     sourceSpecificParams: Omit<
-      Lambda.CreateEventSourceMappingRequest,
+      CreateEventSourceMappingRequest,
       'FunctionName' | 'EventSourceArn'
     > = {}
   ): Promise<EventSourceMappingConfiguration> {
-    return this.lambda
-      .createEventSourceMapping({
+    return this.lambda.send(
+      new CreateEventSourceMappingCommand({
         FunctionName: this.getLambdaArn(reference),
         EventSourceArn: eventSourceArn,
         ...sourceSpecificParams,
       })
-      .promise();
+    );
   }
 
   /**
@@ -135,16 +152,16 @@ export class LambdaTools {
    */
   public async listEventSourceMappings(
     reference: StackReference
-  ): Promise<EventSourceMappingsList> {
+  ): Promise<EventSourceMappingConfiguration[]> {
     const mappings = [];
 
     const params: ListEventSourceMappingsRequest = {
       FunctionName: this.getLambdaArn(reference),
     };
     do {
-      const result = await this.lambda
-        .listEventSourceMappings(params)
-        .promise();
+      const result = await this.lambda.send(
+        new ListEventSourceMappingsCommand(params)
+      );
       if (result.EventSourceMappings)
         mappings.push(...result.EventSourceMappings);
 
@@ -167,7 +184,9 @@ export class LambdaTools {
           throw new Error(
             `unable to fetch event source mapping information for stack ${ref}`
           );
-        await this.lambda.updateEventSourceMapping({ UUID, Enabled }).promise();
+        await this.lambda.send(
+          new UpdateEventSourceMappingCommand({ UUID, Enabled })
+        );
       }
     }
   }
@@ -201,7 +220,7 @@ export class LambdaTools {
    * @memberof LambdaTools
    */
   public async deleteEventMapping(UUID: string): Promise<void> {
-    await this.lambda.deleteEventSourceMapping({ UUID }).promise();
+    await this.lambda.send(new DeleteEventSourceMappingCommand({ UUID }));
   }
 
   /**
@@ -213,7 +232,9 @@ export class LambdaTools {
    */
   public async getVersion(reference: StackReference): Promise<string> {
     const FunctionName = this.getLambdaName(reference);
-    const info = await this.lambda.getFunction({ FunctionName }).promise();
+    const info = await this.lambda.send(
+      new GetFunctionCommand({ FunctionName })
+    );
     if (!info.Configuration?.Version)
       throw new Error(`unable to fetch lambda information for ${FunctionName}`);
     return info.Configuration.Version;
@@ -232,7 +253,7 @@ export class LambdaTools {
     Name: string
   ): Promise<AliasConfiguration> {
     const FunctionName = this.getLambdaName(reference);
-    return this.lambda.getAlias({ FunctionName, Name }).promise();
+    return this.lambda.send(new GetAliasCommand({ FunctionName, Name }));
   }
 
   /**
@@ -274,8 +295,8 @@ export class LambdaTools {
       },
     ];
 
-    const { MetricDataResults = [] } = await this.cloudwatch
-      .getMetricData({
+    const { MetricDataResults = [] } = await this.cloudwatch.send(
+      new GetMetricDataCommand({
         StartTime: new Date(Date.now() - 300e3),
         EndTime: new Date(),
         MetricDataQueries: metricSet.map(({ metricName, stat }) => ({
@@ -296,11 +317,11 @@ export class LambdaTools {
           },
         })),
       })
-      .promise();
+    );
 
-    return MetricDataResults.reduce((acc: LatestLambdaMetricsMap, res) => {
+    return MetricDataResults.reduce((acc, res) => {
       if (res.Label && res.Timestamps && res.Values) {
-        return {
+        return <LatestLambdaMetricsMap>{
           ...acc,
           [res.Label]: {
             latestMetricTimestamp: res.Timestamps[0],
@@ -309,7 +330,7 @@ export class LambdaTools {
           },
         };
       }
-      return acc;
-    }, {});
+      return { ...acc };
+    }, <LatestLambdaMetricsMap>{});
   }
 }

@@ -1,7 +1,6 @@
-import { SQS } from 'aws-sdk';
-
-import { SqsConfig, SqsQueue } from './@types';
-import { StackReference } from './constants';
+import { PurgeQueueCommand, SQSClient } from '@aws-sdk/client-sqs';
+import type { SqsConfig, SqsQueue } from './@types/index.js';
+import { StackReference } from './constants.js';
 
 /**
  * Toolkit for SQS operations
@@ -11,7 +10,7 @@ import { StackReference } from './constants';
 export class SqsTools {
   config: SqsConfig;
 
-  sqs: SQS;
+  sqs: SQSClient;
 
   /**
    * Creates an instance of SqsTools.
@@ -20,7 +19,7 @@ export class SqsTools {
    */
   constructor(config: SqsConfig) {
     this.config = config;
-    this.sqs = new SQS({ region: this.config.awsRegion });
+    this.sqs = new SQSClient({ region: this.config.awsRegion });
   }
 
   private getQueue(ref: StackReference): SqsQueue {
@@ -38,11 +37,11 @@ export class SqsTools {
     await Promise.all(
       Object.values(queue).map(async (queueName) => {
         if (queueName) {
-          await this.sqs
-            .purgeQueue({
+          await this.sqs.send(
+            new PurgeQueueCommand({
               QueueUrl: `https://sqs.${this.config.awsRegion}.amazonaws.com/${this.config.awsProfile}/${queueName}`,
             })
-            .promise();
+          );
         }
       })
     );

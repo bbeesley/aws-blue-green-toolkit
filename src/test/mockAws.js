@@ -1,4 +1,46 @@
-const _rdsResponses = {
+import {
+  ApplicationAutoScalingClient,
+  DescribeScalableTargetsCommand,
+  RegisterScalableTargetCommand,
+} from '@aws-sdk/client-application-auto-scaling';
+import {
+  CloudWatchClient,
+  DescribeAlarmsCommand,
+  GetMetricDataCommand,
+} from '@aws-sdk/client-cloudwatch';
+import {
+  CloudWatchEventsClient,
+  ListRuleNamesByTargetCommand,
+} from '@aws-sdk/client-cloudwatch-events';
+import {
+  DeleteTableCommand,
+  DescribeTableCommand,
+  DynamoDBClient,
+} from '@aws-sdk/client-dynamodb';
+import {
+  DeregisterStreamConsumerCommand,
+  DescribeStreamConsumerCommand,
+  KinesisClient,
+  RegisterStreamConsumerCommand,
+} from '@aws-sdk/client-kinesis';
+import {
+  CreateEventSourceMappingCommand,
+  DeleteEventSourceMappingCommand,
+  LambdaClient,
+  ListEventSourceMappingsCommand,
+  UpdateEventSourceMappingCommand,
+} from '@aws-sdk/client-lambda';
+import { DescribeDBClustersCommand, RDSClient } from '@aws-sdk/client-rds';
+import {
+  SetSubscriptionAttributesCommand,
+  SNSClient,
+} from '@aws-sdk/client-sns';
+import { PurgeQueueCommand, SQSClient } from '@aws-sdk/client-sqs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { mockClient } from 'aws-sdk-client-mock';
+
+const mockRds = mockClient(RDSClient);
+const rdsResponses = {
   describeDBClusters: {
     DBClusters: [
       {
@@ -69,54 +111,14 @@ const _rdsResponses = {
     ],
   },
 };
-
-const _rdsConstructor = jest.fn();
-const _describeDBClusters = jest.fn(
-  async () => _rdsResponses.describeDBClusters
-);
-
-class RDS {
-  constructor(params) {
-    _rdsConstructor(params);
-  }
-
-  describeDBClusters(params) {
-    return { promise: _describeDBClusters.bind(this, params) };
-  }
-}
-
-RDS._rdsConstructor = _rdsConstructor;
-RDS._describeDBClusters = _describeDBClusters;
-RDS._rdsResponses = _rdsResponses;
-
-const _dynamoResponses = {
+const mockDynamo = mockClient(DynamoDBClient);
+const dynamoResponses = {
   deleteTable: {},
-  waitFor: {},
+  describeTable: {},
 };
-const _dynamoConstructor = jest.fn();
-const _deleteTable = jest.fn(async () => _dynamoResponses.deleteTable);
-const _waitFor = jest.fn(async () => _dynamoResponses.waitFor);
 
-class DynamoDB {
-  constructor(params) {
-    _dynamoConstructor(params);
-  }
-
-  deleteTable(params) {
-    return { promise: _deleteTable.bind(this, params) };
-  }
-
-  waitFor(state, params) {
-    return { promise: _waitFor.bind(this, state, params) };
-  }
-}
-
-DynamoDB._dynamoConstructor = _dynamoConstructor;
-DynamoDB._deleteTable = _deleteTable;
-DynamoDB._waitFor = _waitFor;
-DynamoDB._dynamoResponses = _dynamoResponses;
-
-const _aasResponses = {
+const mockAas = mockClient(ApplicationAutoScalingClient);
+const aasResponses = {
   describeScalableTargets: {
     ScalableTargets: [
       {
@@ -138,74 +140,19 @@ const _aasResponses = {
   },
   registerScalableTarget: {},
 };
-const _aasConstructor = jest.fn();
-const _describeScalableTargets = jest.fn(
-  async () => _aasResponses.describeScalableTargets
-);
-const _registerScalableTarget = jest.fn(
-  async () => _aasResponses.registerScalableTarget
-);
 
-class ApplicationAutoScaling {
-  constructor(params) {
-    _aasConstructor(params);
-  }
-
-  describeScalableTargets(params) {
-    return { promise: _describeScalableTargets.bind(this, params) };
-  }
-
-  registerScalableTarget(params) {
-    return { promise: _registerScalableTarget.bind(this, params) };
-  }
-}
-
-ApplicationAutoScaling._aasConstructor = _aasConstructor;
-ApplicationAutoScaling._describeScalableTargets = _describeScalableTargets;
-ApplicationAutoScaling._registerScalableTarget = _registerScalableTarget;
-ApplicationAutoScaling._aasResponses = _aasResponses;
-
-const _snsResponses = {
+const mockSns = mockClient(SNSClient);
+const snsResponses = {
   setSubscriptionAttributes: {},
 };
-const _snsConstructor = jest.fn();
-const _setSubscriptionAttributes = jest.fn(
-  async () => _snsResponses.setSubscriptionAttributes
-);
 
-class SNS {
-  constructor(params) {
-    _snsConstructor(params);
-  }
-
-  setSubscriptionAttributes(params) {
-    return { promise: _setSubscriptionAttributes.bind(this, params) };
-  }
-}
-
-SNS._snsConstructor = _snsConstructor;
-SNS._setSubscriptionAttributes = _setSubscriptionAttributes;
-SNS._snsResponses = _snsResponses;
-const _sqsResponses = {
+const mockSqs = mockClient(SQSClient);
+const sqsResponses = {
   purgeQueue: {},
 };
-const _sqsConstructor = jest.fn();
-const _purgeQueue = jest.fn(async () => _sqsResponses.purgeQueue);
 
-class SQS {
-  constructor(params) {
-    _sqsConstructor(params);
-  }
-
-  purgeQueue(params) {
-    return { promise: _purgeQueue.bind(this, params) };
-  }
-}
-
-SQS._sqsConstructor = _sqsConstructor;
-SQS._purgeQueue = _purgeQueue;
-SQS._sqsResponses = _sqsResponses;
-const _lambdaResponses = {
+const mockLambda = mockClient(LambdaClient);
+const lambdaResponses = {
   updateEventSourceMapping: {},
   listEventSourceMappings: {
     NextMarker: null,
@@ -269,86 +216,15 @@ const _lambdaResponses = {
   },
 };
 
-const _lambdaConstructor = jest.fn();
-const _listEventSourceMappings = jest.fn(
-  async () => _lambdaResponses.listEventSourceMappings
-);
-const _updateEventSourceMapping = jest.fn(
-  async () => _lambdaResponses.updateEventSourceMapping
-);
-const _createEventSourceMapping = jest.fn(
-  async () => _lambdaResponses.createEventSourceMapping
-);
-const _deleteEventSourceMapping = jest.fn(
-  async () => _lambdaResponses.deleteEventSourceMapping
-);
-
-class Lambda {
-  constructor(params) {
-    _lambdaConstructor(params);
-  }
-
-  listEventSourceMappings(params) {
-    return { promise: _listEventSourceMappings.bind(this, params) };
-  }
-
-  updateEventSourceMapping(params) {
-    return { promise: _updateEventSourceMapping.bind(this, params) };
-  }
-
-  createEventSourceMapping(params) {
-    return { promise: _createEventSourceMapping.bind(this, params) };
-  }
-
-  deleteEventSourceMapping(params) {
-    return { promise: _deleteEventSourceMapping.bind(this, params) };
-  }
-}
-
-Lambda._lambdaConstructor = _lambdaConstructor;
-Lambda._listEventSourceMappings = _listEventSourceMappings;
-Lambda._updateEventSourceMapping = _updateEventSourceMapping;
-Lambda._createEventSourceMapping = _createEventSourceMapping;
-Lambda._deleteEventSourceMapping = _deleteEventSourceMapping;
-Lambda._lambdaResponses = _lambdaResponses;
-
-const _eventsConstructor = jest.fn();
-const _eventsResponses = {
+const mockEvents = mockClient(CloudWatchEventsClient);
+export const eventsResponses = {
   listRuleNamesByTarget: {
     RuleNames: ['fn-dev-RefreshEventsRuleSchedule-1SI6FNZ1LC3NI'],
   },
 };
-const _enableRule = jest.fn(async () => _eventsResponses.enableRule);
-const _disableRule = jest.fn(async () => _eventsResponses.disableRule);
-const _listRuleNamesByTarget = jest.fn(
-  async () => _eventsResponses.listRuleNamesByTarget
-);
 
-class CloudWatchEvents {
-  constructor(params) {
-    _eventsConstructor(params);
-  }
-
-  enableRule(params) {
-    return { promise: _enableRule.bind(this, params) };
-  }
-
-  disableRule(params) {
-    return { promise: _disableRule.bind(this, params) };
-  }
-
-  listRuleNamesByTarget(params) {
-    return { promise: _listRuleNamesByTarget.bind(this, params) };
-  }
-}
-
-CloudWatchEvents._eventsResponses = _eventsResponses;
-CloudWatchEvents._enableRule = _enableRule;
-CloudWatchEvents._disableRule = _disableRule;
-CloudWatchEvents._listRuleNamesByTarget = _listRuleNamesByTarget;
-
-const _cwConstructor = jest.fn();
-const _cwResponses = {
+const mockCloudwatch = mockClient(CloudWatchClient);
+const cwResponses = {
   describeAlarms: {
     MetricAlarms: [
       {
@@ -460,39 +336,9 @@ const _cwResponses = {
     ],
   },
 };
-const _enableAlarmActions = jest.fn();
-const _disableAlarmActions = jest.fn();
-const _describeAlarms = jest.fn(async () => _cwResponses.describeAlarms);
-const _getMetricData = jest.fn(async () => _cwResponses.getMetricData);
 
-class CloudWatch {
-  constructor(params) {
-    _cwConstructor(params);
-  }
-
-  describeAlarms(params) {
-    return { promise: _describeAlarms.bind(this, params) };
-  }
-
-  disableAlarmActions(params) {
-    return { promise: _disableAlarmActions.bind(this, params) };
-  }
-
-  enableAlarmActions(params) {
-    return { promise: _enableAlarmActions.bind(this, params) };
-  }
-
-  getMetricData(params) {
-    return { promise: _getMetricData.bind(this, params) };
-  }
-}
-CloudWatch._cwResponses = _cwResponses;
-CloudWatch._enableAlarmActions = _enableAlarmActions;
-CloudWatch._disableAlarmActions = _disableAlarmActions;
-CloudWatch._describeAlarms = _describeAlarms;
-CloudWatch._getMetricData = _getMetricData;
-
-const _kinesisResponses = {
+const mockKinesis = mockClient(KinesisClient);
+const kinesisResponses = {
   registerStreamConsumer: {
     Consumer: {
       ConsumerName: 'con1',
@@ -514,49 +360,79 @@ const _kinesisResponses = {
     },
   },
 };
-const _kinesisConstructor = jest.fn();
-const _registerStreamConsumer = jest.fn(
-  async () => _kinesisResponses.registerStreamConsumer
-);
-const _deregisterStreamConsumer = jest.fn(
-  async () => _kinesisResponses.deregisterStreamConsumer
-);
-const _describeStreamConsumer = jest.fn(
-  async () => _kinesisResponses.describeStreamConsumer
-);
 
-class Kinesis {
-  constructor(params) {
-    _kinesisConstructor(params);
-  }
-
-  registerStreamConsumer(params) {
-    return { promise: _registerStreamConsumer.bind(this, params) };
-  }
-
-  deregisterStreamConsumer(params) {
-    return { promise: _deregisterStreamConsumer.bind(this, params) };
-  }
-
-  describeStreamConsumer(params) {
-    return { promise: _describeStreamConsumer.bind(this, params) };
-  }
-}
-
-Kinesis._kinesisConstructor = _kinesisConstructor;
-Kinesis._registerStreamConsumer = _registerStreamConsumer;
-Kinesis._deregisterStreamConsumer = _deregisterStreamConsumer;
-Kinesis._describeStreamConsumer = _describeStreamConsumer;
-Kinesis._kinesisResponses = _kinesisResponses;
-
-module.exports = {
-  ApplicationAutoScaling,
-  CloudWatchEvents,
-  CloudWatch,
-  DynamoDB,
-  Kinesis,
-  Lambda,
-  RDS,
-  SNS,
-  SQS,
+export const awsMocks = {
+  mockAas,
+  mockRds,
+  mockDynamo,
+  mockSns,
+  mockSqs,
+  mockLambda,
+  mockEvents,
+  mockCloudwatch,
+  mockKinesis,
 };
+
+export function resetMocks() {
+  awsMocks.mockSns.reset();
+  awsMocks.mockSns
+    .on(SetSubscriptionAttributesCommand)
+    .resolves(snsResponses.setSubscriptionAttributes);
+  awsMocks.mockKinesis.reset();
+  awsMocks.mockKinesis
+    .on(RegisterStreamConsumerCommand)
+    .resolves(kinesisResponses.registerStreamConsumer);
+  awsMocks.mockKinesis
+    .on(DeregisterStreamConsumerCommand)
+    .resolves(kinesisResponses.deregisterStreamConsumer);
+  awsMocks.mockKinesis
+    .on(DescribeStreamConsumerCommand)
+    .resolves(kinesisResponses.describeStreamConsumer);
+  awsMocks.mockCloudwatch.reset();
+  awsMocks.mockCloudwatch
+    .on(DescribeAlarmsCommand)
+    .resolves(cwResponses.describeAlarms);
+  awsMocks.mockCloudwatch
+    .on(GetMetricDataCommand)
+    .resolves(cwResponses.getMetricData);
+  awsMocks.mockEvents.reset();
+  awsMocks.mockEvents
+    .on(ListRuleNamesByTargetCommand)
+    .resolves(eventsResponses.listRuleNamesByTarget);
+  awsMocks.mockLambda.reset();
+  awsMocks.mockLambda
+    .on(UpdateEventSourceMappingCommand)
+    .resolves(lambdaResponses.updateEventSourceMapping);
+  awsMocks.mockLambda
+    .on(ListEventSourceMappingsCommand)
+    .resolves(lambdaResponses.listEventSourceMappings);
+  awsMocks.mockLambda
+    .on(CreateEventSourceMappingCommand)
+    .resolves(lambdaResponses.createEventSourceMapping);
+  awsMocks.mockLambda
+    .on(DeleteEventSourceMappingCommand)
+    .resolves(lambdaResponses.deleteEventSourceMapping);
+  awsMocks.mockLambda.on(PurgeQueueCommand).resolves(sqsResponses.purgeQueue);
+  awsMocks.mockSqs.reset();
+  awsMocks.mockSqs.on(PurgeQueueCommand).resolves(sqsResponses.purgeQueue);
+  awsMocks.mockDynamo.reset();
+  awsMocks.mockDynamo
+    .on(DeleteTableCommand)
+    .resolves(dynamoResponses.deleteTable);
+  awsMocks.mockDynamo.on(DescribeTableCommand).callsFake(async () => {
+    const e = new Error();
+    e.name = 'ResourceNotFoundException';
+    throw e;
+  });
+  awsMocks.mockRds.reset();
+  awsMocks.mockRds
+    .on(DescribeDBClustersCommand)
+    .resolves(rdsResponses.describeDBClusters);
+  awsMocks.mockAas.reset();
+  awsMocks.mockAas
+    .on(RegisterScalableTargetCommand)
+    .resolves(aasResponses.registerScalableTarget);
+  awsMocks.mockAas
+    .on(DescribeScalableTargetsCommand)
+    .resolves(aasResponses.describeScalableTargets);
+}
