@@ -4,7 +4,7 @@
     "checkJs": true, // use type inference to make an attempt at type checking js files
     "declaration": true, // emit .d.ts files when compiling
     "declarationMap": true, // emit maps for the declaration files so your editor works properly with them
-    "incremental": true, // disable caching because it isn't worth it
+    "incremental": false, // disable caching because it isn't worth it
     "isolatedModules": true, // Setting this to true ensures that each file can be transformed without introspection into it's imports and exports. Helps with tree shaking
     "lib": ["ESNext", "DOM", "DOM.Iterable"], // feature set to allow in the project, choosing ESNext means everything is supported
     "module": "node16", // tells tsc not to transform es imports/exports to requires and module.exports.
@@ -35,14 +35,34 @@
     "noEmitOnError": true, // Disable emitting files if any type checking errors are reported.
     "useDefineForClassFields": true, // Emit ECMAScript-standard-compliant class fields.
     "skipLibCheck": false, // type check all .d.ts files.
-    "exactOptionalPropertyTypes": true, // 
+    "exactOptionalPropertyTypes": true, //
     "noImplicitOverride": true, // if you override a class method you need to label it as an override
-    "importsNotUsedAsValues": "error", // makes you use import type instead of just import if youre only importing types, helps make it clear what is a type and what is real
+    "importsNotUsedAsValues": "error" // makes you use import type instead of just import if youre only importing types, helps make it clear what is a type and what is real
   },
-  "include": ["src/**/*.ts", "src/*.ts", "src/test/DynamoTools.test.js", "src/test/AuroraTools.test.js"],
-  "exclude": ["src/*.test.*", "src/**/*.test.*"],
+  "typeAcquisition": {
+    "enable": false // if you're using vscode, this option tells it to automatically download types for any modules you install that don't have types built in
+  },
+  "include": [
+    // array of globs for the code to compile
+    "**/*.ts",
+    "**/*.js",
+    "**/*.cjs",
+    "**/*.mjs",
+    "**/.*.ts",
+    "**/.*.js",
+    "**/.*.cjs",
+    "**/.*.mjs",
+    "*.ts",
+    "*.js",
+    "*.cjs",
+    "*.mjs",
+    ".*.ts",
+    ".*.js",
+    ".*.cjs",
+    ".*.mjs"
+  ],
   "ts-node": {
     "transpileOnly": true,
-    // "files": true,
+    "files": true
   }
 }

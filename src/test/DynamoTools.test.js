@@ -1,5 +1,12 @@
-import { DynamoTools, StackReference } from '../main';
-import * as AWS from 'aws-sdk';
+import { DescribeTableCommand } from '@aws-sdk/client-dynamodb';
+import test from 'ava';
+
+import { DynamoTools, StackReference } from '../../dist/index.js';
+import { awsMocks, resetMocks } from './mockAws.js';
+
+test.serial.beforeEach(() => {
+  resetMocks();
+});
 
 const config = {
   awsRegion: 'eu-central-1',
@@ -13,31 +20,45 @@ const config = {
 
 const dynamoTools = new DynamoTools(config);
 
-describe('DynamoTools', () => {
-  describe('deleteTable', () => {
-    it('calls deleteTable with expected params', async () => {
-      await dynamoTools.deleteTable(StackReference.b);
-      expect(AWS.DynamoDB._deleteTable).toHaveBeenCalledWith({
-        TableName: config.tableNameB,
-      });
+test.serial(
+  'DynamoTools > does not wait for table deletion to complete when config is false',
+  async (t) => {
+    config.waitForTableDelete = false;
+    await dynamoTools.deleteTable(StackReference.b);
+    t.deepEqual(awsMocks.mockDynamo.calls()[0].args[0].input, {
+      TableName: config.tableNameB,
     });
-    it('waits for table deletion to complete when config is true', async () => {
-      config.waitForTableDelete = true;
-      await dynamoTools.deleteTable(StackReference.b);
-      expect(AWS.DynamoDB._deleteTable).toHaveBeenCalledWith({
-        TableName: config.tableNameB,
-      });
-      expect(AWS.DynamoDB._waitFor).toHaveBeenCalledWith('tableNotExists', {
-        TableName: config.tableNameB,
-      });
+    t.is(
+      awsMocks.mockDynamo
+        .calls()
+        .find((c) => c.args[0] instanceof DescribeTableCommand),
+      undefined
+    );
+  }
+);
+
+test.serial(
+  'DynamoTools > waits for table deletion to complete when config is true',
+  async (t) => {
+    config.waitForTableDelete = true;
+    await dynamoTools.deleteTable(StackReference.b);
+    t.deepEqual(awsMocks.mockDynamo.calls()[0].args[0].input, {
+      TableName: config.tableNameB,
     });
-    it('does not wait for table deletion to complete when config is false', async () => {
-      config.waitForTableDelete = false;
-      await dynamoTools.deleteTable(StackReference.b);
-      expect(AWS.DynamoDB._deleteTable).toHaveBeenCalledWith({
-        TableName: config.tableNameB,
-      });
-      expect(AWS.DynamoDB._waitFor).not.toHaveBeenCalled();
+    t.snapshot(
+      awsMocks.mockDynamo
+        .calls()
+        .find((c) => c.args[0] instanceof DescribeTableCommand)?.args[0].input
+    );
+  }
+);
+
+test.serial(
+  'DynamoTools > calls deleteTable with expected params',
+  async (t) => {
+    await dynamoTools.deleteTable(StackReference.b);
+    t.deepEqual(awsMocks.mockDynamo.calls()[0].args[0].input, {
+      TableName: config.tableNameB,
     });
-  });
-});
+  }
+);

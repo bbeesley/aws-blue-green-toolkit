@@ -1,6 +1,11 @@
-import * as AWS from 'aws-sdk';
+import test from 'ava';
 
-import { KinesisTools, StackReference } from '../main';
+import { KinesisTools, StackReference } from '../../dist/index.js';
+import { awsMocks, resetMocks } from './mockAws.js';
+
+test.serial.beforeEach(() => {
+  resetMocks();
+});
 
 const config = {
   awsRegion: 'eu-central-1',
@@ -15,43 +20,43 @@ const config = {
 
 const kinesisTools = new KinesisTools(config);
 
-describe('KinesisTools', () => {
-  describe('registerConsumer', () => {
-    it('calls registerConsumer with expected params', async () => {
-      const consumer = await kinesisTools.registerConsumer(StackReference.a);
+test.serial(
+  'KinesisTools > calls describeConsumer with expected params',
+  async (t) => {
+    const consumerDescription = await kinesisTools.describeConsumer(
+      StackReference.b
+    );
 
-      expect(AWS.Kinesis._registerStreamConsumer).toHaveBeenCalledTimes(1);
-      expect(AWS.Kinesis._registerStreamConsumer).toHaveBeenCalledWith({
-        ConsumerName: config.consumerNameA,
-        StreamARN: config.streamArn,
-      });
-      expect(consumer).not.toBeUndefined();
+    t.deepEqual(awsMocks.mockKinesis.calls()[0].args[0].input, {
+      ConsumerName: config.consumerNameB,
+      StreamARN: config.streamArn,
     });
-  });
-  describe('deregisterConsumer', () => {
-    it('calls deregisterConsumer with expected params', async () => {
-      await kinesisTools.deregisterConsumer(StackReference.b);
 
-      expect(AWS.Kinesis._deregisterStreamConsumer).toHaveBeenCalledTimes(1);
-      expect(AWS.Kinesis._deregisterStreamConsumer).toHaveBeenCalledWith({
-        ConsumerName: config.consumerNameB,
-        StreamARN: config.streamArn,
-      });
+    t.truthy(consumerDescription);
+  }
+);
+
+test.serial(
+  'KinesisTools > calls deregisterConsumer with expected params',
+  async (t) => {
+    await kinesisTools.deregisterConsumer(StackReference.b);
+
+    t.deepEqual(awsMocks.mockKinesis.calls()[0].args[0].input, {
+      ConsumerName: config.consumerNameB,
+      StreamARN: config.streamArn,
     });
-  });
-  describe('describeConsumer', () => {
-    it('calls describeConsumer with expected params', async () => {
-      const consumerDescription = await kinesisTools.describeConsumer(
-        StackReference.b
-      );
+  }
+);
 
-      expect(AWS.Kinesis._describeStreamConsumer).toHaveBeenCalledTimes(1);
-      expect(AWS.Kinesis._describeStreamConsumer).toHaveBeenCalledWith({
-        ConsumerName: config.consumerNameB,
-        StreamARN: config.streamArn,
-      });
+test.serial(
+  'KinesisTools > calls registerConsumer with expected params',
+  async (t) => {
+    const consumer = await kinesisTools.registerConsumer(StackReference.a);
 
-      expect(consumerDescription).not.toBeUndefined();
+    t.deepEqual(awsMocks.mockKinesis.calls()[0].args[0].input, {
+      ConsumerName: config.consumerNameA,
+      StreamARN: config.streamArn,
     });
-  });
-});
+    t.truthy(consumer);
+  }
+);

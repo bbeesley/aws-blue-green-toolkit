@@ -1,8 +1,12 @@
-import { DynamoDB } from 'aws-sdk';
+import {
+  DeleteTableCommand,
+  DynamoDBClient,
+  waitUntilTableNotExists,
+} from '@aws-sdk/client-dynamodb';
 
-import { DynamoConfig } from './@types';
-import { StackReference } from './constants';
+import { StackReference } from './constants.js';
 
+import type { DynamoConfig } from './@types/index.js';
 /**
  * Toolkit for Dynamo operations
  * @export
@@ -11,7 +15,7 @@ import { StackReference } from './constants';
 export class DynamoTools {
   config: DynamoConfig;
 
-  dynamo: DynamoDB;
+  dynamo: DynamoDBClient;
 
   /**
    * Creates an instance of DynamoTools.
@@ -20,7 +24,7 @@ export class DynamoTools {
    */
   public constructor(config: DynamoConfig) {
     this.config = config;
-    this.dynamo = new DynamoDB({ region: this.config.awsRegion });
+    this.dynamo = new DynamoDBClient({ region: this.config.awsRegion });
   }
 
   protected getTableName(ref: StackReference): string {
@@ -37,10 +41,16 @@ export class DynamoTools {
    */
   public async deleteTable(reference: StackReference): Promise<void> {
     const TableName = this.getTableName(reference);
-    await this.dynamo.deleteTable({ TableName }).promise();
+    await this.dynamo.send(new DeleteTableCommand({ TableName }));
 
     if (this.config.waitForTableDelete) {
-      await this.dynamo.waitFor('tableNotExists', { TableName }).promise();
+      await waitUntilTableNotExists(
+        {
+          client: this.dynamo,
+          maxWaitTime: 300,
+        },
+        { TableName }
+      );
     }
   }
 }

@@ -1,8 +1,23 @@
-import { SNSEventRecord } from 'aws-lambda';
-import { ApplicationAutoScaling, RDS } from 'aws-sdk';
+import {
+  ApplicationAutoScalingClient,
+  DescribeScalableTargetsCommand,
+  RegisterScalableTargetCommand,
+  RegisterScalableTargetResponse,
+} from '@aws-sdk/client-application-auto-scaling';
+import {
+  AddTagsToResourceCommand,
+  DeleteDBClusterCommand,
+  DeleteDBInstanceCommand,
+  DescribeDBClustersCommand,
+  ListTagsForResourceCommand,
+  RDSClient,
+  StartDBClusterCommand,
+  StopDBClusterCommand,
+} from '@aws-sdk/client-rds';
+import type { SNSEventRecord } from 'aws-lambda';
 
-import { AuroraConfig } from './@types';
-import { ClusterState, StackReference } from './constants';
+import type { AuroraConfig } from './@types/index.js';
+import { ClusterState, StackReference } from './constants.js';
 
 /**
  * Toolkit for Aurora operations
@@ -12,9 +27,9 @@ import { ClusterState, StackReference } from './constants';
 export class AuroraTools {
   config: AuroraConfig;
 
-  rds: RDS;
+  rds: RDSClient;
 
-  aas: ApplicationAutoScaling;
+  aas: ApplicationAutoScalingClient;
 
   /**
    * Creates an instance of AuroraTools.
@@ -23,8 +38,10 @@ export class AuroraTools {
    */
   public constructor(config: AuroraConfig) {
     this.config = config;
-    this.rds = new RDS({ region: this.config.awsRegion });
-    this.aas = new ApplicationAutoScaling({ region: this.config.awsRegion });
+    this.rds = new RDSClient({ region: this.config.awsRegion });
+    this.aas = new ApplicationAutoScalingClient({
+      region: this.config.awsRegion,
+    });
   }
 
   protected getClusterName(ref: StackReference): string {
@@ -53,11 +70,11 @@ export class AuroraTools {
     reference: StackReference
   ): Promise<ClusterState> {
     const DBClusterIdentifier = this.getClusterName(reference);
-    const { DBClusters } = await this.rds
-      .describeDBClusters({ DBClusterIdentifier })
-      .promise();
+    const { DBClusters } = await this.rds.send(
+      new DescribeDBClustersCommand({ DBClusterIdentifier })
+    );
     if (DBClusters && DBClusters.length === 1) {
-      const { Status } = DBClusters[0];
+      const { Status } = DBClusters[0] ?? {};
       if (Status) {
         if (Status === ClusterState.AVAILABLE) return ClusterState.AVAILABLE;
         if (Status === ClusterState.STOPPED) return ClusterState.STOPPED;
@@ -71,14 +88,14 @@ export class AuroraTools {
   protected async scale(
     reference: StackReference,
     minCapacity: number
-  ): Promise<ApplicationAutoScaling.RegisterScalableTargetResponse> {
+  ): Promise<RegisterScalableTargetResponse> {
     const db = this.getClusterName(reference);
-    const aasResponse = await this.aas
-      .describeScalableTargets({
+    const aasResponse = await this.aas.send(
+      new DescribeScalableTargetsCommand({
         ServiceNamespace: 'rds',
         ResourceIds: [`cluster:${db}`],
       })
-      .promise();
+    );
     if (
       aasResponse &&
       aasResponse.ScalableTargets &&
@@ -86,14 +103,14 @@ export class AuroraTools {
     ) {
       const scalingTarget = aasResponse.ScalableTargets[0];
       const { ServiceNamespace, ResourceId, ScalableDimension } = scalingTarget;
-      const res = await this.aas
-        .registerScalableTarget({
+      const res = await this.aas.send(
+        new RegisterScalableTargetCommand({
           ResourceId,
           ScalableDimension,
           ServiceNamespace,
           MinCapacity: minCapacity,
         })
-        .promise();
+      );
       return res;
     }
     throw new Error(`unable to scale out db cluster ${db}`);
@@ -130,9 +147,9 @@ export class AuroraTools {
    */
   public async getReaderCount(reference: StackReference): Promise<number> {
     const DBClusterIdentifier = this.getClusterName(reference);
-    const clusterDescription = await this.rds
-      .describeDBClusters({ DBClusterIdentifier })
-      .promise();
+    const clusterDescription = await this.rds.send(
+      new DescribeDBClustersCommand({ DBClusterIdentifier })
+    );
     if (
       clusterDescription &&
       clusterDescription.DBClusters &&
@@ -152,7 +169,7 @@ export class AuroraTools {
    */
   public async startDatabase(reference: StackReference): Promise<void> {
     const DBClusterIdentifier = this.getClusterName(reference);
-    await this.rds.startDBCluster({ DBClusterIdentifier }).promise();
+    await this.rds.send(new StartDBClusterCommand({ DBClusterIdentifier }));
   }
 
   /**
@@ -163,7 +180,7 @@ export class AuroraTools {
    */
   public async stopDatabase(reference: StackReference): Promise<void> {
     const DBClusterIdentifier = this.getClusterName(reference);
-    await this.rds.stopDBCluster({ DBClusterIdentifier }).promise();
+    await this.rds.send(new StopDBClusterCommand({ DBClusterIdentifier }));
   }
 
   /**
@@ -174,30 +191,30 @@ export class AuroraTools {
    */
   public async deleteDatabase(reference: StackReference): Promise<void> {
     const DBClusterIdentifier = this.getClusterName(reference);
-    const { DBClusters } = await this.rds
-      .describeDBClusters({ DBClusterIdentifier })
-      .promise();
+    const { DBClusters } = await this.rds.send(
+      new DescribeDBClustersCommand({ DBClusterIdentifier })
+    );
     if (DBClusters && DBClusters.length === 1) {
-      const { DBClusterMembers } = DBClusters[0];
+      const { DBClusterMembers } = DBClusters[0] ?? {};
       if (DBClusterMembers && DBClusterMembers.length > 0) {
         await Promise.all(
           DBClusterMembers.map(async ({ DBInstanceIdentifier }) => {
             if (DBInstanceIdentifier) {
-              await this.rds
-                .deleteDBInstance({
+              await this.rds.send(
+                new DeleteDBInstanceCommand({
                   DBInstanceIdentifier,
                   SkipFinalSnapshot: true,
                 })
-                .promise();
+              );
             }
           })
         );
-        await this.rds
-          .deleteDBCluster({
+        await this.rds.send(
+          new DeleteDBClusterCommand({
             DBClusterIdentifier,
             SkipFinalSnapshot: this.config.skipDeleteSnapshots,
           })
-          .promise();
+        );
       } else {
         throw new Error(`cluster ${DBClusterIdentifier} has no members`);
       }
@@ -222,11 +239,11 @@ export class AuroraTools {
       }));
       Tags.push({ Key: 'Role', Value: 'Reader' });
       const ResourceName = `arn:aws:rds:${this.config.awsRegion}:${this.config.awsProfile}:db:${message['Source ID']}`;
-      const details = await this.rds
-        .listTagsForResource({
+      const details = await this.rds.send(
+        new ListTagsForResourceCommand({
           ResourceName,
         })
-        .promise();
+      );
       const scalingResourceTag = details.TagList
         ? details.TagList.find(
             (t) =>
@@ -236,12 +253,12 @@ export class AuroraTools {
           )
         : undefined;
       if (scalingResourceTag) {
-        await this.rds
-          .addTagsToResource({
+        await this.rds.send(
+          new AddTagsToResourceCommand({
             ResourceName,
             Tags,
           })
-          .promise();
+        );
       }
     }
   }

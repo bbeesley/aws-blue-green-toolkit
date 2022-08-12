@@ -1,5 +1,15 @@
-import { CloudWatchTools, StackReference } from '../main';
-import * as AWS from 'aws-sdk';
+import {
+  DisableAlarmActionsCommand,
+  EnableAlarmActionsCommand,
+} from '@aws-sdk/client-cloudwatch';
+import test from 'ava';
+
+import { CloudWatchTools, StackReference } from '../../dist/index.js';
+import { awsMocks, resetMocks } from './mockAws.js';
+
+test.serial.beforeEach(() => {
+  resetMocks();
+});
 
 const config = {
   awsRegion: 'eu-central-1',
@@ -19,29 +29,42 @@ const config = {
 
 const cloudWatchTools = new CloudWatchTools(config);
 
-describe('CloudWatchTools', () => {
-  describe('disableAlarmsActions', () => {
-    it('calls disableAlarmsActions with expected params', async () => {
-      await cloudWatchTools.disableAlarmsActions(StackReference.b);
-      expect(AWS.CloudWatch._disableAlarmActions).toHaveBeenCalledWith({
+test.serial(
+  'CloudWatchTools > calls enableAlarmsActions with expected params',
+  async (t) => {
+    await cloudWatchTools.enableAlarmsActions(StackReference.b);
+    t.deepEqual(
+      awsMocks.mockCloudwatch
+        .calls()
+        .find((e) => e.args[0] instanceof EnableAlarmActionsCommand).args[0]
+        .input,
+      {
         AlarmNames: [
           'mock service - dev - lambda1 - B',
           'mock service - dev - lambda2 - B',
           'mock service - dev - lambda3 - B',
-        ]
-      });
-    });
-  });
-  describe('enableAlarmsActions', () => {
-    it('calls enableAlarmsActions with expected params', async () => {
-      await cloudWatchTools.enableAlarmsActions(StackReference.b);
-      expect(AWS.CloudWatch._enableAlarmActions).toHaveBeenCalledWith({
+        ],
+      }
+    );
+  }
+);
+
+test.serial(
+  'CloudWatchTools > calls disableAlarmsActions with expected params',
+  async (t) => {
+    await cloudWatchTools.disableAlarmsActions(StackReference.b);
+    t.deepEqual(
+      awsMocks.mockCloudwatch
+        .calls()
+        .find((e) => e.args[0] instanceof DisableAlarmActionsCommand).args[0]
+        .input,
+      {
         AlarmNames: [
           'mock service - dev - lambda1 - B',
           'mock service - dev - lambda2 - B',
           'mock service - dev - lambda3 - B',
-        ]
-      });
-    });
-  });
-});
+        ],
+      }
+    );
+  }
+);

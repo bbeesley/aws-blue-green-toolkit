@@ -1,4 +1,4 @@
-import { AwsConfig } from './common';
+import type { AwsConfig } from './common.js';
 
 /**
  * Configuration options for the SNS toolkit

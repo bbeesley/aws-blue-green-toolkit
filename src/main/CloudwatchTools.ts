@@ -1,6 +1,11 @@
-import { CloudWatch } from 'aws-sdk';
-import { AlarmIdentifiers, CloudWatchConfig } from './@types';
-import { StackReference } from './constants';
+import {
+  CloudWatchClient,
+  DescribeAlarmsCommand,
+  DisableAlarmActionsCommand,
+  EnableAlarmActionsCommand,
+} from '@aws-sdk/client-cloudwatch';
+import type { AlarmIdentifiers, CloudWatchConfig } from './@types/index.js';
+import { StackReference } from './constants.js';
 
 /**
  * Toolkit for CloudWatch operations
@@ -10,7 +15,7 @@ import { StackReference } from './constants';
 export class CloudWatchTools {
   config: CloudWatchConfig;
 
-  cloudWatch: CloudWatch;
+  cloudWatch: CloudWatchClient;
 
   /**
    * Creates an instance of CloudWatchTools.
@@ -19,7 +24,7 @@ export class CloudWatchTools {
    */
   constructor(config: CloudWatchConfig) {
     this.config = config;
-    this.cloudWatch = new CloudWatch({ region: this.config.awsRegion });
+    this.cloudWatch = new CloudWatchClient({ region: this.config.awsRegion });
   }
 
   private getAlarmIdentifiers(ref: StackReference): AlarmIdentifiers {
@@ -29,11 +34,11 @@ export class CloudWatchTools {
   }
 
   private async getAlarms(ref: AlarmIdentifiers): Promise<Array<string>> {
-    const { MetricAlarms } = await this.cloudWatch
-      .describeAlarms({
+    const { MetricAlarms } = await this.cloudWatch.send(
+      new DescribeAlarmsCommand({
         AlarmNamePrefix: ref.alarmPrefix,
       })
-      .promise();
+    );
     let alarms = MetricAlarms;
     if (!MetricAlarms)
       throw new Error(`unable to fetch cloudwatch metric alarms for ${ref}`);
@@ -51,7 +56,9 @@ export class CloudWatchTools {
    */
   public async disableAlarmsActions(reference: StackReference): Promise<void> {
     const alarms = await this.getAlarms(this.getAlarmIdentifiers(reference));
-    await this.cloudWatch.disableAlarmActions({ AlarmNames: alarms }).promise();
+    await this.cloudWatch.send(
+      new DisableAlarmActionsCommand({ AlarmNames: alarms })
+    );
   }
 
   /**
@@ -61,6 +68,8 @@ export class CloudWatchTools {
    */
   public async enableAlarmsActions(reference: StackReference): Promise<void> {
     const alarms = await this.getAlarms(this.getAlarmIdentifiers(reference));
-    await this.cloudWatch.enableAlarmActions({ AlarmNames: alarms }).promise();
+    await this.cloudWatch.send(
+      new EnableAlarmActionsCommand({ AlarmNames: alarms })
+    );
   }
 }

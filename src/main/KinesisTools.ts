@@ -1,11 +1,13 @@
-import { Kinesis } from 'aws-sdk';
 import {
-  RegisterStreamConsumerOutput,
+  DeregisterStreamConsumerCommand,
+  DescribeStreamConsumerCommand,
   DescribeStreamConsumerOutput,
-} from 'aws-sdk/clients/kinesis.js';
-
-import { KinesisConfig } from './@types';
-import { StackReference } from './constants';
+  KinesisClient,
+  RegisterStreamConsumerCommand,
+  RegisterStreamConsumerOutput,
+} from '@aws-sdk/client-kinesis';
+import type { KinesisConfig } from './@types/index.js';
+import { StackReference } from './constants.js';
 
 /**
  * Toolkit for Kinesis data stream operations
@@ -15,7 +17,7 @@ import { StackReference } from './constants';
 export class KinesisTools {
   config: KinesisConfig;
 
-  kinesis: Kinesis;
+  kinesis: KinesisClient;
 
   /**
    * Creates an instance of KinesisTools.
@@ -24,7 +26,7 @@ export class KinesisTools {
    */
   public constructor(config: KinesisConfig) {
     this.config = config;
-    this.kinesis = new Kinesis({ region: this.config.awsRegion });
+    this.kinesis = new KinesisClient({ region: this.config.awsRegion });
   }
 
   protected getConsumerName(
@@ -44,12 +46,12 @@ export class KinesisTools {
   public registerConsumer(
     reference: StackReference
   ): Promise<RegisterStreamConsumerOutput> {
-    return this.kinesis
-      .registerStreamConsumer({
+    return this.kinesis.send(
+      new RegisterStreamConsumerCommand({
         StreamARN: this.config.streamArn,
         ConsumerName: this.getConsumerName(reference),
       })
-      .promise();
+    );
   }
 
   /**
@@ -59,12 +61,12 @@ export class KinesisTools {
    * @memberof KinesisTools
    */
   public async deregisterConsumer(reference: StackReference): Promise<void> {
-    await this.kinesis
-      .deregisterStreamConsumer({
+    await this.kinesis.send(
+      new DeregisterStreamConsumerCommand({
         StreamARN: this.config.streamArn,
         ConsumerName: this.getConsumerName(reference),
       })
-      .promise();
+    );
   }
 
   /**
@@ -76,11 +78,11 @@ export class KinesisTools {
   public describeConsumer(
     reference: StackReference
   ): Promise<DescribeStreamConsumerOutput> {
-    return this.kinesis
-      .describeStreamConsumer({
+    return this.kinesis.send(
+      new DescribeStreamConsumerCommand({
         StreamARN: this.config.streamArn,
         ConsumerName: this.getConsumerName(reference),
       })
-      .promise();
+    );
   }
 }
