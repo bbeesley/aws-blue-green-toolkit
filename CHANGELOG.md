@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.0.0...v3.0.1) (2022-08-12)
+
+
+### Bug Fixes
+
+* only require namespace for aurora utils ([c1533b9](https://github.com/bbeesley/aws-blue-green-toolkit/commit/c1533b95ad7f7788a7630ff0002fc28351b63807))
+
 # [3.0.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v2.1.1...v3.0.0) (2022-08-12)
 
 

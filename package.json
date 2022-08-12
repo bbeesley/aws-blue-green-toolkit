@@ -1,6 +1,6 @@
 {
   "name": "aws-blue-green-toolkit",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Utility functions to help with performing blue/green and canary deployments in AWS infrastructure",
   "author": "Bill Beesley <bill@beesley.dev>",
   "license": "MIT",
