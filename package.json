@@ -26,7 +26,7 @@
     "precompile": "npm run clean",
     "compile": "tsc",
     "dependabump": "ncu -u && rm -rf package-lock.json node_modules | true && npm i",
-    "documentation": "./node_modules/.bin/documentation readme src/main/**.ts --github  --require-extension=ts --parse-extension=ts --babel=./babel.config.cjs --section=api",
+    "documentation": "./node_modules/.bin/documentation readme src/main/**.ts --github  --require-extension=ts --parse-extension=ts --section=api --shallow",
     "lint": "eslint --ext '.ts' --ext '.cjs' --ext '.mjs' --ext '.js' .",
     "pretest": "npm run clean && run-p lint compile",
     "test": "ava",
