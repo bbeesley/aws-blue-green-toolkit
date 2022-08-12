@@ -11,4 +11,5 @@ export interface AuroraConfig extends AwsConfig {
   clusterNameB: string;
   minimumClusterSize: number;
   skipDeleteSnapshots: boolean;
+  namespace: string;
 }
