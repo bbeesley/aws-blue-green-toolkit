@@ -30,7 +30,12 @@ import {
   ListEventSourceMappingsCommand,
   UpdateEventSourceMappingCommand,
 } from '@aws-sdk/client-lambda';
-import { DescribeDBClustersCommand, RDSClient } from '@aws-sdk/client-rds';
+import {
+  DescribeDBClustersCommand,
+  DescribeDBInstancesCommand,
+  ModifyDBInstanceCommand,
+  RDSClient,
+} from '@aws-sdk/client-rds';
 import {
   SetSubscriptionAttributesCommand,
   SNSClient,
@@ -41,6 +46,18 @@ import { mockClient } from 'aws-sdk-client-mock';
 
 const mockRds = mockClient(RDSClient);
 const rdsResponses = {
+  describeDBInstances: {
+    DBInstances: [
+      {
+        DBInstanceIdentifier:
+          'application-autoscaling-4d74caa0-c3ab-4979-9fd9-2b726f18c357',
+        DBInstanceClass: 'db.r6g.xlarge',
+        Engine: 'aurora-postgresql',
+        DBInstanceStatus: 'available',
+        PerformanceInsightsEnabled: false,
+      },
+    ],
+  },
   describeDBClusters: {
     DBClusters: [
       {
@@ -428,6 +445,10 @@ export function resetMocks() {
   awsMocks.mockRds
     .on(DescribeDBClustersCommand)
     .resolves(rdsResponses.describeDBClusters);
+  awsMocks.mockRds
+    .on(DescribeDBInstancesCommand)
+    .resolves(rdsResponses.describeDBInstances);
+  awsMocks.mockRds.on(ModifyDBInstanceCommand).resolves();
   awsMocks.mockAas.reset();
   awsMocks.mockAas
     .on(RegisterScalableTargetCommand)

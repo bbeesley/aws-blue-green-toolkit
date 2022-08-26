@@ -8,11 +8,13 @@ import {
   AddTagsToResourceCommand,
   DeleteDBClusterCommand,
   DeleteDBInstanceCommand,
+  DescribeDBInstancesCommand,
   DescribeDBClustersCommand,
   ListTagsForResourceCommand,
   RDSClient,
   StartDBClusterCommand,
   StopDBClusterCommand,
+  ModifyDBInstanceCommand,
 } from '@aws-sdk/client-rds';
 import type { SNSEventRecord } from 'aws-lambda';
 
@@ -259,6 +261,46 @@ export class AuroraTools {
             Tags,
           })
         );
+      }
+    }
+  }
+
+  /**
+   * Parses a message from an rds event subscription, if the event was triggered by a scale out
+   * operation and the new instance does not have performance insights enabled, the instance is updated
+   * to enable performance insights.
+   * @param {SNSEventRecord} record - An SNS event record of the type published by rds event streams
+   * @returns {Promise<void>}
+   * @memberof AuroraTools
+   */
+  public async enablePerformanceInsights(
+    record: SNSEventRecord
+  ): Promise<void> {
+    const message = JSON.parse(record.Sns.Message);
+    if (
+      message['Event Message'] === 'DB instance created' &&
+      message['Source ID']
+    ) {
+      const DBInstanceIdentifier = message['Source ID'];
+      const { DBInstances } = await this.rds.send(
+        new DescribeDBInstancesCommand({
+          DBInstanceIdentifier,
+        })
+      );
+      if (DBInstances) {
+        const description =
+          DBInstances.find(
+            (i) => i.DBInstanceIdentifier === DBInstanceIdentifier
+          ) ?? {};
+        const { PerformanceInsightsEnabled } = description;
+        if (description && !PerformanceInsightsEnabled) {
+          await this.rds.send(
+            new ModifyDBInstanceCommand({
+              DBInstanceIdentifier,
+              EnablePerformanceInsights: true,
+            })
+          );
+        }
       }
     }
   }
