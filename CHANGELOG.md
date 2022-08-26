@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.0.1...v3.1.0) (2022-08-26)
+
+
+### Features
+
+* adds enablePerformanceInsights method to AuroraTools ([4bf202e](https://github.com/bbeesley/aws-blue-green-toolkit/commit/4bf202e7d0ab69272e94719bf8a98029b57c725d))
+
 ## [3.0.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.0.0...v3.0.1) (2022-08-12)
 
 
