@@ -270,15 +270,20 @@ export class AuroraTools {
    * operation and the new instance does not have performance insights enabled, the instance is updated
    * to enable performance insights.
    * @param {SNSEventRecord} record - An SNS event record of the type published by rds event streams
+   * @param {boolean} reEnableIfDisabled - Whether or not to automatically re enable insights if they are disabled
    * @returns {Promise<void>}
    * @memberof AuroraTools
    */
   public async enablePerformanceInsights(
-    record: SNSEventRecord
+    record: SNSEventRecord,
+    reEnableIfDisabled = true
   ): Promise<void> {
     const message = JSON.parse(record.Sns.Message);
     if (
-      message['Event Message'] === 'DB instance created' &&
+      (message['Event Message'] === 'DB instance created' ||
+        (reEnableIfDisabled &&
+          message['Event Message'] ===
+            'Performance Insights has been disabled')) &&
       message['Source ID']
     ) {
       const DBInstanceIdentifier = message['Source ID'];

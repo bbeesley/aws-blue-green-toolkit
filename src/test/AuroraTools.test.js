@@ -88,3 +88,33 @@ test.serial(
     t.snapshot(awsMocks.mockRds.calls()[1].args[0].input);
   }
 );
+
+test.serial(
+  'AuroraTools > enablePerformanceInsights > calls ModifyDBInstanceCommand with expected params when triggered from a disable event',
+  async (t) => {
+    await auroraTools.enablePerformanceInsights({
+      Sns: {
+        Message:
+          '{"Event Source":"db-instance","Event Time":"2022-08-26 13:29:19.857","Identifier Link":"https://console.aws.amazon.com/rds/home?region=us-east-1#dbinstance:id=application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ID":"application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ARN":"arn:aws:rds:us-east-1:000000000000:db:application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Event ID":"http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0003","Event Message":"Performance Insights has been disabled"}',
+      },
+    });
+    t.true(awsMocks.mockRds.send.calledTwice);
+    t.snapshot(awsMocks.mockRds.calls()[1].args[0].input);
+  }
+);
+
+test.serial(
+  'AuroraTools > enablePerformanceInsights > does nothing when triggered from a disable event if `reEnableIfDisabled` is false',
+  async (t) => {
+    await auroraTools.enablePerformanceInsights(
+      {
+        Sns: {
+          Message:
+            '{"Event Source":"db-instance","Event Time":"2022-08-26 13:29:19.857","Identifier Link":"https://console.aws.amazon.com/rds/home?region=us-east-1#dbinstance:id=application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ID":"application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ARN":"arn:aws:rds:us-east-1:000000000000:db:application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Event ID":"http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0003","Event Message":"Performance Insights has been disabled"}',
+        },
+      },
+      false
+    );
+    t.false(awsMocks.mockRds.send.called);
+  }
+);
