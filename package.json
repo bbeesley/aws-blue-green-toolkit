@@ -11,20 +11,27 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/esm/index.js",
+      "types": "./dist/types/index.d.ts",
+      "require": "./dist/cjs/index.js"
     }
   },
+  "module": "./dist/esm/index.js",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src/main"
   ],
   "engines": {
     "node": ">=16"
   },
   "scripts": {
-    "clean": "rm -rf dist | true",
+    "clean": "rm -rf dist || true",
     "precompile": "npm run clean",
-    "compile": "tsc",
+    "compile:esm": "tsc -p tsconfig-esm.json",
+    "compile:cjs": "tsc -p tsconfig-cjs.json",
+    "compile": "run-p compile:*",
     "dependabump": "ncu -u && rm -rf package-lock.json node_modules | true && npm i",
     "documentation": "./node_modules/.bin/documentation readme src/main/**.ts --github  --require-extension=ts --parse-extension=ts --section=api --shallow",
     "lint": "eslint --ext '.ts' --ext '.cjs' --ext '.mjs' --ext '.js' .",

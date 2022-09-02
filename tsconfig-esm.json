@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "Node16", // tells tsc not to transform es imports/exports to requires and module.exports.
+    "target": "ES2021", // feature set of the runtime environment - node 16 supports all of ES2021
+    "moduleResolution": "Node16", // this just tells ts that we're using node16 and it's glorious but weird module resolution
+    "declaration": true, // emit .d.ts files when compiling
+    "declarationMap": true, // emit maps for the declaration files so your editor works properly with them
+    "outDir": "dist/esm", // directory we're compiling out to
+    "declarationDir": "dist/types", // directory we're compiling type declarations out to
+  }
+}

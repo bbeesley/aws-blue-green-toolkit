@@ -2,15 +2,12 @@
   "compilerOptions": {
     "allowJs": true, // its ok to import js files as well as ts files
     "checkJs": true, // use type inference to make an attempt at type checking js files
-    "declaration": true, // emit .d.ts files when compiling
-    "declarationMap": true, // emit maps for the declaration files so your editor works properly with them
     "incremental": true, // disable caching because it isn't worth it
     "isolatedModules": true, // Setting this to true ensures that each file can be transformed without introspection into it's imports and exports. Helps with tree shaking
     "lib": ["ESNext", "DOM", "DOM.Iterable"], // feature set to allow in the project, choosing ESNext means everything is supported
     "module": "node16", // tells tsc not to transform es imports/exports to requires and module.exports.
     "target": "ES2021", // feature set of the runtime environment - node 16 supports all of ES2021
     "moduleResolution": "node16", // this just tells ts that we're using node16 and it's glorious but weird module resolution
-    "outDir": "dist", // directory we're compiling out to
     "sourceMap": true, // create source maps
     "strict": true, // equivalent to "use strict"
     "noImplicitAny": true, // don't allow untyped stuff if ts cant accurately infer the type
