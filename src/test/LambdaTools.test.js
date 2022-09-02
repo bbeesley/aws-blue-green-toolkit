@@ -10,7 +10,7 @@ import {
   EnableRuleCommand,
   ListRuleNamesByTargetCommand,
 } from '@aws-sdk/client-cloudwatch-events';
-import { LambdaTools, StackReference } from '../../dist/index.js';
+import { LambdaTools, StackReference } from '../../dist/esm/index.js';
 import { awsMocks, eventsResponses, resetMocks } from './mockAws.js';
 
 test.serial.beforeEach(() => {

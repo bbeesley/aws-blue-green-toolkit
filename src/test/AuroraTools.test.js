@@ -1,6 +1,10 @@
 import test from 'ava';
 
-import { AuroraTools, ClusterState, StackReference } from '../../dist/index.js';
+import {
+  AuroraTools,
+  ClusterState,
+  StackReference,
+} from '../../dist/esm/index.js';
 import { awsMocks, resetMocks } from './mockAws.js';
 
 test.serial.beforeEach(() => {

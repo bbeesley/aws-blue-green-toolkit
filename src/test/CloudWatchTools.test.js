@@ -4,7 +4,7 @@ import {
 } from '@aws-sdk/client-cloudwatch';
 import test from 'ava';
 
-import { CloudWatchTools, StackReference } from '../../dist/index.js';
+import { CloudWatchTools, StackReference } from '../../dist/esm/index.js';
 import { awsMocks, resetMocks } from './mockAws.js';
 
 test.serial.beforeEach(() => {

@@ -181,7 +181,6 @@
     "failFast": false,
     "failWithoutAssertions": false,
     "verbose": true,
-    "concurrency": 1,
     "timeout": "1m"
   }
 }
