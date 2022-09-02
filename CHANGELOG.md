@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.1.0...v3.2.0) (2022-09-02)
+
+
+### Features
+
+* add back legacy support for cjs ([68f7603](https://github.com/bbeesley/aws-blue-green-toolkit/commit/68f76039aabfed1869f95f37e874e5b536b10869))
+
 # [3.1.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.0.1...v3.1.0) (2022-08-26)
 
 
