@@ -18,13 +18,13 @@ jobs:
           node-version: '16.15'
       - uses: bbeesley/build-test-merge-publish@main
         with:
-          main-branch: master
+          main-branch: main
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GH_PA_TOKEN }}
   lint-commits:
     runs-on: ubuntu-latest
-    if: ${{ (github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || (github.ref != 'refs/heads/master' && github.event_name == 'push') }}
+    if: ${{ (github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target') || (github.ref != 'refs/heads/main' && github.event_name == 'push') }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v2
