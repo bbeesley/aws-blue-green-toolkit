@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.3.0...v3.4.0) (2022-09-29)
+
+
+### Features
+
+* add a retry with delay when db not ready ([26b71a7](https://github.com/bbeesley/aws-blue-green-toolkit/commit/26b71a7f90b4dd67749c0adc24342ab5aaade20d))
+
 # [3.3.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.2.0...v3.3.0) (2022-09-02)
 
 
