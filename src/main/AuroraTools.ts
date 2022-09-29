@@ -15,8 +15,10 @@ import {
   StartDBClusterCommand,
   StopDBClusterCommand,
   ModifyDBInstanceCommand,
+  RDSServiceException,
 } from '@aws-sdk/client-rds';
 import type { SNSEventRecord } from 'aws-lambda';
+import delay from 'delay';
 
 import type { AuroraConfig } from './@types/index.js';
 import { ClusterState, StackReference } from './constants.js';
@@ -276,7 +278,9 @@ export class AuroraTools {
    */
   public async enablePerformanceInsights(
     record: SNSEventRecord,
-    reEnableIfDisabled = true
+    reEnableIfDisabled = true,
+    retryDelay = 60e3,
+    retryAttempts = 5
   ): Promise<void> {
     const message = JSON.parse(record.Sns.Message);
     if (
@@ -299,12 +303,30 @@ export class AuroraTools {
           ) ?? {};
         const { PerformanceInsightsEnabled } = description;
         if (description && !PerformanceInsightsEnabled) {
-          await this.rds.send(
-            new ModifyDBInstanceCommand({
-              DBInstanceIdentifier,
-              EnablePerformanceInsights: true,
-            })
-          );
+          let complete = false;
+          let attempts = 0;
+          while (!complete && attempts < retryAttempts) {
+            try {
+              await this.rds.send(
+                new ModifyDBInstanceCommand({
+                  DBInstanceIdentifier,
+                  EnablePerformanceInsights: true,
+                })
+              );
+              complete = true;
+            } catch (e) {
+              console.error(e);
+              if (
+                e instanceof RDSServiceException &&
+                (e as any).Code === 'InvalidDBInstanceState'
+              ) {
+                attempts += 1;
+                await delay(retryDelay);
+              } else {
+                throw e;
+              }
+            }
+          }
         }
       }
     }

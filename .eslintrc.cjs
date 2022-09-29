@@ -250,9 +250,6 @@ const rules = {
   // sometimes these are much clearer than if else blocks
   'no-nested-ternary': 'off',
 
-  // avoid unknown horrors
-  complexity: ['warn', { max: 9 }],
-
   'no-underscore-dangle': [
     'error',
     {

@@ -172,7 +172,9 @@
     "@aws-sdk/client-lambda": "^3.148.0",
     "@aws-sdk/client-rds": "^3.145.0",
     "@aws-sdk/client-sns": "^3.145.0",
-    "@aws-sdk/client-sqs": "^3.145.0"
+    "@aws-sdk/client-sqs": "^3.145.0",
+    "@aws-sdk/smithy-client": "^3.180.0",
+    "delay": "^5.0.0"
   },
   "ava": {
     "files": [

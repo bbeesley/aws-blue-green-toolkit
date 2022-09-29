@@ -1,3 +1,7 @@
+import {
+  ModifyDBInstanceCommand,
+  RDSServiceException,
+} from '@aws-sdk/client-rds';
 import test from 'ava';
 
 import {
@@ -86,6 +90,38 @@ test.serial(
     });
     t.true(awsMocks.mockRds.send.calledTwice);
     t.snapshot(awsMocks.mockRds.calls()[1].args[0].input);
+  }
+);
+
+test.serial(
+  'AuroraTools > enablePerformanceInsights > retries after 60s if instance not ready',
+  async (t) => {
+    t.timeout(5e3);
+    const e = new RDSServiceException({
+      message:
+        'InvalidDBInstanceState: Database instance is not in available state.',
+    });
+    e.name = 'InvalidDBInstanceState';
+    e.Code = 'InvalidDBInstanceState';
+    awsMocks.mockRds.on(ModifyDBInstanceCommand).rejectsOnce(e);
+    const startTime = Date.now();
+    await auroraTools.enablePerformanceInsights(
+      {
+        Sns: {
+          Message:
+            '{"Event Source":"db-instance","Event Time":"2022-08-26 13:29:19.857","Identifier Link":"https://console.aws.amazon.com/rds/home?region=us-east-1#dbinstance:id=application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ID":"application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ARN":"arn:aws:rds:us-east-1:000000000000:db:application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Event ID":"http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0003","Event Message":"DB instance created"}',
+        },
+      },
+      true,
+      2e3
+    );
+    t.is(awsMocks.mockRds.commandCalls(ModifyDBInstanceCommand).length, 2);
+    t.snapshot(
+      awsMocks.mockRds
+        .commandCalls(ModifyDBInstanceCommand)
+        .map((el) => el.args[0].input)
+    );
+    t.true(Date.now() - startTime > 2e3);
   }
 );
 
