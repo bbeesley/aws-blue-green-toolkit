@@ -113,7 +113,7 @@ CodeDeploy will carry out steps 6, 7, 9, and 15. This module contains tools to h
 
 ### ClusterState
 
-[src/main/constants.ts:6-11](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/constants.ts#L6-L11 "Source code on GitHub")
+[src/main/constants.ts:6-11](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/constants.ts#L6-L11 "Source code on GitHub")
 
 Enum for describing the state of an RDS cluster
 
@@ -121,13 +121,13 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ### SqsTools
 
-[src/main/SqsTools.ts:10-49](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/SqsTools.ts#L10-L49 "Source code on GitHub")
+[src/main/SqsTools.ts:10-49](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/SqsTools.ts#L10-L49 "Source code on GitHub")
 
 Toolkit for SQS operations
 
 #### purgeQueues
 
-[src/main/SqsTools.ts:35-48](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/SqsTools.ts#L35-L48 "Source code on GitHub")
+[src/main/SqsTools.ts:35-48](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/SqsTools.ts#L35-L48 "Source code on GitHub")
 
 Purges a queue pair (q and dlq) based on config and queue reference
 
@@ -139,13 +139,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### CloudWatchTools
 
-[src/main/CloudwatchTools.ts:15-75](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/CloudwatchTools.ts#L15-L75 "Source code on GitHub")
+[src/main/CloudwatchTools.ts:15-75](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/CloudwatchTools.ts#L15-L75 "Source code on GitHub")
 
 Toolkit for CloudWatch operations
 
 #### disableAlarmsActions
 
-[src/main/CloudwatchTools.ts:57-62](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/CloudwatchTools.ts#L57-L62 "Source code on GitHub")
+[src/main/CloudwatchTools.ts:57-62](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/CloudwatchTools.ts#L57-L62 "Source code on GitHub")
 
 Disable all alarm actions
 
@@ -157,7 +157,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### enableAlarmsActions
 
-[src/main/CloudwatchTools.ts:69-74](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/CloudwatchTools.ts#L69-L74 "Source code on GitHub")
+[src/main/CloudwatchTools.ts:69-74](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/CloudwatchTools.ts#L69-L74 "Source code on GitHub")
 
 Enable all alarm actions
 
@@ -169,13 +169,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### DynamoTools
 
-[src/main/DynamoTools.ts:15-56](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/DynamoTools.ts#L15-L56 "Source code on GitHub")
+[src/main/DynamoTools.ts:15-56](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/DynamoTools.ts#L15-L56 "Source code on GitHub")
 
 Toolkit for Dynamo operations
 
 #### deleteTable
 
-[src/main/DynamoTools.ts:42-55](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/DynamoTools.ts#L42-L55 "Source code on GitHub")
+[src/main/DynamoTools.ts:42-55](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/DynamoTools.ts#L42-L55 "Source code on GitHub")
 
 Deletes a dynamo table
 
@@ -187,13 +187,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### KinesisTools
 
-[src/main/KinesisTools.ts:17-88](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/KinesisTools.ts#L17-L88 "Source code on GitHub")
+[src/main/KinesisTools.ts:17-88](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/KinesisTools.ts#L17-L88 "Source code on GitHub")
 
 Toolkit for Kinesis data stream operations
 
 #### registerConsumer
 
-[src/main/KinesisTools.ts:46-55](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/KinesisTools.ts#L46-L55 "Source code on GitHub")
+[src/main/KinesisTools.ts:46-55](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/KinesisTools.ts#L46-L55 "Source code on GitHub")
 
 Registers a new consumer for a Kinesis data stream
 
@@ -205,7 +205,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### deregisterConsumer
 
-[src/main/KinesisTools.ts:63-70](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/KinesisTools.ts#L63-L70 "Source code on GitHub")
+[src/main/KinesisTools.ts:63-70](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/KinesisTools.ts#L63-L70 "Source code on GitHub")
 
 Deregisters an existing consumer for a Kinesis data stream
 
@@ -217,7 +217,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### describeConsumer
 
-[src/main/KinesisTools.ts:78-87](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/KinesisTools.ts#L78-L87 "Source code on GitHub")
+[src/main/KinesisTools.ts:78-87](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/KinesisTools.ts#L78-L87 "Source code on GitHub")
 
 Describes a consumer for a Kinesis data stream
 
@@ -229,7 +229,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### StackReference
 
-[src/main/constants.ts:18-21](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/constants.ts#L18-L21 "Source code on GitHub")
+[src/main/constants.ts:18-21](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/constants.ts#L18-L21 "Source code on GitHub")
 
 Enum for referencing blue or green stacks
 
@@ -237,13 +237,13 @@ Type: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 
 ### AuroraTools
 
-[src/main/AuroraTools.ts:31-334](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L31-L334 "Source code on GitHub")
+[src/main/AuroraTools.ts:31-334](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L31-L334 "Source code on GitHub")
 
 Toolkit for Aurora operations
 
 #### getClusterState
 
-[src/main/AuroraTools.ts:73-90](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L73-L90 "Source code on GitHub")
+[src/main/AuroraTools.ts:73-90](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L73-L90 "Source code on GitHub")
 
 Gets the current state of one of the Aurora clusters
 
@@ -255,7 +255,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### scaleIn
 
-[src/main/AuroraTools.ts:129-131](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L129-L131 "Source code on GitHub")
+[src/main/AuroraTools.ts:129-131](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L129-L131 "Source code on GitHub")
 
 Reverts a cluster's minimum reader count to the configured minimum
 
@@ -267,7 +267,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### scaleOut
 
-[src/main/AuroraTools.ts:139-144](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L139-L144 "Source code on GitHub")
+[src/main/AuroraTools.ts:139-144](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L139-L144 "Source code on GitHub")
 
 Scales out a cluster to match it's partner's size
 
@@ -279,7 +279,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### getReaderCount
 
-[src/main/AuroraTools.ts:152-166](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L152-L166 "Source code on GitHub")
+[src/main/AuroraTools.ts:152-166](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L152-L166 "Source code on GitHub")
 
 Get a count of the number of active readers for a cluster
 
@@ -291,7 +291,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### startDatabase
 
-[src/main/AuroraTools.ts:174-177](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L174-L177 "Source code on GitHub")
+[src/main/AuroraTools.ts:174-177](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L174-L177 "Source code on GitHub")
 
 Starts a stopped db cluster
 
@@ -303,7 +303,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### stopDatabase
 
-[src/main/AuroraTools.ts:185-188](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L185-L188 "Source code on GitHub")
+[src/main/AuroraTools.ts:185-188](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L185-L188 "Source code on GitHub")
 
 Stops a running db cluster
 
@@ -315,7 +315,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### deleteDatabase
 
-[src/main/AuroraTools.ts:196-228](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L196-L228 "Source code on GitHub")
+[src/main/AuroraTools.ts:196-228](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L196-L228 "Source code on GitHub")
 
 Deletes a running db cluster
 
@@ -327,7 +327,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### applyTags
 
-[src/main/AuroraTools.ts:237-268](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L237-L268 "Source code on GitHub")
+[src/main/AuroraTools.ts:237-268](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L237-L268 "Source code on GitHub")
 
 Parses a message from an rds event subscription, if the event was triggered by a scale out
 operation, the tags defined in config are applied to the newly created reader.
@@ -340,7 +340,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### enablePerformanceInsights
 
-[src/main/AuroraTools.ts:279-333](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/AuroraTools.ts#L279-L333 "Source code on GitHub")
+[src/main/AuroraTools.ts:279-333](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/AuroraTools.ts#L279-L333 "Source code on GitHub")
 
 Parses a message from an rds event subscription, if the event was triggered by a scale out
 operation and the new instance does not have performance insights enabled, the instance is updated
@@ -357,13 +357,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### LambdaTools
 
-[src/main/LambdaTools.ts:39-336](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L39-L336 "Source code on GitHub")
+[src/main/LambdaTools.ts:39-336](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L39-L336 "Source code on GitHub")
 
 Toolkit for Lambda operations
 
 #### enableRule
 
-[src/main/LambdaTools.ts:108-110](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L108-L110 "Source code on GitHub")
+[src/main/LambdaTools.ts:108-110](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L108-L110 "Source code on GitHub")
 
 Enables a lambda's cloudwatch events rule (ie, cron trigger)
 
@@ -375,7 +375,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### disableRule
 
-[src/main/LambdaTools.ts:118-120](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L118-L120 "Source code on GitHub")
+[src/main/LambdaTools.ts:118-120](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L118-L120 "Source code on GitHub")
 
 Disables a lambda's cloudwatch events rule (ie, cron trigger)
 
@@ -387,7 +387,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### createEventSourceMapping
 
-[src/main/LambdaTools.ts:130-145](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L130-L145 "Source code on GitHub")
+[src/main/LambdaTools.ts:130-145](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L130-L145 "Source code on GitHub")
 
 Creates a lambda's event source mapping (eg, a Kinesis stream)
 
@@ -401,7 +401,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### listEventSourceMappings
 
-[src/main/LambdaTools.ts:153-172](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L153-L172 "Source code on GitHub")
+[src/main/LambdaTools.ts:153-172](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L153-L172 "Source code on GitHub")
 
 Lists all event source mappings for the referenced function
 
@@ -413,7 +413,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### enableEventMapping
 
-[src/main/LambdaTools.ts:200-202](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L200-L202 "Source code on GitHub")
+[src/main/LambdaTools.ts:200-202](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L200-L202 "Source code on GitHub")
 
 Enables a lambda's event mappings (eg, an SQS subscription)
 
@@ -425,7 +425,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### disableEventMapping
 
-[src/main/LambdaTools.ts:210-212](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L210-L212 "Source code on GitHub")
+[src/main/LambdaTools.ts:210-212](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L210-L212 "Source code on GitHub")
 
 Disables a lambda's event mappings (eg, an SQS subscription)
 
@@ -437,7 +437,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### deleteEventMapping
 
-[src/main/LambdaTools.ts:222-224](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L222-L224 "Source code on GitHub")
+[src/main/LambdaTools.ts:222-224](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L222-L224 "Source code on GitHub")
 
 Deletes a lambda's event mapping (eg, a Kinesis stream)
 You may use the `listEventSourceMappings` method if you
@@ -451,7 +451,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### getVersion
 
-[src/main/LambdaTools.ts:233-241](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L233-L241 "Source code on GitHub")
+[src/main/LambdaTools.ts:233-241](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L233-L241 "Source code on GitHub")
 
 Gets the currently running version of a lambda fn
 
@@ -463,7 +463,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### getAlias
 
-[src/main/LambdaTools.ts:251-257](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L251-L257 "Source code on GitHub")
+[src/main/LambdaTools.ts:251-257](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L251-L257 "Source code on GitHub")
 
 Returns details about a Lambda function alias.
 
@@ -476,7 +476,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### getLatestMetrics
 
-[src/main/LambdaTools.ts:266-335](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/LambdaTools.ts#L266-L335 "Source code on GitHub")
+[src/main/LambdaTools.ts:266-335](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/LambdaTools.ts#L266-L335 "Source code on GitHub")
 
 Returns the latest metrics about a Lambda function alias.
 
@@ -488,13 +488,13 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 ### SnsTools
 
-[src/main/SnsTools.ts:43-103](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/SnsTools.ts#L43-L103 "Source code on GitHub")
+[src/main/SnsTools.ts:43-103](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/SnsTools.ts#L43-L103 "Source code on GitHub")
 
 Toolkit for SNS operations
 
 #### enableSubscription
 
-[src/main/SnsTools.ts:90-92](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/SnsTools.ts#L90-L92 "Source code on GitHub")
+[src/main/SnsTools.ts:90-92](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/SnsTools.ts#L90-L92 "Source code on GitHub")
 
 Enables an SNS subscription
 
@@ -506,7 +506,7 @@ Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/
 
 #### disableSubscription
 
-[src/main/SnsTools.ts:100-102](https://github.com/bbeesley/aws-blue-green-toolkit/blob/26b71a7f90b4dd67749c0adc24342ab5aaade20d/src/main/SnsTools.ts#L100-L102 "Source code on GitHub")
+[src/main/SnsTools.ts:100-102](https://github.com/bbeesley/aws-blue-green-toolkit/blob/5bbf9e641a10f7610cd3004ce462155b4ac23d05/src/main/SnsTools.ts#L100-L102 "Source code on GitHub")
 
 Disables an SNS subscription
 

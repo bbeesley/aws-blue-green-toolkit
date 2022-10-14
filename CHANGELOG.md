@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.4.0...v3.4.1) (2022-10-14)
+
+
+### Bug Fixes
+
+* ensure legacy cjs output can be loaded ([5bbf9e6](https://github.com/bbeesley/aws-blue-green-toolkit/commit/5bbf9e641a10f7610cd3004ce462155b4ac23d05))
+
 # [3.4.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.3.0...v3.4.0) (2022-09-29)
 
 
