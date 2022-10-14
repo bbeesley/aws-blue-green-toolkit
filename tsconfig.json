@@ -2,7 +2,6 @@
   "compilerOptions": {
     "allowJs": true, // its ok to import js files as well as ts files
     "checkJs": true, // use type inference to make an attempt at type checking js files
-    "incremental": true, // disable caching because it isn't worth it
     "isolatedModules": true, // Setting this to true ensures that each file can be transformed without introspection into it's imports and exports. Helps with tree shaking
     "lib": ["ESNext", "DOM", "DOM.Iterable"], // feature set to allow in the project, choosing ESNext means everything is supported
     "module": "node16", // tells tsc not to transform es imports/exports to requires and module.exports.
@@ -35,8 +34,12 @@
     "exactOptionalPropertyTypes": true, // 
     "noImplicitOverride": true, // if you override a class method you need to label it as an override
     "importsNotUsedAsValues": "error", // makes you use import type instead of just import if youre only importing types, helps make it clear what is a type and what is real
+    "declaration": true, // emit .d.ts files when compiling
+    "declarationMap": true, // emit maps for the declaration files so your editor works properly with them
+    "outDir": "dist/esm", // directory we're compiling out to
+    "declarationDir": "dist/types", // directory we're compiling type declarations out to
   },
-  "include": ["src/**/*.ts", "src/*.ts", "src/test/DynamoTools.test.js", "src/test/AuroraTools.test.js"],
+  "include": ["src/**/*.ts", "src/*.ts"],
   "exclude": ["src/*.test.*", "src/**/*.test.*"],
   "ts-node": {
     "transpileOnly": true,
