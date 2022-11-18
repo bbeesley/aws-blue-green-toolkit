@@ -25,6 +25,7 @@ import { ClusterState, StackReference } from './constants.js';
 
 /**
  * Toolkit for Aurora operations
+ *
  * @export
  * @class AuroraTools
  */
@@ -37,6 +38,7 @@ export class AuroraTools {
 
   /**
    * Creates an instance of AuroraTools.
+   *
    * @param {AuroraConfig} config - Configuration options for the Aurora toolkit
    * @memberof AuroraTools
    */
@@ -66,6 +68,7 @@ export class AuroraTools {
 
   /**
    * Gets the current state of one of the Aurora clusters
+   *
    * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<ClusterState>}
    * @memberof AuroraTools
@@ -122,6 +125,7 @@ export class AuroraTools {
 
   /**
    * Reverts a cluster's minimum reader count to the configured minimum
+   *
    * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
@@ -132,6 +136,7 @@ export class AuroraTools {
 
   /**
    * Scales out a cluster to match it's partner's size
+   *
    * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
@@ -145,6 +150,7 @@ export class AuroraTools {
 
   /**
    * Get a count of the number of active readers for a cluster
+   *
    * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<number>} - The number of active readers
    * @memberof AuroraTools
@@ -167,6 +173,7 @@ export class AuroraTools {
 
   /**
    * Starts a stopped db cluster
+   *
    * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
@@ -178,6 +185,7 @@ export class AuroraTools {
 
   /**
    * Stops a running db cluster
+   *
    * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
@@ -189,6 +197,7 @@ export class AuroraTools {
 
   /**
    * Deletes a running db cluster
+   *
    * @param {StackReference} reference - Reference to a db cluster
    * @returns {Promise<void>}
    * @memberof AuroraTools
@@ -230,6 +239,7 @@ export class AuroraTools {
   /**
    * Parses a message from an rds event subscription, if the event was triggered by a scale out
    * operation, the tags defined in config are applied to the newly created reader.
+   *
    * @param {SNSEventRecord} record - An SNS event record of the type published by rds event streams
    * @returns {Promise<void>}
    * @memberof AuroraTools
@@ -271,9 +281,12 @@ export class AuroraTools {
    * Parses a message from an rds event subscription, if the event was triggered by a scale out
    * operation and the new instance does not have performance insights enabled, the instance is updated
    * to enable performance insights.
+   *
    * @param {SNSEventRecord} record - An SNS event record of the type published by rds event streams
-   * @param {boolean} reEnableIfDisabled - Whether or not to automatically re enable insights if they are disabled
-   * @returns {Promise<void>}
+   * @param {boolean} [reEnableIfDisabled=true] - Whether or not to automatically re enable insights if they are disabled
+   * @param {number} [retryDelay=60e3] - Time in ms to wait before retrying
+   * @param {number} [retryAttempts=5] - Number of retry attempts
+   * @returns {*}  {Promise<void>}
    * @memberof AuroraTools
    */
   public async enablePerformanceInsights(

@@ -17,6 +17,7 @@ import {
   DescribeTableCommand,
   DynamoDBClient,
 } from '@aws-sdk/client-dynamodb';
+import { ECSClient, UpdateServiceCommand } from '@aws-sdk/client-ecs';
 import {
   DeregisterStreamConsumerCommand,
   DescribeStreamConsumerCommand,
@@ -378,6 +379,11 @@ const kinesisResponses = {
   },
 };
 
+const mockEcs = mockClient(ECSClient);
+const ecsResponses = {
+  updateService: {},
+};
+
 export const awsMocks = {
   mockAas,
   mockRds,
@@ -388,8 +394,14 @@ export const awsMocks = {
   mockEvents,
   mockCloudwatch,
   mockKinesis,
+  mockEcs,
 };
 
+/**
+ * Reset all mock counts and behaviours
+ *
+ * @export
+ */
 export function resetMocks() {
   awsMocks.mockSns.reset();
   awsMocks.mockSns
@@ -456,4 +468,8 @@ export function resetMocks() {
   awsMocks.mockAas
     .on(DescribeScalableTargetsCommand)
     .resolves(aasResponses.describeScalableTargets);
+  awsMocks.mockEcs.reset();
+  awsMocks.mockEcs
+    .on(UpdateServiceCommand)
+    .resolves(ecsResponses.updateService);
 }

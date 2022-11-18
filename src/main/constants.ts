@@ -1,5 +1,6 @@
 /**
  * Enum for describing the state of an RDS cluster
+ *
  * @export
  * @enum {number}
  */
@@ -12,6 +13,7 @@ export enum ClusterState {
 
 /**
  * Enum for referencing blue or green stacks
+ *
  * @export
  * @enum {number}
  */

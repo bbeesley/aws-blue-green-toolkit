@@ -6,3 +6,4 @@ export * from './kinesis-tools.js';
 export * from './lambda-tools.js';
 export * from './sns-tools.js';
 export * from './sqs-tools.js';
+export * from './ecs-tools.js';

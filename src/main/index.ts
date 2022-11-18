@@ -7,3 +7,4 @@ export { SqsTools } from './SqsTools.js';
 export { LambdaTools } from './LambdaTools.js';
 export { CloudWatchTools } from './CloudwatchTools.js';
 export { KinesisTools } from './KinesisTools.js';
+export { EcsTools } from './EcsTools.js';

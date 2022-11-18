@@ -4,6 +4,7 @@ import { StackReference } from './constants.js';
 
 /**
  * Toolkit for SQS operations
+ *
  * @export
  * @class SqsTools
  */
@@ -14,7 +15,8 @@ export class SqsTools {
 
   /**
    * Creates an instance of SqsTools.
-   * @param {SqsConfig} config
+   *
+   * @param {SqsConfig} config - Config describing the SQS queue pair
    * @memberof SqsTools
    */
   constructor(config: SqsConfig) {
@@ -28,6 +30,7 @@ export class SqsTools {
 
   /**
    * Purges a queue pair (q and dlq) based on config and queue reference
+   *
    * @param {StackReference} reference - Reference to a subscription queue stack
    * @returns {Promise<void>}
    * @memberof SqsTools

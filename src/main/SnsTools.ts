@@ -37,6 +37,7 @@ class Topic {
 
 /**
  * Toolkit for SNS operations
+ *
  * @export
  * @class SnsTools
  */
@@ -49,7 +50,8 @@ export class SnsTools {
 
   /**
    *Creates an instance of SnsTools.
-   * @param {SnsConfig} config
+   *
+   * @param {SnsConfig} config - Config describing the sns topic pair
    * @memberof SnsTools
    */
   constructor(config: SnsConfig) {
@@ -83,6 +85,7 @@ export class SnsTools {
 
   /**
    * Enables an SNS subscription
+   *
    * @param {StackReference} reference - Reference to a subscription queue stack
    * @returns {Promise<void>}
    * @memberof SnsTools
@@ -93,6 +96,7 @@ export class SnsTools {
 
   /**
    * Disables an SNS subscription
+   *
    * @param {StackReference} reference - Reference to a subscription queue stack
    * @returns {Promise<void>}
    * @memberof SnsTools

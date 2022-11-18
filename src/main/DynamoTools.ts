@@ -9,6 +9,7 @@ import { StackReference } from './constants.js';
 import type { DynamoConfig } from './@types/index.js';
 /**
  * Toolkit for Dynamo operations
+ *
  * @export
  * @class DynamoTools
  */
@@ -19,6 +20,7 @@ export class DynamoTools {
 
   /**
    * Creates an instance of DynamoTools.
+   *
    * @param {DynamoConfig} config - Configuration options for the Dynamo toolkit
    * @memberof DynamoTools
    */
@@ -35,6 +37,7 @@ export class DynamoTools {
 
   /**
    * Deletes a dynamo table
+   *
    * @param {StackReference} reference - Reference to a active table
    * @returns {Promise<void>}
    * @memberof DynamoTools

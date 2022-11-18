@@ -2,6 +2,7 @@ import type { AwsConfig } from './common.js';
 
 /**
  * Configuration options for the SQS toolkit
+ *
  * @export
  * @interface SqsConfig
  * @extends {AwsConfig}
