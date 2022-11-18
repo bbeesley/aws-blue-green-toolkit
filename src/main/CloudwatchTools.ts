@@ -9,6 +9,7 @@ import { StackReference } from './constants.js';
 
 /**
  * Toolkit for CloudWatch operations
+ *
  * @export
  * @class CloudWatchTools
  */
@@ -19,7 +20,8 @@ export class CloudWatchTools {
 
   /**
    * Creates an instance of CloudWatchTools.
-   * @param {CloudWatchConfig} config
+   *
+   * @param {CloudWatchConfig} config - Config describing the alarm pair
    * @memberof CloudWatchConfig
    */
   constructor(config: CloudWatchConfig) {
@@ -51,6 +53,7 @@ export class CloudWatchTools {
 
   /**
    * Disable all alarm actions
+   *
    * @param {StackReference} reference - Reference to a subscription queue stack
    * @returns {Promise<void>}
    */
@@ -63,6 +66,7 @@ export class CloudWatchTools {
 
   /**
    * Enable all alarm actions
+   *
    * @param {StackReference} reference - Reference to a subscription queue stack
    * @returns {Promise<void>}
    */

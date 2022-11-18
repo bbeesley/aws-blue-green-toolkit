@@ -2,6 +2,7 @@ import type { AwsConfig } from './common.js';
 
 /**
  * Configuration options for the SNS toolkit
+ *
  * @export
  * @interface SnsConfig
  * @extends {AwsConfig}
@@ -13,6 +14,7 @@ export interface SnsConfig extends AwsConfig {
 
 /**
  * Parameters to describe an SNS topic subscription
+ *
  * @export
  * @interface TopicData
  */

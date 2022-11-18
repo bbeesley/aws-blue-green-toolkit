@@ -33,6 +33,7 @@ enum Operation {
 
 /**
  * Toolkit for Lambda operations
+ *
  * @export
  * @class LambdaTools
  */
@@ -47,6 +48,7 @@ export class LambdaTools {
 
   /**
    * Creates an instance of LambdaTools.
+   *
    * @param {LambdaConfig} config - Configuration options for the Lambda toolkit
    * @memberof LambdaTools
    */
@@ -101,6 +103,7 @@ export class LambdaTools {
 
   /**
    * Enables a lambda's cloudwatch events rule (ie, cron trigger)
+   *
    * @param {StackReference} reference - Reference to a lambda stack
    * @returns {Promise<void>}
    * @memberof LambdaTools
@@ -111,6 +114,7 @@ export class LambdaTools {
 
   /**
    * Disables a lambda's cloudwatch events rule (ie, cron trigger)
+   *
    * @param {StackReference} reference - Reference to a lambda stack
    * @returns {Promise<void>}
    * @memberof LambdaTools
@@ -121,10 +125,14 @@ export class LambdaTools {
 
   /**
    * Creates a lambda's event source mapping (eg, a Kinesis stream)
+   *
    * @param {StackReference} reference - Reference to a lambda stack
    * @param {string} eventSourceArn - The ARN of the event source
-   * @param {Omit<Lambda.CreateEventSourceMappingRequest, 'FunctionName' | 'EventSourceArn'>} sourceSpecificParams - Any params specific to the event source
-   * @returns {Promise<EventSourceMappingConfiguration>}
+   * @param {(Omit<
+   *       CreateEventSourceMappingRequest,
+   *       'FunctionName' | 'EventSourceArn'
+   *     >)} [sourceSpecificParams={}] - Any params specific to the event source
+   * @returns {*}  {Promise<EventSourceMappingConfiguration>}
    * @memberof LambdaTools
    */
   public createEventSourceMapping(
@@ -146,8 +154,9 @@ export class LambdaTools {
 
   /**
    * Lists all event source mappings for the referenced function
-   * @param {StackReference} reference - Reference to a lambda stack
-   * @returns {Promise<EventSourceMappingsList>}
+   *
+   * @param {StackReference} reference -- Reference to a lambda stack
+   * @returns {*}  {Promise<EventSourceMappingConfiguration[]>}
    * @memberof LambdaTools
    */
   public async listEventSourceMappings(
@@ -193,6 +202,7 @@ export class LambdaTools {
 
   /**
    * Enables a lambda's event mappings (eg, an SQS subscription)
+   *
    * @param {StackReference} reference - Reference to a lambda stack
    * @returns {Promise<void>}
    * @memberof LambdaTools
@@ -203,6 +213,7 @@ export class LambdaTools {
 
   /**
    * Disables a lambda's event mappings (eg, an SQS subscription)
+   *
    * @param {StackReference} reference - Reference to a lambda stack
    * @returns {Promise<void>}
    * @memberof LambdaTools
@@ -215,6 +226,7 @@ export class LambdaTools {
    * Deletes a lambda's event mapping (eg, a Kinesis stream)
    * You may use the `listEventSourceMappings` method if you
    * need to retrieve UUIDs of the function event sources
+   *
    * @param {StackReference} UUID - The identifier of the event source mapping
    * @returns {Promise<void>}
    * @memberof LambdaTools

@@ -1,5 +1,6 @@
 /**
  * Base config used in all tool kits
+ *
  * @export
  * @interface AwsConfig
  */

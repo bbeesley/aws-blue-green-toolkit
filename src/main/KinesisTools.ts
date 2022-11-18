@@ -11,6 +11,7 @@ import { StackReference } from './constants.js';
 
 /**
  * Toolkit for Kinesis data stream operations
+ *
  * @export
  * @class KinesisTools
  */
@@ -21,6 +22,7 @@ export class KinesisTools {
 
   /**
    * Creates an instance of KinesisTools.
+   *
    * @param {KinesisConfig} config - Configuration options for the Kinesis toolkit
    * @memberof KinesisTools
    */
@@ -39,6 +41,7 @@ export class KinesisTools {
 
   /**
    * Registers a new consumer for a Kinesis data stream
+   *
    * @param {StackReference} reference - Reference to an active stack
    * @returns {Promise<RegisterStreamConsumerOutput>}
    * @memberof KinesisTools
@@ -56,6 +59,7 @@ export class KinesisTools {
 
   /**
    * Deregisters an existing consumer for a Kinesis data stream
+   *
    * @param {StackReference} reference - Reference to an active stack
    * @returns {Promise<void>}
    * @memberof KinesisTools
@@ -71,6 +75,7 @@ export class KinesisTools {
 
   /**
    * Describes a consumer for a Kinesis data stream
+   *
    * @param {StackReference} reference - Reference to an active stack
    * @returns {Promise<DescribeStreamConsumerOutput>}
    * @memberof KinesisTools

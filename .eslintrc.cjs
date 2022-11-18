@@ -23,6 +23,7 @@ const plugins = [
   'promise',
   'unicorn',
   'ava',
+  'jsdoc',
 ];
 const extendsModules = [
   'plugin:prettier/recommended',
@@ -31,6 +32,7 @@ const extendsModules = [
   'plugin:eslint-comments/recommended',
   'plugin:promise/recommended',
   'prettier',
+  'plugin:jsdoc/recommended',
 ];
 
 const settings = {
@@ -46,6 +48,14 @@ const settings = {
   },
   // Append 'ts' extensions to Airbnb 'import/extensions' setting
   'import/extensions': 'off',
+
+  jsdoc: {
+    mode: 'typescript',
+    tagNamePreference: {
+      exports: 'export',
+      augments: 'extends',
+    },
+  },
 };
 const env = {
   node: true,
@@ -282,6 +292,10 @@ const rules = {
   // this allows babel to replace the filename on imports/exports with the target file extension
   'import/extensions': 'off',
   'max-classes-per-file': 'off',
+  'jsdoc/require-description': 'error',
+  'jsdoc/require-hyphen-before-param-description': 'error',
+  'jsdoc/no-undefined-types': 'error',
+  'jsdoc/require-returns-description': 'off',
 };
 const overrides = [
   {
