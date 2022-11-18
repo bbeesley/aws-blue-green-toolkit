@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.4.1...v3.5.0) (2022-11-18)
+
+
+### Features
+
+* adds some initial tools for managing ECS service pairs ([42ba50a](https://github.com/bbeesley/aws-blue-green-toolkit/commit/42ba50a1d8991ce8192cea5e3ca17aec85dfce8c))
+
 ## [3.4.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.4.0...v3.4.1) (2022-10-14)
 
 
