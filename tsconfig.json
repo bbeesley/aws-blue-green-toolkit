@@ -1,41 +1,6 @@
 {
+  "extends": "@beesley/tsconfig/npm.json",
   "compilerOptions": {
-    "allowJs": true, // its ok to import js files as well as ts files
-    "checkJs": true, // use type inference to make an attempt at type checking js files
-    "isolatedModules": true, // Setting this to true ensures that each file can be transformed without introspection into it's imports and exports. Helps with tree shaking
-    "lib": ["ESNext", "DOM", "DOM.Iterable"], // feature set to allow in the project, choosing ESNext means everything is supported
-    "module": "node16", // tells tsc not to transform es imports/exports to requires and module.exports.
-    "target": "ES2021", // feature set of the runtime environment - node 16 supports all of ES2021
-    "moduleResolution": "node16", // this just tells ts that we're using node16 and it's glorious but weird module resolution
-    "sourceMap": true, // create source maps
-    "strict": true, // equivalent to "use strict"
-    "noImplicitAny": true, // don't allow untyped stuff if ts cant accurately infer the type
-    "strictFunctionTypes": true, // look at the actual functions' types rather than relying on any aliases (eg, you might have a set of functions in an object whose type is Record<string, (config: Record<string, string | Language>) => MappedConfig>, but some functions in that map may require that config is Record<string, Language>, this ensures tsc actually looks at the functions in the object rather than relying on the type from the object containing the functions)
-    "strictNullChecks": true, // don't allow possibly null/undefined values to be used in contexts where a value is expected
-    "allowSyntheticDefaultImports": true, // lets you use `import uuid from 'uuid'` instead of needing to do `import * as uuid from 'uuid'` for modules which don't have a default export
-    "baseUrl": "./src", // where the file hierarchy starts. Eg, if I have a file `src/main/index.ts`, with this setting it will compile out to `dist/main/index.js`, if I set baseUrl to "." then it will compile out to `dist/src/main/index.js`, if I set baseUrl to "./src/main" my file just compiles out to `dist/index.js`.
-    "esModuleInterop": true, // forces compatibility with es imports/exports (typescript's import/export spec has some features the ES spec doesn't allow)
-    "importHelpers": false, // this tells tsc not to import polyfills from the "tslib" module
-    "allowUnreachableCode": false, // essentially linting, forces an error for unreachable code (ie stuff after the return statement in a function)
-    "allowUnusedLabels": false, // labels are an old js feature that nobody uses, they look like object syntax within a function, and are used for adding metadata to an object. The only time you're likely to see them in our code is if you made a typo and incorrectly closed or opened an object. Banning them means we can't accidentally make something a label instead of an object.
-    "forceConsistentCasingInFileNames": true, // by default ts imports are case insensitive, so with a file `monkey-banana-waffle.ts` ts will allow you to import it as `import stuff from './Monkey-Banana-Waffle';`, this is stupid and is only there because ts is microsoft and microsoft don't have case sensitive filesystems. This disables that stupid behaviour and makes you use the actual case.
-    "resolveJsonModule": false, // this doesn't work in the same way in es modules, you need to use imports with assertions in the new world
-    "pretty": true, // Enable colour and formatting in output to make compiler errors easier to read
-    "stripInternal": true, // Disable emitting declarations that have @internal in their JSDoc comments.
-    "noImplicitReturns": true, // Enable error reporting for codepaths that do not explicitly return in a function.
-    "noUnusedLocals": true, // Enable error reporting when a local variables aren't read.
-    "noUnusedParameters": true, // Raise an error when a function parameter isn't read
-    "noFallthroughCasesInSwitch": true, // Enable error reporting for fallthrough cases in switch statements.
-    "noUncheckedIndexedAccess": true, // Add undefined to a type when accessed using an index.
-    "noPropertyAccessFromIndexSignature": false, // disables requirement to use indexed accessors for keys declared using an indexed type
-    "noEmitOnError": true, // Disable emitting files if any type checking errors are reported.
-    "useDefineForClassFields": true, // Emit ECMAScript-standard-compliant class fields.
-    "skipLibCheck": false, // type check all .d.ts files.
-    "exactOptionalPropertyTypes": true, // 
-    "noImplicitOverride": true, // if you override a class method you need to label it as an override
-    "importsNotUsedAsValues": "error", // makes you use import type instead of just import if youre only importing types, helps make it clear what is a type and what is real
-    "declaration": true, // emit .d.ts files when compiling
-    "declarationMap": true, // emit maps for the declaration files so your editor works properly with them
     "outDir": "dist/esm", // directory we're compiling out to
     "declarationDir": "dist/types", // directory we're compiling type declarations out to
   },

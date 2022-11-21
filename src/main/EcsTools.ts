@@ -38,6 +38,7 @@ export class EcsTools {
           reference === StackReference.a
             ? this.config.serviceNameA
             : this.config.serviceNameB,
+        cluster: this.config.cluster,
         desiredCount: 0,
       })
     );
@@ -57,6 +58,7 @@ export class EcsTools {
           reference === StackReference.a
             ? this.config.serviceNameA
             : this.config.serviceNameB,
+        cluster: this.config.cluster,
         desiredCount: this.config.desiredTasks,
       })
     );

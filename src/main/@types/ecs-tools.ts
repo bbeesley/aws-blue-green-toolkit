@@ -10,5 +10,6 @@ import type { AwsConfig } from './common.js';
 export interface EcsConfig extends AwsConfig {
   serviceNameA: string;
   serviceNameB: string;
+  cluster: string;
   desiredTasks: number;
 }
