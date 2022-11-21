@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.5.0...v3.5.1) (2022-11-21)
+
+
+### Bug Fixes
+
+* send cluster data ([b9bf535](https://github.com/bbeesley/aws-blue-green-toolkit/commit/b9bf535db2a61efd28f12d0a7ee545f8860d8348))
+
 # [3.5.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.4.1...v3.5.0) (2022-11-18)
 
 
