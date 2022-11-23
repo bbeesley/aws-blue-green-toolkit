@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import { EcsTools, StackReference } from '../../dist/esm/index.js';
-import { awsMocks, resetMocks } from './mockAws.js';
+import { awsMocks, resetMocks } from './mock-aws.js';
 
 test.serial.beforeEach(() => {
   resetMocks();
@@ -15,6 +15,7 @@ const config = {
   serviceNameA: 'thing-runner-a-prod',
   serviceNameB: 'thing-runner-b-prod',
   desiredTasks: 1,
+  cluster: 'deep-sea-fargate',
 };
 
 const tools = new EcsTools(config);

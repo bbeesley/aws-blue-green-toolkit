@@ -2,7 +2,7 @@ import { PurgeQueueCommand } from '@aws-sdk/client-sqs';
 import test from 'ava';
 
 import { SqsTools, StackReference } from '../../dist/esm/index.js';
-import { awsMocks, resetMocks } from './mockAws.js';
+import { awsMocks, resetMocks } from './mock-aws.js';
 
 test.serial.beforeEach(() => {
   resetMocks();
@@ -46,10 +46,10 @@ test.serial(
     t.truthy(
       awsMocks.mockSqs
         .calls()
-        .filter((e) => e.args[0] instanceof PurgeQueueCommand)
+        .filter((error) => error.args[0] instanceof PurgeQueueCommand)
         .find(
-          (e) =>
-            e.args[0].input.QueueUrl ===
+          (error) =>
+            error.args[0].input.QueueUrl ===
             'https://sqs.eu-central-1.amazonaws.com/555/fn-queue-b-dev'
         )
     );
@@ -57,8 +57,8 @@ test.serial(
       awsMocks.mockSqs
         .calls()
         .find(
-          (e) =>
-            e.args[0]?.input.QueueUrl ===
+          (error) =>
+            error.args[0]?.input.QueueUrl ===
             'https://sqs.eu-central-1.amazonaws.com/555/fn-dlq-b-dev'
         )
     );
@@ -73,20 +73,20 @@ test.serial(
     t.truthy(
       awsMocks.mockSqs
         .calls()
-        .filter((e) => e.args[0] instanceof PurgeQueueCommand)
+        .filter((error) => error.args[0] instanceof PurgeQueueCommand)
         .find(
-          (e) =>
-            e.args[0].input.QueueUrl ===
+          (error) =>
+            error.args[0].input.QueueUrl ===
             'https://sqs.eu-central-1.amazonaws.com/555/fn-queue-b-dev'
         )
     );
     t.truthy(
       awsMocks.mockSqs
         .calls()
-        .filter((e) => e.args[0] instanceof PurgeQueueCommand)
+        .filter((error) => error.args[0] instanceof PurgeQueueCommand)
         .find(
-          (e) =>
-            e.args[0].input.QueueUrl ===
+          (error) =>
+            error.args[0].input.QueueUrl ===
             'https://sqs.eu-central-1.amazonaws.com/555/fn-dlq-b-dev'
         )
     );

@@ -1,10 +1,10 @@
 import {
   DeregisterStreamConsumerCommand,
   DescribeStreamConsumerCommand,
-  DescribeStreamConsumerOutput,
+  type DescribeStreamConsumerOutput,
   KinesisClient,
   RegisterStreamConsumerCommand,
-  RegisterStreamConsumerOutput,
+  type RegisterStreamConsumerOutput,
 } from '@aws-sdk/client-kinesis';
 import type { KinesisConfig } from './@types/index.js';
 import { StackReference } from './constants.js';
@@ -16,9 +16,7 @@ import { StackReference } from './constants.js';
  * @class KinesisTools
  */
 export class KinesisTools {
-  config: KinesisConfig;
-
-  kinesis: KinesisClient;
+  public kinesis: KinesisClient;
 
   /**
    * Creates an instance of KinesisTools.
@@ -26,35 +24,9 @@ export class KinesisTools {
    * @param {KinesisConfig} config - Configuration options for the Kinesis toolkit
    * @memberof KinesisTools
    */
-  public constructor(config: KinesisConfig) {
+  public constructor(public config: KinesisConfig) {
     this.config = config;
     this.kinesis = new KinesisClient({ region: this.config.awsRegion });
-  }
-
-  protected getConsumerName(
-    ref: StackReference
-  ): KinesisConfig['consumerNameA'] | KinesisConfig['consumerNameB'] {
-    return ref === StackReference.a
-      ? this.config.consumerNameA
-      : this.config.consumerNameB;
-  }
-
-  /**
-   * Registers a new consumer for a Kinesis data stream
-   *
-   * @param {StackReference} reference - Reference to an active stack
-   * @returns {Promise<RegisterStreamConsumerOutput>}
-   * @memberof KinesisTools
-   */
-  public registerConsumer(
-    reference: StackReference
-  ): Promise<RegisterStreamConsumerOutput> {
-    return this.kinesis.send(
-      new RegisterStreamConsumerCommand({
-        StreamARN: this.config.streamArn,
-        ConsumerName: this.getConsumerName(reference),
-      })
-    );
   }
 
   /**
@@ -80,7 +52,7 @@ export class KinesisTools {
    * @returns {Promise<DescribeStreamConsumerOutput>}
    * @memberof KinesisTools
    */
-  public describeConsumer(
+  public async describeConsumer(
     reference: StackReference
   ): Promise<DescribeStreamConsumerOutput> {
     return this.kinesis.send(
@@ -89,5 +61,31 @@ export class KinesisTools {
         ConsumerName: this.getConsumerName(reference),
       })
     );
+  }
+
+  /**
+   * Registers a new consumer for a Kinesis data stream
+   *
+   * @param {StackReference} reference - Reference to an active stack
+   * @returns {Promise<RegisterStreamConsumerOutput>}
+   * @memberof KinesisTools
+   */
+  public async registerConsumer(
+    reference: StackReference
+  ): Promise<RegisterStreamConsumerOutput> {
+    return this.kinesis.send(
+      new RegisterStreamConsumerCommand({
+        StreamARN: this.config.streamArn,
+        ConsumerName: this.getConsumerName(reference),
+      })
+    );
+  }
+
+  protected getConsumerName(
+    ref: StackReference
+  ): KinesisConfig['consumerNameA'] | KinesisConfig['consumerNameB'] {
+    return ref === StackReference.a
+      ? this.config.consumerNameA
+      : this.config.consumerNameB;
   }
 }

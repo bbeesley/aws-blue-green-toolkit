@@ -16,22 +16,18 @@ enum Operation {
 }
 
 class Topic {
-  name: string;
-
-  region: string;
-
-  subscriptionArn: string;
-
-  enabledFilter: Record<string, any>;
-
-  disabledFilter: Record<string, any>;
+  public disabledFilter: Record<string, any>;
+  public enabledFilter: Record<string, any>;
+  public name: string;
+  public region: string;
+  public subscriptionArn: string;
 
   constructor(d: TopicData) {
     this.name = d.name;
     this.region = d.region;
     this.subscriptionArn = d.subscriptionArn;
-    this.enabledFilter = d.enabledFilter || enabledFilter;
-    this.disabledFilter = d.disabledFilter || disabledFilter;
+    this.enabledFilter = d.enabledFilter ?? enabledFilter;
+    this.disabledFilter = d.disabledFilter ?? disabledFilter;
   }
 }
 
@@ -42,11 +38,8 @@ class Topic {
  * @class SnsTools
  */
 export class SnsTools {
-  config: SnsConfig;
-
-  topicA: Topic;
-
-  topicB: Topic;
+  public topicA: Topic;
+  public topicB: Topic;
 
   /**
    *Creates an instance of SnsTools.
@@ -54,10 +47,32 @@ export class SnsTools {
    * @param {SnsConfig} config - Config describing the sns topic pair
    * @memberof SnsTools
    */
-  constructor(config: SnsConfig) {
+  constructor(public config: SnsConfig) {
     this.config = config;
     this.topicA = new Topic(config.topicA);
     this.topicB = new Topic(config.topicB);
+  }
+
+  /**
+   * Disables an SNS subscription
+   *
+   * @param {StackReference} reference - Reference to a subscription queue stack
+   * @returns {Promise<void>}
+   * @memberof SnsTools
+   */
+  public async disableSubscription(reference: StackReference): Promise<void> {
+    await this.updateFilters(Operation.DISABLE, reference);
+  }
+
+  /**
+   * Enables an SNS subscription
+   *
+   * @param {StackReference} reference - Reference to a subscription queue stack
+   * @returns {Promise<void>}
+   * @memberof SnsTools
+   */
+  public async enableSubscription(reference: StackReference): Promise<void> {
+    await this.updateFilters(Operation.ENABLE, reference);
   }
 
   private getTopic(ref: StackReference): Topic {
@@ -81,27 +96,5 @@ export class SnsTools {
         AttributeValue,
       })
     );
-  }
-
-  /**
-   * Enables an SNS subscription
-   *
-   * @param {StackReference} reference - Reference to a subscription queue stack
-   * @returns {Promise<void>}
-   * @memberof SnsTools
-   */
-  public async enableSubscription(reference: StackReference): Promise<void> {
-    await this.updateFilters(Operation.ENABLE, reference);
-  }
-
-  /**
-   * Disables an SNS subscription
-   *
-   * @param {StackReference} reference - Reference to a subscription queue stack
-   * @returns {Promise<void>}
-   * @memberof SnsTools
-   */
-  public async disableSubscription(reference: StackReference): Promise<void> {
-    await this.updateFilters(Operation.DISABLE, reference);
   }
 }

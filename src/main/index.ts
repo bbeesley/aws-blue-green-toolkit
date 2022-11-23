@@ -1,10 +1,10 @@
 export * from './constants.js';
 export * from './@types/index.js';
-export { AuroraTools } from './AuroraTools.js';
-export { DynamoTools } from './DynamoTools.js';
-export { SnsTools } from './SnsTools.js';
-export { SqsTools } from './SqsTools.js';
-export { LambdaTools } from './LambdaTools.js';
-export { CloudWatchTools } from './CloudwatchTools.js';
-export { KinesisTools } from './KinesisTools.js';
-export { EcsTools } from './EcsTools.js';
+export { AuroraTools } from './aurora-tools.js';
+export { DynamoTools } from './dynamo-tools.js';
+export { SnsTools } from './sns-tools.js';
+export { SqsTools } from './sqs-tools.js';
+export { LambdaTools } from './lambda-tools.js';
+export { CloudWatchTools } from './cloudwatch-tools.js';
+export { KinesisTools } from './kinesis-tools.js';
+export { EcsTools } from './ecs-tools.js';

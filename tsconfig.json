@@ -8,6 +8,6 @@
   "exclude": ["src/*.test.*", "src/**/*.test.*"],
   "ts-node": {
     "transpileOnly": true,
-    // "files": true,
+    "files": true,
   }
 }

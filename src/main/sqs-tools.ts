@@ -9,9 +9,7 @@ import { StackReference } from './constants.js';
  * @class SqsTools
  */
 export class SqsTools {
-  config: SqsConfig;
-
-  sqs: SQSClient;
+  public sqs: SQSClient;
 
   /**
    * Creates an instance of SqsTools.
@@ -19,13 +17,9 @@ export class SqsTools {
    * @param {SqsConfig} config - Config describing the SQS queue pair
    * @memberof SqsTools
    */
-  constructor(config: SqsConfig) {
+  constructor(public config: SqsConfig) {
     this.config = config;
     this.sqs = new SQSClient({ region: this.config.awsRegion });
-  }
-
-  private getQueue(ref: StackReference): SqsQueue {
-    return ref === StackReference.a ? this.config.queueA : this.config.queueB;
   }
 
   /**
@@ -48,5 +42,9 @@ export class SqsTools {
         }
       })
     );
+  }
+
+  private getQueue(ref: StackReference): SqsQueue {
+    return ref === StackReference.a ? this.config.queueA : this.config.queueB;
   }
 }

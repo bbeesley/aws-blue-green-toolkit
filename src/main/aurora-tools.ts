@@ -2,7 +2,7 @@ import {
   ApplicationAutoScalingClient,
   DescribeScalableTargetsCommand,
   RegisterScalableTargetCommand,
-  RegisterScalableTargetResponse,
+  type RegisterScalableTargetResponse,
 } from '@aws-sdk/client-application-auto-scaling';
 import {
   AddTagsToResourceCommand,
@@ -30,8 +30,6 @@ import { ClusterState, StackReference } from './constants.js';
  * @class AuroraTools
  */
 export class AuroraTools {
-  config: AuroraConfig;
-
   rds: RDSClient;
 
   aas: ApplicationAutoScalingClient;
@@ -42,28 +40,12 @@ export class AuroraTools {
    * @param {AuroraConfig} config - Configuration options for the Aurora toolkit
    * @memberof AuroraTools
    */
-  public constructor(config: AuroraConfig) {
+  public constructor(public config: AuroraConfig) {
     this.config = config;
     this.rds = new RDSClient({ region: this.config.awsRegion });
     this.aas = new ApplicationAutoScalingClient({
       region: this.config.awsRegion,
     });
-  }
-
-  protected getClusterName(ref: StackReference): string {
-    return ref === StackReference.a
-      ? this.config.clusterNameA
-      : this.config.clusterNameB;
-  }
-
-  protected getClusterPartnerName(ref: StackReference): string {
-    return ref === StackReference.b
-      ? this.config.clusterNameA
-      : this.config.clusterNameB;
-  }
-
-  protected getClusterPartnerRef(ref: StackReference): StackReference {
-    return ref === StackReference.a ? StackReference.b : StackReference.a;
   }
 
   /**
@@ -89,38 +71,8 @@ export class AuroraTools {
         if (Status === ClusterState.STOPPING) return ClusterState.STOPPING;
       }
     }
-    throw new Error(`unable to get cluster info for ${DBClusterIdentifier}`);
-  }
 
-  protected async scale(
-    reference: StackReference,
-    minCapacity: number
-  ): Promise<RegisterScalableTargetResponse> {
-    const db = this.getClusterName(reference);
-    const aasResponse = await this.aas.send(
-      new DescribeScalableTargetsCommand({
-        ServiceNamespace: 'rds',
-        ResourceIds: [`cluster:${db}`],
-      })
-    );
-    if (
-      aasResponse &&
-      aasResponse.ScalableTargets &&
-      aasResponse.ScalableTargets[0]
-    ) {
-      const scalingTarget = aasResponse.ScalableTargets[0];
-      const { ServiceNamespace, ResourceId, ScalableDimension } = scalingTarget;
-      const res = await this.aas.send(
-        new RegisterScalableTargetCommand({
-          ResourceId,
-          ScalableDimension,
-          ServiceNamespace,
-          MinCapacity: minCapacity,
-        })
-      );
-      return res;
-    }
-    throw new Error(`unable to scale out db cluster ${db}`);
+    throw new Error(`unable to get cluster info for ${DBClusterIdentifier}`);
   }
 
   /**
@@ -160,14 +112,10 @@ export class AuroraTools {
     const clusterDescription = await this.rds.send(
       new DescribeDBClustersCommand({ DBClusterIdentifier })
     );
-    if (
-      clusterDescription &&
-      clusterDescription.DBClusters &&
-      clusterDescription.DBClusters[0] &&
-      clusterDescription.DBClusters[0].DBClusterMembers
-    ) {
+    if (clusterDescription?.DBClusters?.[0]?.DBClusterMembers) {
       return clusterDescription.DBClusters[0].DBClusterMembers.length - 1;
     }
+
     throw new Error('unable to count active db readers');
   }
 
@@ -245,8 +193,11 @@ export class AuroraTools {
    * @memberof AuroraTools
    */
   public async applyTags(record: SNSEventRecord): Promise<void> {
-    const message = JSON.parse(record.Sns.Message);
-    if (message['Event Message'] === 'DB instance created') {
+    const message = JSON.parse(record.Sns.Message) as Record<string, string>;
+    if (
+      message['Event Message'] === 'DB instance created' &&
+      message['Source ID']
+    ) {
       const Tags = Object.entries(this.config.tags).map(([Key, Value]) => ({
         Key,
         Value,
@@ -295,7 +246,7 @@ export class AuroraTools {
     retryDelay = 60e3,
     retryAttempts = 5
   ): Promise<void> {
-    const message = JSON.parse(record.Sns.Message);
+    const message = JSON.parse(record.Sns.Message) as Record<string, string>;
     if (
       (message['Event Message'] === 'DB instance created' ||
         (reEnableIfDisabled &&
@@ -327,21 +278,65 @@ export class AuroraTools {
                 })
               );
               complete = true;
-            } catch (e) {
-              console.error(e);
+            } catch (error) {
+              console.error(error);
               if (
-                e instanceof RDSServiceException &&
-                (e as any).Code === 'InvalidDBInstanceState'
+                error instanceof RDSServiceException &&
+                (error as any).Code === 'InvalidDBInstanceState'
               ) {
                 attempts += 1;
                 await delay(retryDelay);
               } else {
-                throw e;
+                throw error;
               }
             }
           }
         }
       }
     }
+  }
+
+  protected async scale(
+    reference: StackReference,
+    minCapacity: number
+  ): Promise<RegisterScalableTargetResponse> {
+    const db = this.getClusterName(reference);
+    const aasResponse = await this.aas.send(
+      new DescribeScalableTargetsCommand({
+        ServiceNamespace: 'rds',
+        ResourceIds: [`cluster:${db}`],
+      })
+    );
+    if (aasResponse?.ScalableTargets?.[0]) {
+      const scalingTarget = aasResponse.ScalableTargets[0];
+      const { ServiceNamespace, ResourceId, ScalableDimension } = scalingTarget;
+      const response = await this.aas.send(
+        new RegisterScalableTargetCommand({
+          ResourceId,
+          ScalableDimension,
+          ServiceNamespace,
+          MinCapacity: minCapacity,
+        })
+      );
+      return response;
+    }
+
+    throw new Error(`unable to scale out db cluster ${db}`);
+  }
+
+  protected getClusterName(ref: StackReference): string {
+    return ref === StackReference.a
+      ? this.config.clusterNameA
+      : this.config.clusterNameB;
+  }
+
+  protected getClusterPartnerName(ref: StackReference): string {
+    return ref === StackReference.b
+      ? this.config.clusterNameA
+      : this.config.clusterNameB;
+  }
+
+  protected getClusterPartnerRef(ref: StackReference): StackReference {
+    return ref === StackReference.a ? StackReference.b : StackReference.a;
   }
 }

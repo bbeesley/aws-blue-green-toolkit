@@ -2,7 +2,7 @@ import { DescribeTableCommand } from '@aws-sdk/client-dynamodb';
 import test from 'ava';
 
 import { DynamoTools, StackReference } from '../../dist/esm/index.js';
-import { awsMocks, resetMocks } from './mockAws.js';
+import { awsMocks, resetMocks } from './mock-aws.js';
 
 test.serial.beforeEach(() => {
   resetMocks();

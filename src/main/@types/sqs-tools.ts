@@ -7,12 +7,12 @@ import type { AwsConfig } from './common.js';
  * @interface SqsConfig
  * @extends {AwsConfig}
  */
-export interface SqsConfig extends AwsConfig {
+export type SqsConfig = {
   queueA: SqsQueue;
   queueB: SqsQueue;
-}
+} & AwsConfig;
 
-export interface SqsQueue {
+export type SqsQueue = {
   queueName: string;
   dlqName?: string;
-}
+};

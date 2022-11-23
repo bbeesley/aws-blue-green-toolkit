@@ -14,9 +14,7 @@ import { StackReference } from './constants.js';
  * @class CloudWatchTools
  */
 export class CloudWatchTools {
-  config: CloudWatchConfig;
-
-  cloudWatch: CloudWatchClient;
+  public cloudWatch: CloudWatchClient;
 
   /**
    * Creates an instance of CloudWatchTools.
@@ -24,31 +22,9 @@ export class CloudWatchTools {
    * @param {CloudWatchConfig} config - Config describing the alarm pair
    * @memberof CloudWatchConfig
    */
-  constructor(config: CloudWatchConfig) {
+  constructor(public config: CloudWatchConfig) {
     this.config = config;
     this.cloudWatch = new CloudWatchClient({ region: this.config.awsRegion });
-  }
-
-  private getAlarmIdentifiers(ref: StackReference): AlarmIdentifiers {
-    return ref === StackReference.a
-      ? this.config.alarmStackA
-      : this.config.alarmStackB;
-  }
-
-  private async getAlarms(ref: AlarmIdentifiers): Promise<Array<string>> {
-    const { MetricAlarms } = await this.cloudWatch.send(
-      new DescribeAlarmsCommand({
-        AlarmNamePrefix: ref.alarmPrefix,
-      })
-    );
-    let alarms = MetricAlarms;
-    if (!MetricAlarms)
-      throw new Error(`unable to fetch cloudwatch metric alarms for ${ref}`);
-    const { alarmSuffix } = ref;
-    if (alarmSuffix) {
-      alarms = MetricAlarms.filter((r) => r.AlarmName?.endsWith(alarmSuffix));
-    }
-    return alarms?.map((r) => r.AlarmName).filter((a) => !!a) as string[];
   }
 
   /**
@@ -75,5 +51,30 @@ export class CloudWatchTools {
     await this.cloudWatch.send(
       new EnableAlarmActionsCommand({ AlarmNames: alarms })
     );
+  }
+
+  private getAlarmIdentifiers(ref: StackReference): AlarmIdentifiers {
+    return ref === StackReference.a
+      ? this.config.alarmStackA
+      : this.config.alarmStackB;
+  }
+
+  private async getAlarms(ref: AlarmIdentifiers): Promise<string[]> {
+    const { MetricAlarms } = await this.cloudWatch.send(
+      new DescribeAlarmsCommand({
+        AlarmNamePrefix: ref.alarmPrefix,
+      })
+    );
+    let alarms = MetricAlarms;
+    if (!MetricAlarms)
+      throw new Error(
+        `unable to fetch cloudwatch metric alarms for ${JSON.stringify(ref)}`
+      );
+    const { alarmSuffix } = ref;
+    if (alarmSuffix) {
+      alarms = MetricAlarms.filter((r) => r.AlarmName?.endsWith(alarmSuffix));
+    }
+
+    return alarms?.map((r) => r.AlarmName).filter(Boolean) as string[];
   }
 }

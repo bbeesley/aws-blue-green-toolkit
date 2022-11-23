@@ -5,7 +5,7 @@ import {
 import test from 'ava';
 
 import { CloudWatchTools, StackReference } from '../../dist/esm/index.js';
-import { awsMocks, resetMocks } from './mockAws.js';
+import { awsMocks, resetMocks } from './mock-aws.js';
 
 test.serial.beforeEach(() => {
   resetMocks();
@@ -36,8 +36,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockCloudwatch
         .calls()
-        .find((e) => e.args[0] instanceof EnableAlarmActionsCommand).args[0]
-        .input,
+        .find((error) => error.args[0] instanceof EnableAlarmActionsCommand)
+        .args[0].input,
       {
         AlarmNames: [
           'mock service - dev - lambda1 - B',
@@ -56,8 +56,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockCloudwatch
         .calls()
-        .find((e) => e.args[0] instanceof DisableAlarmActionsCommand).args[0]
-        .input,
+        .find((error) => error.args[0] instanceof DisableAlarmActionsCommand)
+        .args[0].input,
       {
         AlarmNames: [
           'mock service - dev - lambda1 - B',

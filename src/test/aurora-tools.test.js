@@ -9,7 +9,7 @@ import {
   ClusterState,
   StackReference,
 } from '../../dist/esm/index.js';
-import { awsMocks, resetMocks } from './mockAws.js';
+import { awsMocks, resetMocks } from './mock-aws.js';
 
 test.serial.beforeEach(() => {
   resetMocks();
@@ -97,13 +97,13 @@ test.serial(
   'AuroraTools > enablePerformanceInsights > retries after 60s if instance not ready',
   async (t) => {
     t.timeout(5e3);
-    const e = new RDSServiceException({
+    const error = new RDSServiceException({
       message:
         'InvalidDBInstanceState: Database instance is not in available state.',
     });
-    e.name = 'InvalidDBInstanceState';
-    e.Code = 'InvalidDBInstanceState';
-    awsMocks.mockRds.on(ModifyDBInstanceCommand).rejectsOnce(e);
+    error.name = 'InvalidDBInstanceState';
+    error.Code = 'InvalidDBInstanceState';
+    awsMocks.mockRds.on(ModifyDBInstanceCommand).rejectsOnce(error);
     const startTime = Date.now();
     await auroraTools.enablePerformanceInsights(
       {
@@ -119,7 +119,7 @@ test.serial(
     t.snapshot(
       awsMocks.mockRds
         .commandCalls(ModifyDBInstanceCommand)
-        .map((el) => el.args[0].input)
+        .map((element) => element.args[0].input)
     );
     t.true(Date.now() - startTime > 2e3);
   }

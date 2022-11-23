@@ -2,7 +2,7 @@ import { SetSubscriptionAttributesCommand } from '@aws-sdk/client-sns';
 import test from 'ava';
 
 import { SnsTools, StackReference } from '../../dist/esm/index.js';
-import { awsMocks, resetMocks } from './mockAws.js';
+import { awsMocks, resetMocks } from './mock-aws.js';
 
 test.serial.beforeEach(() => {
   resetMocks();
@@ -37,8 +37,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockSns
         .calls()
-        .find((e) => e.args[0] instanceof SetSubscriptionAttributesCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof SetSubscriptionAttributesCommand
+        ).args[0]?.input,
       {
         AttributeName: 'FilterPolicy',
         SubscriptionArn: config.topicB.subscriptionArn,
@@ -57,8 +58,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockSns
         .calls()
-        .find((e) => e.args[0] instanceof SetSubscriptionAttributesCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof SetSubscriptionAttributesCommand
+        ).args[0]?.input,
       {
         AttributeName: 'FilterPolicy',
         SubscriptionArn: config.topicB.subscriptionArn,

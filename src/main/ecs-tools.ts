@@ -9,8 +9,6 @@ import { StackReference } from './constants.js';
  * @class EcsTools
  */
 export class EcsTools {
-  config: EcsConfig;
-
   ecs: ECSClient;
 
   /**
@@ -19,7 +17,7 @@ export class EcsTools {
    * @param {EcsConfig} config - Config describing the ecs service pair
    * @memberof EcsTools
    */
-  public constructor(config: EcsConfig) {
+  public constructor(public config: EcsConfig) {
     this.config = config;
     this.ecs = new ECSClient({ region: this.config.awsRegion });
   }

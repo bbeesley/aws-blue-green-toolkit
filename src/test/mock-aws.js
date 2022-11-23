@@ -42,7 +42,7 @@ import {
   SNSClient,
 } from '@aws-sdk/client-sns';
 import { PurgeQueueCommand, SQSClient } from '@aws-sdk/client-sqs';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { mockClient } from 'aws-sdk-client-mock';
 
 const mockRds = mockClient(RDSClient);
@@ -277,7 +277,7 @@ const cwResponses = {
           new Date('2021-06-02T15:20:00.000Z'),
           new Date('2021-06-02T15:19:00.000Z'),
         ],
-        Values: [5193039, 5121276, 5065201, 5010924, 4955845],
+        Values: [5_193_039, 5_121_276, 5_065_201, 5_010_924, 4_955_845],
         StatusCode: 'Complete',
         Messages: [],
       },
@@ -449,9 +449,9 @@ export function resetMocks() {
     .on(DeleteTableCommand)
     .resolves(dynamoResponses.deleteTable);
   awsMocks.mockDynamo.on(DescribeTableCommand).callsFake(async () => {
-    const e = new Error();
-    e.name = 'ResourceNotFoundException';
-    throw e;
+    const error = new Error('ResourceNotFoundException');
+    error.name = 'ResourceNotFoundException';
+    throw error;
   });
   awsMocks.mockRds.reset();
   awsMocks.mockRds

@@ -11,7 +11,7 @@ import {
   ListRuleNamesByTargetCommand,
 } from '@aws-sdk/client-cloudwatch-events';
 import { LambdaTools, StackReference } from '../../dist/esm/index.js';
-import { awsMocks, eventsResponses, resetMocks } from './mockAws.js';
+import { awsMocks, eventsResponses, resetMocks } from './mock-aws.js';
 
 test.serial.beforeEach(() => {
   resetMocks();
@@ -47,8 +47,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof DeleteEventSourceMappingCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof DeleteEventSourceMappingCommand
+        ).args[0]?.input,
       {
         UUID,
       }
@@ -76,8 +77,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof CreateEventSourceMappingCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof CreateEventSourceMappingCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
         EventSourceArn: 'some-arn',
@@ -100,8 +102,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof CreateEventSourceMappingCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof CreateEventSourceMappingCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
         EventSourceArn: 'some-arn',
@@ -129,8 +132,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof ListEventSourceMappingsCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof ListEventSourceMappingsCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       }
@@ -148,8 +152,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof ListEventSourceMappingsCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof ListEventSourceMappingsCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       }
@@ -175,8 +180,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof ListRuleNamesByTargetCommand).args[0]
-        ?.input,
+        .find((error) => error.args[0] instanceof ListRuleNamesByTargetCommand)
+        .args[0]?.input,
       {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       }
@@ -184,7 +189,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof DisableRuleCommand).args[0]?.input,
+        .find((error) => error.args[0] instanceof DisableRuleCommand).args[0]
+        ?.input,
       {
         Name: eventsResponses.listRuleNamesByTarget.RuleNames[0],
       }
@@ -199,8 +205,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof ListRuleNamesByTargetCommand).args[0]
-        ?.input,
+        .find((error) => error.args[0] instanceof ListRuleNamesByTargetCommand)
+        .args[0]?.input,
       {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       }
@@ -208,7 +214,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof DisableRuleCommand).args[0]?.input,
+        .find((error) => error.args[0] instanceof DisableRuleCommand).args[0]
+        ?.input,
       {
         Name: eventsResponses.listRuleNamesByTarget.RuleNames[0],
       }
@@ -233,8 +240,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof ListRuleNamesByTargetCommand).args[0]
-        ?.input,
+        .find((error) => error.args[0] instanceof ListRuleNamesByTargetCommand)
+        .args[0]?.input,
       {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       }
@@ -242,7 +249,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof EnableRuleCommand).args[0]?.input,
+        .find((error) => error.args[0] instanceof EnableRuleCommand).args[0]
+        ?.input,
       {
         Name: eventsResponses.listRuleNamesByTarget.RuleNames[0],
       }
@@ -257,8 +265,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof ListRuleNamesByTargetCommand).args[0]
-        ?.input,
+        .find((error) => error.args[0] instanceof ListRuleNamesByTargetCommand)
+        .args[0]?.input,
       {
         TargetArn: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       }
@@ -266,7 +274,8 @@ test.serial(
     t.deepEqual(
       awsMocks.mockEvents
         .calls()
-        .find((e) => e.args[0] instanceof EnableRuleCommand).args[0]?.input,
+        .find((error) => error.args[0] instanceof EnableRuleCommand).args[0]
+        ?.input,
       {
         Name: eventsResponses.listRuleNamesByTarget.RuleNames[0],
       }
@@ -291,8 +300,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof ListEventSourceMappingsCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof ListEventSourceMappingsCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       }
@@ -300,8 +310,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof UpdateEventSourceMappingCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof UpdateEventSourceMappingCommand
+        ).args[0]?.input,
       {
         UUID: 'uuid',
         Enabled: false,
@@ -317,8 +328,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof ListEventSourceMappingsCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof ListEventSourceMappingsCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       }
@@ -326,8 +338,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof UpdateEventSourceMappingCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof UpdateEventSourceMappingCommand
+        ).args[0]?.input,
       {
         UUID: 'uuid',
         Enabled: false,
@@ -353,8 +366,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof ListEventSourceMappingsCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof ListEventSourceMappingsCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev:live',
       }
@@ -362,8 +376,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof UpdateEventSourceMappingCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof UpdateEventSourceMappingCommand
+        ).args[0]?.input,
       {
         UUID: 'uuid',
         Enabled: true,
@@ -379,8 +394,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof ListEventSourceMappingsCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof ListEventSourceMappingsCommand
+        ).args[0]?.input,
       {
         FunctionName: 'arn:aws:lambda:eu-central-1:555:function:fn-b-dev',
       }
@@ -388,8 +404,9 @@ test.serial(
     t.deepEqual(
       awsMocks.mockLambda
         .calls()
-        .find((e) => e.args[0] instanceof UpdateEventSourceMappingCommand)
-        .args[0]?.input,
+        .find(
+          (error) => error.args[0] instanceof UpdateEventSourceMappingCommand
+        ).args[0]?.input,
       {
         UUID: 'uuid',
         Enabled: true,

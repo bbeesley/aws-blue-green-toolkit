@@ -7,11 +7,11 @@ import type { AwsConfig } from './common.js';
  * @interface LambdaConfig
  * @extends {AwsConfig}
  */
-export interface LambdaConfig extends AwsConfig {
+export type LambdaConfig = {
   lambdaNameA: string;
   lambdaNameB: string;
   alias?: string;
-}
+} & AwsConfig;
 
 /**
  * Map of Lambda metrics with the latest data
@@ -19,9 +19,7 @@ export interface LambdaConfig extends AwsConfig {
  * @export
  * @interface LatestLambdaMetricsMap
  */
-export interface LatestLambdaMetricsMap {
-  [metricName: string]: LatestLambdaMetric;
-}
+export type LatestLambdaMetricsMap = Record<string, LatestLambdaMetric>;
 
 /**
  * Latest metric data for each metric
@@ -29,8 +27,8 @@ export interface LatestLambdaMetricsMap {
  * @export
  * @interface LatestLambdaMetric
  */
-export interface LatestLambdaMetric {
+export type LatestLambdaMetric = {
   latestMetricTimestamp: Date;
   latestMetricValue: number;
   stat?: string;
-}
+};

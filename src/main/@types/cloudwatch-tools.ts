@@ -7,12 +7,12 @@ import type { AwsConfig } from './common.js';
  * @interface CloudWatchConfig
  * @extends {AwsConfig}
  */
-export interface CloudWatchConfig extends AwsConfig {
+export type CloudWatchConfig = {
   alarmStackA: AlarmIdentifiers;
   alarmStackB: AlarmIdentifiers;
-}
+} & AwsConfig;
 
-export interface AlarmIdentifiers {
+export type AlarmIdentifiers = {
   alarmPrefix: string;
   alarmSuffix?: string;
-}
+};

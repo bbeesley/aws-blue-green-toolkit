@@ -7,8 +7,8 @@ import type { AwsConfig } from './common.js';
  * @interface DynamoConfig
  * @extends {AwsConfig}
  */
-export interface DynamoConfig extends AwsConfig {
+export type DynamoConfig = {
   tableNameA: string;
   tableNameB: string;
   waitForTableDelete?: boolean;
-}
+} & AwsConfig;

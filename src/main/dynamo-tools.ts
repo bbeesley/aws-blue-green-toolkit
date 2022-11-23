@@ -14,9 +14,7 @@ import type { DynamoConfig } from './@types/index.js';
  * @class DynamoTools
  */
 export class DynamoTools {
-  config: DynamoConfig;
-
-  dynamo: DynamoDBClient;
+  public dynamo: DynamoDBClient;
 
   /**
    * Creates an instance of DynamoTools.
@@ -24,15 +22,9 @@ export class DynamoTools {
    * @param {DynamoConfig} config - Configuration options for the Dynamo toolkit
    * @memberof DynamoTools
    */
-  public constructor(config: DynamoConfig) {
+  public constructor(public config: DynamoConfig) {
     this.config = config;
     this.dynamo = new DynamoDBClient({ region: this.config.awsRegion });
-  }
-
-  protected getTableName(ref: StackReference): string {
-    return ref === StackReference.a
-      ? this.config.tableNameA
-      : this.config.tableNameB;
   }
 
   /**
@@ -55,5 +47,11 @@ export class DynamoTools {
         { TableName }
       );
     }
+  }
+
+  protected getTableName(ref: StackReference): string {
+    return ref === StackReference.a
+      ? this.config.tableNameA
+      : this.config.tableNameB;
   }
 }
