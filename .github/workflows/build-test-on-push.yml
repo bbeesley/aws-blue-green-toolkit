@@ -33,8 +33,7 @@ jobs:
         with:
           path: |
             node_modules
-            packages/*/node_modules
-            packages/*/dist
+            dist
           key: ${{ github.sha }}-publish
           restore-keys: |
             ${{ github.sha }}-test
