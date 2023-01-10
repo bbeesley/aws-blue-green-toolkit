@@ -34,19 +34,14 @@ jobs:
           path: |
             node_modules
             dist
-          key: ${{ github.sha }}-publish
-          restore-keys: |
-            ${{ github.sha }}-test
-            ${{ github.sha }}-publish
+          key: ${{ github.sha }}-test
       - name: npm auth
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
           cp .npmrc ~/
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          echo "${{ steps.cache.outputs.cache-hit }}"
-          npm ci
+        run: npm ci
       - name: publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
