@@ -60,7 +60,7 @@
     "ava": "^5.0.1",
     "aws-sdk-client-mock": "^2.0.0",
     "babel-plugin-replace-import-extension": "^1.1.3",
-    "conventional-changelog-angular": "^5.0.13",
+    "conventional-changelog-angular": "^6.0.0",
     "conventional-commit-types": "^3.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.1",
