@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.5.1...v3.6.0) (2023-09-28)
+
+
+### Features
+
+* **aurora-tools:** look up tags on cluster if none supplied in config ([64a594c](https://github.com/bbeesley/aws-blue-green-toolkit/commit/64a594c03eb36205f36bed5645411ef78bdade85))
+
 ## [3.5.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.5.0...v3.5.1) (2022-11-21)
 
 
