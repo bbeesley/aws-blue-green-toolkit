@@ -34,6 +34,7 @@ import {
 import {
   DescribeDBClustersCommand,
   DescribeDBInstancesCommand,
+  ListTagsForResourceCommand,
   ModifyDBInstanceCommand,
   RDSClient,
 } from '@aws-sdk/client-rds';
@@ -47,11 +48,18 @@ import { mockClient } from 'aws-sdk-client-mock';
 
 const mockRds = mockClient(RDSClient);
 const rdsResponses = {
+  listTagsForResource: {
+    TagList: [
+      { Key: 'ManagedBy', Value: 'Terraform' },
+      { Key: 'application-autoscaling:resourceId', Value: 'fn' },
+    ],
+  },
   describeDBInstances: {
     DBInstances: [
       {
         DBInstanceIdentifier:
           'application-autoscaling-4d74caa0-c3ab-4979-9fd9-2b726f18c357',
+        DBClusterIdentifier: 'arn:aws:rds:eu-central-1:555:cluster:fn',
         DBInstanceClass: 'db.r6g.xlarge',
         Engine: 'aurora-postgresql',
         DBInstanceStatus: 'available',
@@ -125,6 +133,28 @@ const rdsResponses = {
         ActivityStreamStatus: 'stopped',
         CopyTagsToSnapshot: false,
         CrossAccountClone: false,
+        TagList: [
+          {
+            Key: 'ManagedBy',
+            Value: 'Terraform',
+          },
+          {
+            Key: 'GitRepo',
+            Value: 'https://github.com/octocat/hello-worId',
+          },
+          {
+            Key: 'Tier',
+            Value: 'Database',
+          },
+          {
+            Key: 'Environment',
+            Value: 'development',
+          },
+          {
+            Key: 'Name',
+            Value: 'fn',
+          },
+        ],
       },
     ],
   },
@@ -460,6 +490,9 @@ export function resetMocks() {
   awsMocks.mockRds
     .on(DescribeDBInstancesCommand)
     .resolves(rdsResponses.describeDBInstances);
+  awsMocks.mockRds
+    .on(ListTagsForResourceCommand)
+    .resolves(rdsResponses.listTagsForResource);
   awsMocks.mockRds.on(ModifyDBInstanceCommand).resolves();
   awsMocks.mockAas.reset();
   awsMocks.mockAas

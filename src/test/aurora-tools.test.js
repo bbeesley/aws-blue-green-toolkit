@@ -1,4 +1,6 @@
 import {
+  AddTagsToResourceCommand,
+  DescribeDBInstancesCommand,
   ModifyDBInstanceCommand,
   RDSServiceException,
 } from '@aws-sdk/client-rds';
@@ -20,7 +22,9 @@ const config = {
   awsProfile: '555',
   environment: 'dev',
   namespace: 'fn',
-  tags: {},
+  tags: {
+    foo: 'bar',
+  },
   clusterNameA: 'fn-db-a-dev',
   clusterNameB: 'fn-db-b-dev',
   minimumClusterSize: 1,
@@ -152,5 +156,92 @@ test.serial(
       false
     );
     t.false(awsMocks.mockRds.send.called);
+  }
+);
+
+test.serial(
+  'AuroraTools > getTagsForCluster > fetches tags for the cluster when passed an instance ARN',
+  async (t) => {
+    const tags = await auroraTools.getTagsForCluster(
+      'arn:aws:rds:eu-central-1:555:db:application-autoscaling-foo'
+    );
+    t.snapshot(tags);
+  }
+);
+
+test.serial(
+  'AuroraTools > applyTags > uses tags from config if defined',
+  async (t) => {
+    await auroraTools.applyTags({
+      Sns: {
+        Message:
+          '{"Event Source":"db-instance","Event Time":"2022-08-26 13:29:19.857","Identifier Link":"https://console.aws.amazon.com/rds/home?region=us-east-1#dbinstance:id=application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ID":"application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ARN":"arn:aws:rds:us-east-1:000000000000:db:application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Event ID":"http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0003","Event Message":"DB instance created"}',
+      },
+    });
+
+    const calls = awsMocks.mockRds.calls();
+    t.is(calls.length, 2);
+    const addTagsCommand = calls.find(
+      (c) => c.args[0] instanceof AddTagsToResourceCommand
+    ).args[0];
+    t.snapshot(addTagsCommand.input.Tags);
+  }
+);
+
+test.serial(
+  'AuroraTools > applyTags > ignores namespace when set to *',
+  async (t) => {
+    awsMocks.mockRds.on(DescribeDBInstancesCommand).resolves({
+      DBInstances: [
+        {
+          DBInstanceIdentifier:
+            'application-autoscaling-4d74caa0-c3ab-4979-9fd9-2b726f18c357',
+          DBClusterIdentifier: 'arn:aws:rds:eu-central-1:555:cluster:not-fn',
+          DBInstanceClass: 'db.r6g.xlarge',
+          Engine: 'aurora-postgresql',
+          DBInstanceStatus: 'available',
+          PerformanceInsightsEnabled: false,
+        },
+      ],
+    });
+    const noNamespaceTools = new AuroraTools({
+      ...config,
+      namespace: '*',
+    });
+    await noNamespaceTools.applyTags({
+      Sns: {
+        Message:
+          '{"Event Source":"db-instance","Event Time":"2022-08-26 13:29:19.857","Identifier Link":"https://console.aws.amazon.com/rds/home?region=us-east-1#dbinstance:id=application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ID":"application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ARN":"arn:aws:rds:us-east-1:000000000000:db:application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Event ID":"http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0003","Event Message":"DB instance created"}',
+      },
+    });
+
+    const calls = awsMocks.mockRds.calls();
+    t.is(calls.length, 2);
+    const addTagsCommand = calls.find(
+      (c) => c.args[0] instanceof AddTagsToResourceCommand
+    ).args[0];
+    t.snapshot(addTagsCommand.input.Tags);
+  }
+);
+
+test.serial(
+  'AuroraTools > applyTags > fetches tags from cluster if not defined in config',
+  async (t) => {
+    const noTagsTools = new AuroraTools({
+      ...config,
+      tags: {},
+    });
+    await noTagsTools.applyTags({
+      Sns: {
+        Message:
+          '{"Event Source":"db-instance","Event Time":"2022-08-26 13:29:19.857","Identifier Link":"https://console.aws.amazon.com/rds/home?region=us-east-1#dbinstance:id=application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ID":"application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Source ARN":"arn:aws:rds:us-east-1:000000000000:db:application-autoscaling-d1583f39-ab0b-4d73-87e4-4db2d83476b3","Event ID":"http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html#RDS-EVENT-0003","Event Message":"DB instance created"}',
+      },
+    });
+    const calls = awsMocks.mockRds.calls();
+    t.is(calls.length, 4);
+    const addTagsCommand = calls.find(
+      (c) => c.args[0] instanceof AddTagsToResourceCommand
+    ).args[0];
+    t.snapshot(addTagsCommand.input.Tags);
   }
 );

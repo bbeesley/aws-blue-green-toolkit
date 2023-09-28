@@ -16,6 +16,7 @@ import {
   StopDBClusterCommand,
   ModifyDBInstanceCommand,
   RDSServiceException,
+  type Tag,
 } from '@aws-sdk/client-rds';
 import type { SNSEventRecord } from 'aws-lambda';
 import delay from 'delay';
@@ -198,11 +199,6 @@ export class AuroraTools {
       message['Event Message'] === 'DB instance created' &&
       message['Source ID']
     ) {
-      const Tags = Object.entries(this.config.tags).map(([Key, Value]) => ({
-        Key,
-        Value,
-      }));
-      Tags.push({ Key: 'Role', Value: 'Reader' });
       const ResourceName = `arn:aws:rds:${this.config.awsRegion}:${this.config.awsProfile}:db:${message['Source ID']}`;
       const details = await this.rds.send(
         new ListTagsForResourceCommand({
@@ -214,10 +210,21 @@ export class AuroraTools {
             (t) =>
               t.Key === 'application-autoscaling:resourceId' &&
               t.Value &&
-              t.Value.includes(this.config.namespace)
+              (t.Value.includes(this.config.namespace) ||
+                this.config.namespace === '*')
           )
         : undefined;
       if (scalingResourceTag) {
+        const Tags = Object.entries(this.config.tags).map(([Key, Value]) => ({
+          Key,
+          Value,
+        }));
+        if (Tags.length === 0) {
+          const clusterTags = await this.getTagsForCluster(ResourceName);
+          Tags.push(...clusterTags);
+        }
+
+        Tags.push({ Key: 'Role', Value: 'Reader' });
         await this.rds.send(
           new AddTagsToResourceCommand({
             ResourceName,
@@ -296,6 +303,27 @@ export class AuroraTools {
     }
   }
 
+  protected async getTagsForCluster(
+    dBInstanceIdentifier: string
+  ): Promise<Array<Required<Tag>>> {
+    const { DBInstances = [] } = await this.rds.send(
+      new DescribeDBInstancesCommand({
+        DBInstanceIdentifier: dBInstanceIdentifier,
+      })
+    );
+    const [instance] = DBInstances;
+    if (!instance) return [];
+    const { DBClusterIdentifier } = instance;
+    if (!DBClusterIdentifier) return [];
+    const { DBClusters = [] } = await this.rds.send(
+      new DescribeDBClustersCommand({
+        DBClusterIdentifier,
+      })
+    );
+    const [cluster] = DBClusters;
+    return cluster?.TagList?.filter(this.isCompleteTag) ?? [];
+  }
+
   protected async scale(
     reference: StackReference,
     minCapacity: number
@@ -338,5 +366,13 @@ export class AuroraTools {
 
   protected getClusterPartnerRef(ref: StackReference): StackReference {
     return ref === StackReference.a ? StackReference.b : StackReference.a;
+  }
+
+  private isCompleteTag(
+    tag: Tag,
+    _ix: number,
+    _array: Tag[]
+  ): tag is Required<Tag> {
+    return Boolean(tag.Key && tag.Value);
   }
 }
