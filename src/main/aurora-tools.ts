@@ -20,7 +20,6 @@ import {
 } from '@aws-sdk/client-rds';
 import type { SNSEventRecord } from 'aws-lambda';
 import delay from 'delay';
-
 import type { AuroraConfig } from './@types/index.js';
 import { ClusterState, StackReference } from './constants.js';
 

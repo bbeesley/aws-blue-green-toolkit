@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { EcsTools, StackReference } from '../../dist/esm/index.js';
 import { awsMocks, resetMocks } from './mock-aws.js';
 

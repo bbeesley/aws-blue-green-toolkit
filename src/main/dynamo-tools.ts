@@ -3,9 +3,7 @@ import {
   DynamoDBClient,
   waitUntilTableNotExists,
 } from '@aws-sdk/client-dynamodb';
-
 import { StackReference } from './constants.js';
-
 import type { DynamoConfig } from './@types/index.js';
 /**
  * Toolkit for Dynamo operations

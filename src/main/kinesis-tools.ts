@@ -83,7 +83,7 @@ export class KinesisTools {
 
   protected getConsumerName(
     ref: StackReference
-  ): KinesisConfig['consumerNameA'] | KinesisConfig['consumerNameB'] {
+  ): KinesisConfig['consumerNameA'] {
     return ref === StackReference.a
       ? this.config.consumerNameA
       : this.config.consumerNameB;

@@ -1,6 +1,5 @@
 import { SetSubscriptionAttributesCommand } from '@aws-sdk/client-sns';
 import test from 'ava';
-
 import { SnsTools, StackReference } from '../../dist/esm/index.js';
 import { awsMocks, resetMocks } from './mock-aws.js';
 

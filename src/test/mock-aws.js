@@ -43,7 +43,6 @@ import {
   SNSClient,
 } from '@aws-sdk/client-sns';
 import { PurgeQueueCommand, SQSClient } from '@aws-sdk/client-sqs';
-
 import { mockClient } from 'aws-sdk-client-mock';
 
 const mockRds = mockClient(RDSClient);

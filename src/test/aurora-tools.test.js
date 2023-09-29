@@ -5,7 +5,6 @@ import {
   RDSServiceException,
 } from '@aws-sdk/client-rds';
 import test from 'ava';
-
 import {
   AuroraTools,
   ClusterState,

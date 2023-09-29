@@ -3,7 +3,6 @@ import {
   EnableAlarmActionsCommand,
 } from '@aws-sdk/client-cloudwatch';
 import test from 'ava';
-
 import { CloudWatchTools, StackReference } from '../../dist/esm/index.js';
 import { awsMocks, resetMocks } from './mock-aws.js';
 

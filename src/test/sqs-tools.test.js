@@ -1,6 +1,5 @@
 import { PurgeQueueCommand } from '@aws-sdk/client-sqs';
 import test from 'ava';
-
 import { SqsTools, StackReference } from '../../dist/esm/index.js';
 import { awsMocks, resetMocks } from './mock-aws.js';
 

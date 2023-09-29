@@ -21,9 +21,7 @@ import {
   type ListEventSourceMappingsRequest,
   UpdateEventSourceMappingCommand,
 } from '@aws-sdk/client-lambda';
-
 import { StackReference } from './constants.js';
-
 import type { LambdaConfig, LatestLambdaMetricsMap } from './@types/index.js';
 
 enum Operation {
