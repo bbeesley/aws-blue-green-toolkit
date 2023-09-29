@@ -1,8 +1,8 @@
 import {
   AddTagsToResourceCommand,
   DescribeDBInstancesCommand,
+  InvalidDBInstanceStateFault,
   ModifyDBInstanceCommand,
-  RDSServiceException,
 } from '@aws-sdk/client-rds';
 import test from 'ava';
 import {
@@ -100,7 +100,7 @@ test.serial(
   'AuroraTools > enablePerformanceInsights > retries after 60s if instance not ready',
   async (t) => {
     t.timeout(5e3);
-    const error = new RDSServiceException({
+    const error = new InvalidDBInstanceStateFault({
       message:
         'InvalidDBInstanceState: Database instance is not in available state.',
     });
