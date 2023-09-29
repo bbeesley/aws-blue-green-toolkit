@@ -1,3 +1,10 @@
+## [3.6.1](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.6.0...v3.6.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* use new InvalidDBInstanceStateFault class ([17da99d](https://github.com/bbeesley/aws-blue-green-toolkit/commit/17da99d964b79a2e17e5ae19b72033b8894af4da))
+
 # [3.6.0](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.5.1...v3.6.0) (2023-09-28)
 
 
