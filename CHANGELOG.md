@@ -1,3 +1,10 @@
+## [3.6.3](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.6.2...v3.6.3) (2023-10-02)
+
+
+### Bug Fixes
+
+* no need to check specific error code text ([edb0932](https://github.com/bbeesley/aws-blue-green-toolkit/commit/edb093206e6e38d2c6f0ad41d6f585adaf150024))
+
 ## [3.6.2](https://github.com/bbeesley/aws-blue-green-toolkit/compare/v3.6.1...v3.6.2) (2023-10-02)
 
 
