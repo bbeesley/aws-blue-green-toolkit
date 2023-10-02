@@ -16,7 +16,6 @@ import {
   StopDBClusterCommand,
   ModifyDBInstanceCommand,
   type Tag,
-  InvalidDBInstanceStateFault,
 } from '@aws-sdk/client-rds';
 import type { SNSEventRecord } from 'aws-lambda';
 import delay from 'delay';
@@ -286,10 +285,7 @@ export class AuroraTools {
               complete = true;
             } catch (error) {
               console.error(error);
-              if (
-                error instanceof InvalidDBInstanceStateFault &&
-                (error as any).Code === 'InvalidDBInstanceState'
-              ) {
+              if ((error as any).Code === 'InvalidDBInstanceState') {
                 attempts += 1;
                 await delay(retryDelay);
               } else {
