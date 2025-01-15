@@ -21,7 +21,6 @@ export class DynamoTools {
    * @memberof DynamoTools
    */
   public constructor(public config: DynamoConfig) {
-    this.config = config;
     this.dynamo = new DynamoDBClient({ region: this.config.awsRegion });
   }
 
@@ -47,8 +46,8 @@ export class DynamoTools {
     }
   }
 
-  protected getTableName(ref: StackReference): string {
-    return ref === StackReference.a
+  protected getTableName(reference: StackReference): string {
+    return reference === StackReference.a
       ? this.config.tableNameA
       : this.config.tableNameB;
   }

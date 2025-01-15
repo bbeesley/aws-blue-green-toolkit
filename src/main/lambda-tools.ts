@@ -47,7 +47,6 @@ export class LambdaTools {
    * @memberof LambdaTools
    */
   constructor(public config: LambdaConfig) {
-    this.config = config;
     this.lambda = new LambdaClient({ region: this.config.awsRegion });
     this.events = new CloudWatchEventsClient({ region: this.config.awsRegion });
     this.cloudwatch = new CloudWatchClient({ region: this.config.awsRegion });
@@ -218,22 +217,25 @@ export class LambdaTools {
       })
     );
 
-    return MetricDataResults.reduce<LatestLambdaMetricsMap>((acc, result) => {
-      if (result.Label && result.Timestamps && result.Values) {
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-        const item = {
-          ...acc,
-          [result.Label]: {
-            latestMetricTimestamp: result.Timestamps[0],
-            latestMetricValue: result.Values[0],
-            stat: metricSet.find((m) => m.metricName === result.Label)?.stat,
-          },
-        } as LatestLambdaMetricsMap;
-        return item;
-      }
+    return MetricDataResults.reduce<LatestLambdaMetricsMap>(
+      (accumulator, result) => {
+        if (result.Label && result.Timestamps && result.Values) {
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+          const item = {
+            ...accumulator,
+            [result.Label]: {
+              latestMetricTimestamp: result.Timestamps[0],
+              latestMetricValue: result.Values[0],
+              stat: metricSet.find((m) => m.metricName === result.Label)?.stat,
+            },
+          } as LatestLambdaMetricsMap;
+          return item;
+        }
 
-      return { ...acc };
-    }, {});
+        return { ...accumulator };
+      },
+      {}
+    );
   }
 
   /**
@@ -281,8 +283,8 @@ export class LambdaTools {
     return mappings;
   }
 
-  private getLambdaArn(ref: StackReference): string {
-    return ref === StackReference.a
+  private getLambdaArn(reference: StackReference): string {
+    return reference === StackReference.a
       ? `arn:aws:lambda:${this.config.awsRegion}:${
           this.config.awsProfile
         }:function:${this.config.lambdaNameA}${
@@ -295,24 +297,24 @@ export class LambdaTools {
         }`;
   }
 
-  private getLambdaName(ref: StackReference): string {
-    return ref === StackReference.a
+  private getLambdaName(reference: StackReference): string {
+    return reference === StackReference.a
       ? this.config.lambdaNameA
       : this.config.lambdaNameB;
   }
 
   private async modifyEventMapping(
     op: Operation,
-    ref: StackReference
+    reference: StackReference
   ): Promise<void> {
-    const eventSourceMappings = await this.listEventSourceMappings(ref);
+    const eventSourceMappings = await this.listEventSourceMappings(reference);
     if (eventSourceMappings.length > 0) {
       const Enabled = op === Operation.ENABLE;
       for (const mapping of eventSourceMappings) {
         const { UUID } = mapping;
         if (!UUID)
           throw new Error(
-            `unable to fetch event source mapping information for stack ${ref}`
+            `unable to fetch event source mapping information for stack ${reference}`
           );
         await this.lambda.send(
           new UpdateEventSourceMappingCommand({ UUID, Enabled })
@@ -321,8 +323,11 @@ export class LambdaTools {
     }
   }
 
-  private async modifyRule(op: Operation, ref: StackReference): Promise<void> {
-    const TargetArn = this.getLambdaArn(ref);
+  private async modifyRule(
+    op: Operation,
+    reference: StackReference
+  ): Promise<void> {
+    const TargetArn = this.getLambdaArn(reference);
     const { RuleNames = [] } = await this.events.send(
       new ListRuleNamesByTargetCommand({ TargetArn })
     );

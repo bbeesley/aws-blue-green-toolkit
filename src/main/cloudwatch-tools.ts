@@ -23,7 +23,6 @@ export class CloudWatchTools {
    * @memberof CloudWatchConfig
    */
   constructor(public config: CloudWatchConfig) {
-    this.config = config;
     this.cloudWatch = new CloudWatchClient({ region: this.config.awsRegion });
   }
 
@@ -53,24 +52,24 @@ export class CloudWatchTools {
     );
   }
 
-  private getAlarmIdentifiers(ref: StackReference): AlarmIdentifiers {
-    return ref === StackReference.a
+  private getAlarmIdentifiers(reference: StackReference): AlarmIdentifiers {
+    return reference === StackReference.a
       ? this.config.alarmStackA
       : this.config.alarmStackB;
   }
 
-  private async getAlarms(ref: AlarmIdentifiers): Promise<string[]> {
+  private async getAlarms(reference: AlarmIdentifiers): Promise<string[]> {
     const { MetricAlarms } = await this.cloudWatch.send(
       new DescribeAlarmsCommand({
-        AlarmNamePrefix: ref.alarmPrefix,
+        AlarmNamePrefix: reference.alarmPrefix,
       })
     );
     let alarms = MetricAlarms;
     if (!MetricAlarms)
       throw new Error(
-        `unable to fetch cloudwatch metric alarms for ${JSON.stringify(ref)}`
+        `unable to fetch cloudwatch metric alarms for ${JSON.stringify(reference)}`
       );
-    const { alarmSuffix } = ref;
+    const { alarmSuffix } = reference;
     if (alarmSuffix) {
       alarms = MetricAlarms.filter((r) => r.AlarmName?.endsWith(alarmSuffix));
     }

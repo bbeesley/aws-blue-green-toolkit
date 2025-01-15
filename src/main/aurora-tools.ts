@@ -41,7 +41,6 @@ export class AuroraTools {
    * @memberof AuroraTools
    */
   public constructor(public config: AuroraConfig) {
-    this.config = config;
     this.rds = new RDSClient({ region: this.config.awsRegion });
     this.aas = new ApplicationAutoScalingClient({
       region: this.config.awsRegion,
@@ -324,11 +323,11 @@ export class AuroraTools {
     reference: StackReference,
     minCapacity: number
   ): Promise<RegisterScalableTargetResponse> {
-    const db = this.getClusterName(reference);
+    const database = this.getClusterName(reference);
     const aasResponse = await this.aas.send(
       new DescribeScalableTargetsCommand({
         ServiceNamespace: 'rds',
-        ResourceIds: [`cluster:${db}`],
+        ResourceIds: [`cluster:${database}`],
       })
     );
     if (aasResponse?.ScalableTargets?.[0]) {
@@ -345,23 +344,23 @@ export class AuroraTools {
       return response;
     }
 
-    throw new Error(`unable to scale out db cluster ${db}`);
+    throw new Error(`unable to scale out db cluster ${database}`);
   }
 
-  protected getClusterName(ref: StackReference): string {
-    return ref === StackReference.a
+  protected getClusterName(reference: StackReference): string {
+    return reference === StackReference.a
       ? this.config.clusterNameA
       : this.config.clusterNameB;
   }
 
-  protected getClusterPartnerName(ref: StackReference): string {
-    return ref === StackReference.b
+  protected getClusterPartnerName(reference: StackReference): string {
+    return reference === StackReference.b
       ? this.config.clusterNameA
       : this.config.clusterNameB;
   }
 
-  protected getClusterPartnerRef(ref: StackReference): StackReference {
-    return ref === StackReference.a ? StackReference.b : StackReference.a;
+  protected getClusterPartnerRef(reference: StackReference): StackReference {
+    return reference === StackReference.a ? StackReference.b : StackReference.a;
   }
 
   private isCompleteTag(

@@ -18,7 +18,6 @@ export class SqsTools {
    * @memberof SqsTools
    */
   constructor(public config: SqsConfig) {
-    this.config = config;
     this.sqs = new SQSClient({ region: this.config.awsRegion });
   }
 
@@ -44,7 +43,9 @@ export class SqsTools {
     );
   }
 
-  private getQueue(ref: StackReference): SqsQueue {
-    return ref === StackReference.a ? this.config.queueA : this.config.queueB;
+  private getQueue(reference: StackReference): SqsQueue {
+    return reference === StackReference.a
+      ? this.config.queueA
+      : this.config.queueB;
   }
 }

@@ -48,7 +48,6 @@ export class SnsTools {
    * @memberof SnsTools
    */
   constructor(public config: SnsConfig) {
-    this.config = config;
     this.topicA = new Topic(config.topicA);
     this.topicB = new Topic(config.topicB);
   }
@@ -75,15 +74,15 @@ export class SnsTools {
     await this.updateFilters(Operation.ENABLE, reference);
   }
 
-  private getTopic(ref: StackReference): Topic {
-    return ref === StackReference.a ? this.topicA : this.topicB;
+  private getTopic(reference: StackReference): Topic {
+    return reference === StackReference.a ? this.topicA : this.topicB;
   }
 
   private async updateFilters(
     operation: Operation,
-    ref: StackReference
+    reference: StackReference
   ): Promise<void> {
-    const topic = this.getTopic(ref);
+    const topic = this.getTopic(reference);
     const AttributeValue =
       operation === Operation.DISABLE
         ? JSON.stringify(topic.disabledFilter)

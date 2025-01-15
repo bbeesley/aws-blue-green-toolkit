@@ -25,7 +25,6 @@ export class KinesisTools {
    * @memberof KinesisTools
    */
   public constructor(public config: KinesisConfig) {
-    this.config = config;
     this.kinesis = new KinesisClient({ region: this.config.awsRegion });
   }
 
@@ -82,9 +81,9 @@ export class KinesisTools {
   }
 
   protected getConsumerName(
-    ref: StackReference
+    reference: StackReference
   ): KinesisConfig['consumerNameA'] {
-    return ref === StackReference.a
+    return reference === StackReference.a
       ? this.config.consumerNameA
       : this.config.consumerNameB;
   }

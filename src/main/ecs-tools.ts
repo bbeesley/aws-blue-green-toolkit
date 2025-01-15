@@ -18,7 +18,6 @@ export class EcsTools {
    * @memberof EcsTools
    */
   public constructor(public config: EcsConfig) {
-    this.config = config;
     this.ecs = new ECSClient({ region: this.config.awsRegion });
   }
 
