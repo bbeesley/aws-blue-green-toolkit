@@ -6,7 +6,7 @@ module.exports = function configureBabel(api) {
       '@babel/preset-env', // This plugin tells babel to transpile your code for a specific runtime environment, we'll use node
       {
         targets: {
-          node: '16.0.0',
+          node: '22.0.0',
         },
         modules: 'cjs',
       },
